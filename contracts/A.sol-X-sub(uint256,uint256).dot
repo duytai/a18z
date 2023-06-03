@@ -1,0 +1,40 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: NEW VARIABLE 1
+
+EXPRESSION:
+__v1 = true
+
+IRs:
+__v1(bool) := True(bool)"];
+1->2;
+2[label="Node Type: NEW VARIABLE 2
+
+EXPRESSION:
+__v2 = z == x + y
+
+IRs:
+TMP_0(uint256) = x + y
+TMP_1(bool) = z == TMP_0
+__v2(bool) := TMP_1(bool)"];
+2->3;
+3[label="Node Type: EXPRESSION 3
+
+EXPRESSION:
+assert(bool)(x >= y)
+
+IRs:
+TMP_2(bool) = x >= y
+TMP_3(None) = SOLIDITY_CALL assert(bool)(TMP_2)"];
+3->4;
+4[label="Node Type: EXPRESSION 4
+
+EXPRESSION:
+z = x - y
+
+IRs:
+TMP_4(uint256) = x - y
+z(uint256) := TMP_4(uint256)"];
+}

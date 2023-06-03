@@ -1,0 +1,72 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: NEW VARIABLE 1
+
+EXPRESSION:
+__v1 = true
+
+IRs:
+__v1(bool) := True(bool)"];
+1->2;
+2[label="Node Type: NEW VARIABLE 2
+
+EXPRESSION:
+__v2 = balances[0] == old_balances[x] - 0
+
+IRs:
+REF_0(uint256) -> balances[0]
+REF_1(uint256) -> old_balances[x]
+TMP_5(uint256) = REF_1 - 0
+TMP_6(bool) = REF_0 == TMP_5
+__v2(bool) := TMP_6(bool)"];
+2->3;
+3[label="Node Type: IF 3
+
+EXPRESSION:
+x > 0
+
+IRs:
+TMP_7(bool) = x > 0
+CONDITION TMP_7"];
+3->4[label="True"];
+3->5[label="False"];
+4[label="Node Type: EXPRESSION 4
+
+EXPRESSION:
+balances[x] = sub(balances[x],0)
+
+IRs:
+REF_2(uint256) -> balances[x]
+REF_3(uint256) -> balances[x]
+TMP_8(uint256) = INTERNAL_CALL, X.sub(uint256,uint256)(REF_3,0)
+REF_2 (->balances) := TMP_8(uint256)"];
+4->8;
+5[label="Node Type: EXPRESSION 5
+
+EXPRESSION:
+x = 20
+
+IRs:
+x(uint256) := 20(uint256)"];
+5->6;
+6[label="Node Type: EXPRESSION 6
+
+EXPRESSION:
+revert()()
+
+IRs:
+TMP_9(None) = SOLIDITY_CALL revert()()"];
+6->7;
+7[label="Node Type: EXPRESSION 7
+
+EXPRESSION:
+x = 30
+
+IRs:
+x(uint256) := 30(uint256)"];
+7->8;
+8[label="Node Type: END_IF 8
+"];
+}
