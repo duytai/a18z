@@ -1,7 +1,8 @@
-from a18z import Verifier
+from a18z import Verifier, Injector
 
-verifier = Verifier('contracts/A.sol')
+Injector('contracts/A.sol')
+
+verifier = Verifier('contracts/A.sol.sol')
 for contract in verifier._slither.contracts:
     for function in contract.functions:
         verifier.verify_function(function)
-        break

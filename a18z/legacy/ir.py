@@ -8,7 +8,6 @@ from slither.slithir.operations import (
     UnaryType,
 )
 
-from a18z.legacy.vm import LegacyVM
 from .vm import LegacyVM
 
 class LegacyIR:
