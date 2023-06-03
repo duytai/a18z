@@ -1,5 +1,6 @@
 import z3
 from slither.core.variables.local_variable import LocalVariable
+from slither.core.variables.state_variable import StateVariable
 from slither.slithir.variables.temporary import TemporaryVariable
 from slither.slithir.variables.constant import Constant
 from .explorer import TypeExplorer, TypeState
@@ -28,6 +29,10 @@ class LegacyVM:
             state = TypeState()
             TypeExplorer(variable.type, state)
             return z3.Const(variable.name, state.convert())
+        elif isinstance(variable, StateVariable):
+            state = TypeState()
+            TypeExplorer(variable.type, state)
+            return z3.Const(variable.name, state.convert())
         elif isinstance(variable, TemporaryVariable):
             return self._variables[variable]
         elif isinstance(variable, Constant):
@@ -47,9 +52,18 @@ class LegacyVM:
         else: raise ValueError(variable)
 
     def set_postcondition(self, value):
-        self._postcondition = value
+        substitutions = []
+        for variable in z3.z3util.get_vars(value):
+            if str(variable).startswith('old_'):
+                new_variable = z3.Const(str(variable)[4:], variable.sort())
+                tmp_variable = z3.FreshConst(variable.sort())
+                self._constraints.append(new_variable == tmp_variable)
+                substitutions.append((variable, tmp_variable))
+        self._postcondition = z3.substitute(value, *substitutions)
 
     def is_verified(self):
         body = z3.And(self._constraints)
         post = self._postcondition
+        print(body)
+        print(post)
         return check_unsat(z3.Not(z3.Implies(body, post)))
