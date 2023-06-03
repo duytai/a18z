@@ -1,7 +1,6 @@
 from slither import Slither
 from slither.core.declarations.function_contract import FunctionContract
-from .legacy.vm import LegacyVM 
-from .legacy.chain import LegacyChain
+from .legacy import LegacyVM, LegacyChain
 from .path_collector import PathCollector
 
 class Verifier:

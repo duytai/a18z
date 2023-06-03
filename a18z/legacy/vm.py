@@ -3,16 +3,7 @@ from slither.core.variables.local_variable import LocalVariable
 from slither.slithir.variables.temporary import TemporaryVariable
 from slither.slithir.variables.constant import Constant
 from .explorer import TypeExplorer, TypeState
-
-def check_sat(value):
-    solver = z3.Solver()
-    solver.add(value)
-    return solver.check() == z3.sat
-
-def check_unsat(value):
-    solver = z3.Solver()
-    solver.add(value)
-    return solver.check() == z3.unsat
+from .utils import check_unsat
 
 class LegacyVM:
     def __init__(self) -> None:
@@ -61,6 +52,4 @@ class LegacyVM:
     def is_verified(self):
         body = z3.And(self._constraints)
         post = self._postcondition
-        print(body)
-        print(post)
         return check_unsat(z3.Not(z3.Implies(body, post)))
