@@ -1,6 +1,7 @@
 from slither.core.cfg.node import (Node, NodeType)
 from slither.slithir.variables.temporary import TemporaryVariable
-from slither.slithir.operations import Unary, UnaryType, Condition
+from slither.slithir.operations import Unary, Condition
+from slither.core.expressions.unary_operation import UnaryOperationType
 
 class PathCollector:
     def __init__(self):
@@ -25,7 +26,7 @@ class PathCollector:
                 false_cond = Unary(
                     TemporaryVariable(node),
                     true_cond.value,
-                    UnaryType.BANG
+                    UnaryOperationType.BANG
                 )
                 curr.append(false_cond)
                 false_cond = Condition(false_cond.lvalue)

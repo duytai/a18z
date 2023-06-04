@@ -5,11 +5,14 @@ from slither.slithir.operations import (
     BinaryType,
     Condition,
     Unary,
-    UnaryType,
     Index,
     InternalCall
 )
+from slither.core.expressions.unary_operation import UnaryOperationType
+from slither.slithir.operations.return_operation import Return
 from slither.slithir.variables.reference import ReferenceVariable
+
+from a18z.legacy.vm import LegacyVM
 from .vm import LegacyVM
 from .utils import check_sat
 
@@ -31,12 +34,22 @@ class LegacyBinary(LegacyIR):
             result = lvar + rvar
         elif ir.type == BinaryType.EQUAL:
             result = lvar == rvar
+        elif ir.type == BinaryType.LESS_EQUAL:
+            result = lvar <= rvar
         elif ir.type == BinaryType.GREATER_EQUAL:
             result = lvar >= rvar
         elif ir.type == BinaryType.GREATER:
             result = lvar > rvar
         elif ir.type == BinaryType.ANDAND:
             result = z3.And(lvar, rvar)
+        elif ir.type == BinaryType.OROR:
+            result = z3.Or(lvar, rvar)
+        elif ir.type == BinaryType.MULTIPLICATION:
+            result = lvar * rvar
+        elif ir.type == BinaryType.DIVISION:
+            result = lvar / rvar
+        elif ir.type == BinaryType.MODULO:
+            result = lvar % rvar
         else: raise ValueError(ir.type)
         if isinstance(ir.lvalue, ReferenceVariable):
             lvar = vm.get_variable(ir.lvalue)
@@ -87,7 +100,7 @@ class LegacyUnary(LegacyIR):
         ir = self._ir
         assert isinstance(ir, Unary)
         rvar = vm.get_variable(ir.rvalue)
-        if ir.type == UnaryType.BANG:
+        if ir.type == UnaryOperationType.BANG:
             vm.set_variable(ir.lvalue, z3.Not(rvar))
         else: raise ValueError(ir.type)
 
@@ -107,8 +120,7 @@ class LegacyInternalCall(LegacyIR):
     def execute(self, vm: LegacyVM):
         ir = self._ir
         assert isinstance(ir, InternalCall)
-        if ir.lvalue:
-            vm.fresh_variable(ir.lvalue)
+        if ir.lvalue: vm.fresh_variable(ir.lvalue)
         call_vm = LegacyVM()
         # Read precondition
         for i in ir.function.nodes[1].irs:
@@ -124,9 +136,7 @@ class LegacyInternalCall(LegacyIR):
             substitutions.append((old_var, new_var))
         # Imply precondition
         precondition = z3.substitute(call_vm.precondition, *substitutions)
-        if check_sat(z3.Not(z3.Implies(vm.constraints, precondition))):
-            vm.rev = str(ir.function.nodes[1])
-            return
+        vm.rev = check_sat(z3.Not(z3.Implies(vm.constraints, precondition)))
         # Read postcondition
         for i in ir.function.nodes[2].irs:
             self._chain.add_ir(i)
@@ -140,3 +150,14 @@ class LegacyInternalCall(LegacyIR):
         # Add postcondition
         postcondition = z3.substitute(call_vm.postcondition, *substitutions)
         vm.add_constraint(postcondition)
+
+
+class LegacyReturn(LegacyIR):
+    def execute(self, vm: LegacyVM):
+        ir = self._ir
+        assert isinstance(ir, Return)
+        for lvalue, rvalue in zip(ir.function.returns, ir.values):
+            lvar = vm.get_variable(lvalue)
+            vm.substitute(lvar)
+            rvar = vm.get_variable(rvalue)
+            vm.add_constraint(lvar == rvar)

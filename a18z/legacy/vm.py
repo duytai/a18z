@@ -107,4 +107,4 @@ class LegacyVM:
     def is_verified(self):
         body = z3.And(self._constraints)
         post = self._postcondition
-        return check_unsat(z3.Not(z3.Implies(body, post)))
+        return not self._rev and check_unsat(z3.Not(z3.Implies(body, post)))
