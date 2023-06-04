@@ -17,6 +17,7 @@ class LegacyVM:
         self._postcondition = None
         self._precondition = None
         self._olds = []
+        self._is_verified = None
 
     @property
     def precondition(self):
@@ -37,6 +38,10 @@ class LegacyVM:
     @property
     def olds(self):
         return self._olds
+
+    @property
+    def is_verified(self):
+        return self._is_verified
 
     @property
     def rev(self):
@@ -115,7 +120,7 @@ class LegacyVM:
                 substitutions.append((variable, tmp_variable))
         self._postcondition = z3.substitute(value, *substitutions)
 
-    def is_verified(self):
+    def finalize(self, function=None):
         body = z3.And(self._constraints)
         post = self._postcondition
-        return not self._rev and check_unsat(z3.Not(z3.Implies(body, post)))
+        self._is_verified = self._rev and check_unsat(z3.Not(z3.Implies(body, post)))

@@ -83,5 +83,8 @@ class LegacyChain:
         for ir in self._irs:
             ir.execute(vm)
             if vm.rev: break
+        ir = self._irs[0]._ir
+        function = ir.node.function
+        vm.finalize(function)
         # Clear all executed irs
         self._irs = []

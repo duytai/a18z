@@ -151,7 +151,7 @@ class LegacyInternalCall(LegacyIR):
         # Handle old_
         for new_var, old_var in call_vm.olds:
             vm.substitute(new_var, old_var)
-        postcondition = call_vm.postcondition
+        postcondition = z3.substitute(call_vm.postcondition, *substitutions)
         vm.add_constraint(postcondition)
 
 class LegacyReturn(LegacyIR):
