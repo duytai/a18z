@@ -2,14 +2,14 @@ import z3
 from ..legacy.utils import check_unsat
 
 
-def find_fact(hypothesis, outcome, eliminated_vars):
+def find_outcome(hypothesis, eliminated_vars):
     if not eliminated_vars:
         tmp_var = z3.FreshConst(z3.BoolSort())
         eliminated_vars.append(tmp_var)
     result = z3.Then(
         z3.Tactic('qe2'),
         z3.With(z3.Tactic('simplify'), blast_select_store=True)
-    ).apply(z3.ForAll(eliminated_vars, z3.Implies(hypothesis, outcome)))
+    ).apply(z3.Exists(eliminated_vars, hypothesis))
 
     # Elimitate store(...)[x]
     old_vars = z3.z3util.get_vars(z3.And(*result[0]))
@@ -46,11 +46,6 @@ def find_fact(hypothesis, outcome, eliminated_vars):
     result = set([z3.And(*x) for x in split_all(z3.And(*result[0]))])
     for r in sorted(result, key=lambda x: -len(str(x))):
         if check_unsat(z3.Or(result - {r}) != z3.Or(result)):
-            result = result - {r}
-
-    # Remove contradicts
-    for r in list(result):
-        if check_unsat(z3.And(hypothesis, r)):
             result = result - {r}
 
     return z3.simplify(z3.Or(result))
