@@ -16,6 +16,7 @@ class LegacyVM:
         self._substitutions = []
         self._postcondition = None
         self._precondition = None
+        self._olds = []
 
     @property
     def precondition(self):
@@ -32,6 +33,10 @@ class LegacyVM:
     @property
     def constraints(self):
         return z3.And(self._constraints)
+
+    @property
+    def olds(self):
+        return self._olds
 
     @property
     def rev(self):
@@ -99,15 +104,16 @@ class LegacyVM:
         self.add_constraint(value)
 
     def set_postcondition(self, value):
+        self._postcondition = value
         substitutions = []
         for variable in z3.z3util.get_vars(value):
             if str(variable).startswith('old_'):
                 new_variable = z3.Const(str(variable)[4:], variable.sort())
                 tmp_variable = z3.FreshConst(variable.sort())
                 self._constraints.append(new_variable == tmp_variable)
+                self._olds.append((new_variable, tmp_variable))
                 substitutions.append((variable, tmp_variable))
         self._postcondition = z3.substitute(value, *substitutions)
-        self._substitutions += substitutions
 
     def is_verified(self):
         body = z3.And(self._constraints)

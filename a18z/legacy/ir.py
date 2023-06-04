@@ -149,15 +149,10 @@ class LegacyInternalCall(LegacyIR):
             self._chain.add_ir(i)
         self._chain.run_chain(call_vm)
         # Handle old_
-        for old_var, tmp_var in call_vm.substitutions:
-            assert str(old_var).startswith('old_')
-            assert str(tmp_var).startswith('c!')
-            new_var = z3.Const(str(old_var)[4:], old_var.sort())
-            vm.substitute(new_var, tmp_var)
-        # Add postcondition
-        postcondition = z3.substitute(call_vm.postcondition, *substitutions)
+        for new_var, old_var in call_vm.olds:
+            vm.substitute(new_var, old_var)
+        postcondition = call_vm.postcondition
         vm.add_constraint(postcondition)
-
 
 class LegacyReturn(LegacyIR):
     def execute(self, vm: LegacyVM):
@@ -168,7 +163,6 @@ class LegacyReturn(LegacyIR):
             vm.substitute(lvar)
             rvar = vm.get_variable(rvalue)
             vm.add_constraint(lvar == rvar)
-
 
 class LegacySolidityCall(LegacyIR):
     def execute(self, vm: LegacyVM):

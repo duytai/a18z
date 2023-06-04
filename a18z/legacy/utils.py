@@ -1,4 +1,3 @@
-
 import z3
 
 def check_sat(value):
