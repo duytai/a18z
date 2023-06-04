@@ -1,5 +1,6 @@
 import re
 from slither import Slither
+from slither.core.solidity_types.elementary_type import ElementaryType, Uint
 
 A17Z_EXT    = r'.sol'
 KW_FUNCTION = r'function'
@@ -63,7 +64,12 @@ class Injector:
                     invariants = self._invariants.get((path, loc), [])
                     # Concatenate invariants to form the payload
                     for invariant in invariants:
-                        payload += f'(bool __v1, bool __v2)=({",".join(invariant)});'
+                        payload = f'(bool __v1, bool __v2)=({",".join(invariant)});'
+                    # Add require to parameters
+                    for variable in function.parameters:
+                        if isinstance(variable.type, ElementaryType):
+                            if variable.type.name in Uint:
+                                payload += f'require({variable.name} >= 0);'
                     # Find the start location of the function body
                     start = loc + code[loc:].find('{') + 1
                     # Update the patches dictionary for the current path

@@ -28,7 +28,7 @@ contract SafeMath {
     return a - b;
   }
 
-  /// ensures(a >= 0 && b >= 0, r == a + b)
+  /// ensures(true, r == a + b)
   function safeAdd(uint256 a, uint256 b) internal returns (uint256 r) {
     uint256 c = a + b;
     assert(c>=a && c>=b);
