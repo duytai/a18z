@@ -17,6 +17,11 @@ class TypeState:
             return self._sorts[0]
         elif num_sorts == 2:
             return z3.ArraySort(*self._sorts)
+        elif num_sorts == 3:
+            return z3.ArraySort(
+                self._sorts[0],
+                z3.ArraySort(*self._sorts[1:])
+            )
         else: raise ValueError(num_sorts)
 
 class TypeExplorer:
@@ -29,6 +34,10 @@ class TypeExplorer:
                 state.add_sort(z3.IntSort())
             elif type_.name == 'bool':
                 state.add_sort(z3.BoolSort())
+            elif type_.name == 'address':
+                state.add_sort(z3.IntSort())
+            elif type_.name == 'string':
+                state.add_sort(z3.StringSort())
             else: raise ValueError(type_.name)
         elif isinstance(type_, MappingType):
             self.explore_type(type_.type_from, state)

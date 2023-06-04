@@ -36,6 +36,8 @@ class LegacyBinary(LegacyIR):
             result = lvar == rvar
         elif ir.type == BinaryType.LESS_EQUAL:
             result = lvar <= rvar
+        elif ir.type == BinaryType.LESS:
+            result = lvar < rvar
         elif ir.type == BinaryType.GREATER_EQUAL:
             result = lvar >= rvar
         elif ir.type == BinaryType.GREATER:

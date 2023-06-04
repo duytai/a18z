@@ -1,4 +1,5 @@
 import z3
+from slither.core.declarations.solidity_variables import SolidityVariableComposed
 from slither.core.variables.local_variable import LocalVariable
 from slither.core.variables.state_variable import StateVariable
 from slither.slithir.variables.temporary import TemporaryVariable
@@ -64,6 +65,10 @@ class LegacyVM:
             TypeExplorer(variable.type, state)
             return z3.Const(variable.name, state.convert())
         elif isinstance(variable, StateVariable):
+            state = TypeState()
+            TypeExplorer(variable.type, state)
+            return z3.Const(variable.name, state.convert())
+        elif isinstance(variable, SolidityVariableComposed):
             state = TypeState()
             TypeExplorer(variable.type, state)
             return z3.Const(variable.name, state.convert())

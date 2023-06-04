@@ -6,6 +6,7 @@ from slither.slithir.operations import (
     Index,
     InternalCall
 )
+from slither.slithir.operations.event_call import EventCall
 from slither.slithir.operations.return_operation import Return
 from .ir import (
     LegacyBinary,
@@ -42,6 +43,9 @@ class LegacyChain:
     def add_return(self, ir: Return):
         self._irs.append(LegacyReturn(ir))
 
+    def add_event_call(self, ir: EventCall):
+        pass
+
     def add_ir(self, ir):
         if isinstance(ir, Binary):
             self.add_binary(ir)
@@ -57,6 +61,8 @@ class LegacyChain:
             self.add_internal_call(ir)
         elif isinstance(ir, Return):
             self.add_return(ir)
+        elif isinstance(ir, EventCall):
+            self.add_event_call(ir)
         else: raise ValueError(type(ir))
 
     def run_chain(self, vm): 
