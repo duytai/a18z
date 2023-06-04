@@ -19,10 +19,12 @@ class MordenVM(LegacyVM):
 
     def finalize(self, function=None):
         if not self.rev:
+
             substitutions = []
             for x, y in dict(self.substitutions[::-1]).items():
                 old_var = z3.Const(f'old_{str(x)}', x.sort())
                 substitutions.append((y, old_var))
+            precondition = z3.substitute(self.precondition, *substitutions)
             constraints = z3.substitute(self.constraints, *substitutions)
 
             variables = z3.z3util.get_vars(constraints)  
@@ -31,5 +33,5 @@ class MordenVM(LegacyVM):
             eliminated_vars = local_vars + temporary_vars
             eliminated_vars = [x for x in variables if str(x) in eliminated_vars]
 
-            outcome = find_outcome(constraints, eliminated_vars)
+            outcome = find_outcome(precondition, constraints, eliminated_vars)
             self._outcomes.append(outcome)
