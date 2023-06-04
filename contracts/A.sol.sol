@@ -66,13 +66,13 @@ contract BNB is SafeMath{string old_name;string old_symbol;uint8 old_decimals;ui
     event Unfreeze(address indexed from, uint256 value);
 
     /* Initializes contract with initial supply tokens to the creator of the contract */
-    /// ensures(false, true)
+    /// ensures(true, totalSupply == initialSupply)
     function BNB(
         uint256 initialSupply,
         string tokenName,
         uint8 decimalUnits,
         string tokenSymbol
-        ) {(bool __v1, bool __v2)=(false, true);require(initialSupply >= 0);require(decimalUnits >= 0);
+        ) {(bool __v1, bool __v2)=(true, totalSupply == initialSupply);require(initialSupply >= 0);require(decimalUnits >= 0);
         balanceOf[msg.sender] = initialSupply;              // Give the creator all initial tokens
         totalSupply = initialSupply;                        // Update total supply
         name = tokenName;                                   // Set the name for display purposes

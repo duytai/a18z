@@ -66,7 +66,7 @@ contract BNB is SafeMath{
     event Unfreeze(address indexed from, uint256 value);
 
     /* Initializes contract with initial supply tokens to the creator of the contract */
-    /// ensures(false, true)
+    /// ensures(true, totalSupply == initialSupply)
     function BNB(
         uint256 initialSupply,
         string tokenName,
