@@ -3,12 +3,14 @@ from slither.slithir.operations import (
     Assignment,
     Condition,
     Unary,
+    Index
 )
 from .ir import (
     LegacyBinary,
     LegacyAssignment,
     LegacyCondition,
     LegacyUnary,
+    LegacyIndex,
 )
 
 class LegacyChain:
@@ -27,6 +29,9 @@ class LegacyChain:
     def add_unary(self, ir: Unary):
         self._irs.append(LegacyUnary(ir))
 
+    def add_index(self, ir: Index):
+        self._irs.append(LegacyIndex(ir))
+
     def add_ir(self, ir):
         if isinstance(ir, Binary):
             self.add_binary(ir)
@@ -36,7 +41,9 @@ class LegacyChain:
             self.add_condition(ir)
         elif isinstance(ir, Unary):
             self.add_unary(ir)
-        else: raise ValueError(ir)
+        elif isinstance(ir, Index):
+            self.add_index(ir)
+        else: raise ValueError(type(ir))
 
     def run_chain(self, vm): 
         for ir in self._irs:

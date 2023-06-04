@@ -2,6 +2,7 @@ import z3
 from slither.core.variables.local_variable import LocalVariable
 from slither.core.variables.state_variable import StateVariable
 from slither.slithir.variables.temporary import TemporaryVariable
+from slither.slithir.variables.reference import ReferenceVariable
 from slither.slithir.variables.constant import Constant
 from .explorer import TypeExplorer, TypeState
 from .utils import check_unsat
@@ -35,6 +36,8 @@ class LegacyVM:
             return z3.Const(variable.name, state.convert())
         elif isinstance(variable, TemporaryVariable):
             return self._variables[variable]
+        elif isinstance(variable, ReferenceVariable):
+            return self._variables[variable]
         elif isinstance(variable, Constant):
             state = TypeState()
             TypeExplorer(variable.type, state)
@@ -48,6 +51,8 @@ class LegacyVM:
 
     def set_variable(self, variable, value):
         if isinstance(variable, TemporaryVariable):
+            self._variables[variable] = value
+        elif isinstance(variable, ReferenceVariable):
             self._variables[variable] = value
         else: raise ValueError(variable)
 

@@ -1,9 +1,7 @@
 
 import z3
-from slither.core.solidity_types.elementary_type import (
-    ElementaryType,
-    Uint
-)
+from slither.core.solidity_types.elementary_type import ElementaryType, Uint
+from slither.core.solidity_types.mapping_type import MappingType
 
 class TypeState:
     def __init__(self) -> None:
@@ -13,9 +11,13 @@ class TypeState:
         self._sorts.append(sort)
 
     def convert(self):
-        sort, *r = self._sorts
-        if not r: return sort
-        raise ValueError(r)
+        num_sorts = len(self._sorts)
+        assert num_sorts >= 1
+        if num_sorts == 1:
+            return self._sorts[0]
+        elif num_sorts == 2:
+            return z3.ArraySort(*self._sorts)
+        else: raise ValueError(num_sorts)
 
 class TypeExplorer:
     def __init__(self, type_, state: TypeState) -> None:
@@ -28,4 +30,7 @@ class TypeExplorer:
             elif type_.name == 'bool':
                 state.add_sort(z3.BoolSort())
             else: raise ValueError(type_.name)
+        elif isinstance(type_, MappingType):
+            self.explore_type(type_.type_from, state)
+            self.explore_type(type_.type_to, state)
         else: raise ValueError(type_)
