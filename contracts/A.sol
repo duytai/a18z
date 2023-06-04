@@ -32,11 +32,11 @@ contract SafeMath {
     return c;
   }
 
-  function assert(bool assertion) internal {
-    if (!assertion) {
-      throw;
-    }
-  }
+  // function assert(bool assertion) internal {
+  //   if (!assertion) {
+  //     throw;
+  //   }
+  // }
 }
 contract BNB is SafeMath{
     string public name;
@@ -139,12 +139,12 @@ contract BNB is SafeMath{
     }
 	
 	// transfer balance to owner
-	// function withdrawEther(uint256 amount) {
-	// 	if(msg.sender != owner)throw;
-	// 	owner.transfer(amount);
-	// }
+	function withdrawEther(uint256 amount) {
+		if(msg.sender != owner)throw;
+		owner.transfer(amount);
+	}
 	
 	// can accept ether
-	// function() payable {
-  //   }
+	function() payable {
+    }
 }

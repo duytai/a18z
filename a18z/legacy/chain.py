@@ -4,10 +4,12 @@ from slither.slithir.operations import (
     Condition,
     Unary,
     Index,
-    InternalCall
+    InternalCall,
+    SolidityCall,
+    EventCall,
+    Return,
+    Transfer
 )
-from slither.slithir.operations.event_call import EventCall
-from slither.slithir.operations.return_operation import Return
 from .ir import (
     LegacyBinary,
     LegacyAssignment,
@@ -16,6 +18,8 @@ from .ir import (
     LegacyIndex,
     LegacyInternalCall,
     LegacyReturn,
+    LegacySolidityCall,
+    LegacyTransfer
 )
 
 class LegacyChain:
@@ -46,6 +50,12 @@ class LegacyChain:
     def add_event_call(self, ir: EventCall):
         pass
 
+    def add_solidity_call(self, ir: SolidityCall):
+        self._irs.append(LegacySolidityCall(ir))
+
+    def add_transfer(self, ir: Transfer):
+        self._irs.append(LegacyTransfer(ir))
+
     def add_ir(self, ir):
         if isinstance(ir, Binary):
             self.add_binary(ir)
@@ -63,6 +73,10 @@ class LegacyChain:
             self.add_return(ir)
         elif isinstance(ir, EventCall):
             self.add_event_call(ir)
+        elif isinstance(ir, SolidityCall):
+            self.add_solidity_call(ir)
+        elif isinstance(ir, Transfer):
+            self.add_transfer(ir)
         else: raise ValueError(type(ir))
 
     def run_chain(self, vm): 

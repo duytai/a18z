@@ -32,11 +32,11 @@ contract SafeMath {
     return c;
   }
 
-  function assert(bool assertion) internal {(bool __v1, bool __v2)=(1==1,1==0);
-    if (!assertion) {
-      throw;
-    }
-  }
+  // function assert(bool assertion) internal {
+  //   if (!assertion) {
+  //     throw;
+  //   }
+  // }
 }
 contract BNB is SafeMath{string old_name;string old_symbol;uint8 old_decimals;uint256 old_totalSupply;address old_owner;mapping(address => uint256) old_balanceOf;mapping(address => uint256) old_freezeOf;mapping(address => mapping(address => uint256)) old_allowance;
     string public name;
@@ -139,12 +139,12 @@ contract BNB is SafeMath{string old_name;string old_symbol;uint8 old_decimals;ui
     }
 	
 	// transfer balance to owner
-	// function withdrawEther(uint256 amount) {
-	// 	if(msg.sender != owner)throw;
-	// 	owner.transfer(amount);
-	// }
+	function withdrawEther(uint256 amount) {(bool __v1, bool __v2)=(1==1,1==0);
+		if(msg.sender != owner)throw;
+		owner.transfer(amount);
+	}
 	
 	// can accept ether
-	// function() payable {
-  //   }
+	function() payable {(bool __v1, bool __v2)=(1==1,1==0);
+    }
 }

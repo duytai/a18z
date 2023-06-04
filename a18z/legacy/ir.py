@@ -6,11 +6,14 @@ from slither.slithir.operations import (
     Condition,
     Unary,
     Index,
-    InternalCall
+    InternalCall,
+    SolidityCall,
+    Transfer,
 )
 from slither.core.expressions.unary_operation import UnaryOperationType
 from slither.slithir.operations.return_operation import Return
 from slither.slithir.variables.reference import ReferenceVariable
+from slither.core.declarations.solidity_variables import SolidityFunction
 
 from a18z.legacy.vm import LegacyVM
 from .vm import LegacyVM
@@ -34,6 +37,8 @@ class LegacyBinary(LegacyIR):
             result = lvar + rvar
         elif ir.type == BinaryType.EQUAL:
             result = lvar == rvar
+        elif ir.type == BinaryType.NOT_EQUAL:
+            result = lvar != rvar
         elif ir.type == BinaryType.LESS_EQUAL:
             result = lvar <= rvar
         elif ir.type == BinaryType.LESS:
@@ -163,3 +168,19 @@ class LegacyReturn(LegacyIR):
             vm.substitute(lvar)
             rvar = vm.get_variable(rvalue)
             vm.add_constraint(lvar == rvar)
+
+
+class LegacySolidityCall(LegacyIR):
+    def execute(self, vm: LegacyVM):
+        ir = self._ir
+        assert isinstance(ir, SolidityCall)
+        if ir.function == SolidityFunction('assert(bool)'):
+            assertion = vm.get_variable(ir.arguments[0])
+            vm.rev = check_sat(z3.Not(z3.Implies(vm.constraints, assertion)))
+        else: raise ValueError(ir.function)
+
+class LegacyTransfer(LegacyIR):
+    def execute(self, vm: LegacyVM):
+        ir = self._ir
+        assert isinstance(ir, Transfer)
+        # TODO: handle transfer
