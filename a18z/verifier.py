@@ -22,3 +22,5 @@ class Verifier:
             print(vm.postcondition)
             is_verified = is_verified and vm.is_verified()
         print(is_verified)
+        if not is_verified:
+            exit(0)

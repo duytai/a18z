@@ -12,16 +12,22 @@ class PathCollector:
         return self._paths
 
     def collect_paths(self, node: Node, curr=[]):
-        for ir in node.irs:
-            curr.append(ir)
-        if not node.sons:
-            self._paths.append(curr[:])
-            return
-        if node.type == NodeType.IF:
+        types = [
+            NodeType.ENTRYPOINT,
+            NodeType.ENDIF,
+            NodeType.VARIABLE,
+            NodeType.EXPRESSION,
+            NodeType.RETURN,
+        ]
+        if node.type in types:
+            for ir in node.irs:
+                curr.append(ir)
+        elif node.type == NodeType.IF:
+            for ir in node.irs:
+                curr.append(ir)
             self.collect_paths(node.son_true, curr[:])
             if node.son_false is not None:
                 assert isinstance(curr[-1], Condition)
-                # Replace true_condition with false_condition
                 true_cond = curr.pop()
                 false_cond = Unary(
                     TemporaryVariable(node),
@@ -33,5 +39,10 @@ class PathCollector:
                 curr.append(false_cond)
                 self.collect_paths(node.son_false, curr[:])
             return
+        elif node.type == NodeType.THROW:
+            return
+        else: raise ValueError(node.type)
+        if not node.sons:
+            self._paths.append(curr[:])
         for node in node.sons:
             self.collect_paths(node, curr[:])

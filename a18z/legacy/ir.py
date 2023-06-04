@@ -177,6 +177,9 @@ class LegacySolidityCall(LegacyIR):
         if ir.function == SolidityFunction('assert(bool)'):
             assertion = vm.get_variable(ir.arguments[0])
             vm.rev = check_sat(z3.Not(z3.Implies(vm.constraints, assertion)))
+        elif ir.function == SolidityFunction('require(bool)'):
+            precondition = vm.get_variable(ir.arguments[0])
+            vm.add_constraint(precondition)
         else: raise ValueError(ir.function)
 
 class LegacyTransfer(LegacyIR):
