@@ -8,6 +8,7 @@ class Verifier:
         self._slither = Slither(file)
 
     def verify_function(self, function: FunctionContract):
+        print(f'> {function.canonical_name}')
         path_collector = PathCollector()
         path_collector.collect_paths(function.entry_point)
         is_verified = True
@@ -17,5 +18,7 @@ class Verifier:
             for ir in path:
                 legacy_chain.add_ir(ir)
             legacy_chain.run_chain(vm)
+            print(vm.constraints)
+            print(vm.postcondition)
             is_verified = is_verified and vm.is_verified()
         print(is_verified)

@@ -9,13 +9,39 @@ from .utils import check_unsat
 
 class LegacyVM:
     def __init__(self) -> None:
+        self._rev = False
         self._constraints = []
         self._variables = {}
         self._substitutions = []
         self._postcondition = None
+        self._precondition = None
 
-    def substitute(self, lvar):
-        old_lvar = z3.FreshConst(lvar.sort())
+    @property
+    def precondition(self):
+        return self._precondition
+
+    @property
+    def postcondition(self):
+        return self._postcondition
+
+    @property
+    def substitutions(self):
+        return self._substitutions
+
+    @property
+    def constraints(self):
+        return z3.And(self._constraints)
+
+    @property
+    def rev(self):
+        return self._rev
+
+    @rev.setter
+    def rev(self, _rev):
+        self._rev = _rev
+
+    def substitute(self, lvar, old_lvar=None):
+        old_lvar = z3.FreshConst(lvar.sort()) if old_lvar is None else old_lvar
         for variable in self._variables:
             self._variables[variable] = z3.substitute(self._variables[variable], (lvar, old_lvar))
         self._constraints = [z3.substitute(x, (lvar, old_lvar)) for x in self._constraints]
@@ -24,6 +50,13 @@ class LegacyVM:
 
     def add_constraint(self, constraint):
         self._constraints.append(constraint)
+
+    def fresh_variable(self, variable):
+        state = TypeState()
+        TypeExplorer(variable.type, state)
+        value = z3.FreshConst(state.convert())
+        self.set_variable(variable, value)
+        return value
 
     def get_variable(self, variable):
         if isinstance(variable, LocalVariable):
@@ -56,6 +89,10 @@ class LegacyVM:
             self._variables[variable] = value
         else: raise ValueError(variable)
 
+    def set_precondition(self, value):
+        self._precondition = value
+        self.add_constraint(value)
+
     def set_postcondition(self, value):
         substitutions = []
         for variable in z3.z3util.get_vars(value):
@@ -65,10 +102,9 @@ class LegacyVM:
                 self._constraints.append(new_variable == tmp_variable)
                 substitutions.append((variable, tmp_variable))
         self._postcondition = z3.substitute(value, *substitutions)
+        self._substitutions += substitutions
 
     def is_verified(self):
         body = z3.And(self._constraints)
         post = self._postcondition
-        print(body)
-        print(post)
         return check_unsat(z3.Not(z3.Implies(body, post)))
