@@ -118,18 +118,18 @@ contract BNB is SafeMath{string old_name;string old_symbol;uint8 old_decimals;ui
         if (balanceOf[_to] + _value < balanceOf[_to]) throw;  // Check for overflows
         if (_value > allowance[_from][msg.sender]) throw;     // Check allowance
         balanceOf[_from] = SafeMath.safeSub(balanceOf[_from], _value);                           // Subtract from the sender
-        require(balanceOf[_to] >= 0 && _value >= 0);
+        // require(balanceOf[_to] >= 0 && _value >= 0);
         balanceOf[_to] = SafeMath.safeAdd(balanceOf[_to], _value);                             // Add the same to the recipient
         allowance[_from][msg.sender] = SafeMath.safeSub(allowance[_from][msg.sender], _value);
         Transfer(_from, _to, _value);
         return true;
     }
 
-    /// ensures(true, totalSupply == old(totalSupply) - _value)
-    function burn(uint256 _value) returns (bool success) {(bool __v1, bool __v2)=(true, totalSupply == old_totalSupply - _value);require(_value >= 0);
-        // if (balanceOf[msg.sender] < _value) throw;            // Check if the sender has enough
+    /// ensures(true, totalSupply == old(totalSupply) + _value)
+    function burn(uint256 _value) returns (bool success) {(bool __v1, bool __v2)=(true, totalSupply == old_totalSupply + _value);require(_value >= 0);require(totalSupply >= 0);
+        if (balanceOf[msg.sender] < _value) throw;            // Check if the sender has enough
 		// if (_value <= 0) throw; 
-        // balanceOf[msg.sender] = SafeMath.safeSub(balanceOf[msg.sender], _value);                      // Subtract from the sender
+        balanceOf[msg.sender] = SafeMath.safeSub(balanceOf[msg.sender], _value);                      // Subtract from the sender
         totalSupply = SafeMath.safeSub(totalSupply,_value);                                // Updates totalSupply
         Burn(msg.sender, _value);
         return true;
@@ -150,7 +150,7 @@ contract BNB is SafeMath{string old_name;string old_symbol;uint8 old_decimals;ui
         if (freezeOf[msg.sender] < _value) throw;            // Check if the sender has enough
 		if (_value <= 0) throw; 
         freezeOf[msg.sender] = SafeMath.safeSub(freezeOf[msg.sender], _value);                      // Subtract from the sender
-		// balanceOf[msg.sender] = SafeMath.safeAdd(balanceOf[msg.sender], _value);
+		balanceOf[msg.sender] = SafeMath.safeAdd(balanceOf[msg.sender], _value);
         Unfreeze(msg.sender, _value);
         return true;
     }

@@ -70,6 +70,11 @@ class Injector:
                         if isinstance(variable.type, ElementaryType):
                             if variable.type.name in Uint:
                                 payload += f'require({variable.name} >= 0);'
+                    # Add require for state vairables
+                    for variable in function.state_variables_read:
+                        if isinstance(variable.type, ElementaryType):
+                            if variable.type.name in Uint:
+                                payload += f'require({variable.name} >= 0);'
                     # Find the start location of the function body
                     start = loc + code[loc:].find('{') + 1
                     # Update the patches dictionary for the current path
