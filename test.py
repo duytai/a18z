@@ -1,11 +1,16 @@
-from a18z import Verifier, Injector
+from a18z.injector import Injector
+from a18z.legacy import verify
+from slither import Slither
 
 Injector('contracts/A.sol')
 
-verifier = Verifier('contracts/A.sol.sol')
-for contract in verifier._slither.contracts:
+slith = Slither('contracts/A.sol.sol')
+for contract in slith.contracts:
     for function in contract.functions:
+        print(f'> {function.name}')
+        r = verify(function)
+        print(f'* {r}')
         # verifier.verify_function(function)
         # verifier.precondition(function)
         # verifier.postcondition(function)
-        verifier.prepcondition(function)
+        # verifier.prepcondition(function)

@@ -7,7 +7,7 @@ class PrepVM(LegacyVM):
     def __init__(self, _internal_call: InternalCall) -> None:
         super().__init__()
         self._internal_call = _internal_call
-        self._prep = (None, None)
+        self._prep = []
         self._prep_substitutions = []
 
     @property
@@ -22,9 +22,8 @@ class PrepVM(LegacyVM):
     def prep_substitutions(self):
         return self._prep_substitutions
 
-    @prep.setter
-    def prep(self, value):
-        self._prep = value
+    def add_prep(self, value):
+        self._prep.append(value)
 
     def add_prep_substitution(self, sub):
         self._prep_substitutions.append(sub)
@@ -53,7 +52,6 @@ class PrepVM(LegacyVM):
 
             fact = find_fact(constraints, postcondition, eliminated_vars)
             fact = z3.substitute(fact, self._prep_substitutions)
-            a, _ = self._prep
-            self._prep = (a, fact)
+            self._prep.append(fact)
         else:
             self._prep = (None, None)

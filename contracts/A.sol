@@ -11,8 +11,8 @@ contract SafeMath {
   function safeSub(uint256 a, uint256 b) internal returns (uint256 r) {
     uint x = a + 1;
     uint y = b + 1;
-    x = x + 1;
-    y = y + 1;
+    // x = x + 1;
+    // y = y + 1;
     assert(y <= x);
     return x - y;
   }
@@ -118,7 +118,7 @@ contract BNB is SafeMath{
         if (balanceOf[_to] + _value < balanceOf[_to]) throw;  // Check for overflows
         if (_value > allowance[_from][msg.sender]) throw;     // Check allowance
         balanceOf[_from] = SafeMath.safeSub(balanceOf[_from], _value);                           // Subtract from the sender
-        // require(balanceOf[_to] >= 0 && _value >= 0);
+        require(balanceOf[_to] >= 0 && _value >= 0);
         balanceOf[_to] = SafeMath.safeAdd(balanceOf[_to], _value);                             // Add the same to the recipient
         allowance[_from][msg.sender] = SafeMath.safeSub(allowance[_from][msg.sender], _value);
         Transfer(_from, _to, _value);

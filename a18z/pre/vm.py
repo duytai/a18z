@@ -21,7 +21,7 @@ class PreVM(LegacyVM):
         substitutions = []
         for x, y in dict(self.substitutions[::-1]).items():
             substitutions += [(x, y), (y, x)]
-            
+
         constraints = z3.substitute(self.constraints, *substitutions)
         postcondition = z3.substitute(self.postcondition, *substitutions)
 

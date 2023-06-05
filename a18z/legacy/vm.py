@@ -121,4 +121,7 @@ class LegacyVM:
     def finalize(self, function=None):
         body = z3.And(self._constraints)
         post = self._postcondition
-        self._is_verified = self._rev and check_unsat(z3.Not(z3.Implies(body, post)))
+        print('????')
+        print(body)
+        print(post)
+        self._is_verified = not self._rev and check_unsat(z3.Not(z3.Implies(body, post)))

@@ -62,8 +62,7 @@ class Verifier:
                     chain.add_ir(ir)
                 chain.run_chain(vm)
                 print(internal_call.function)
-                print(vm.prep)
-
+                print(tuple(vm.prep))
 
     def verify_function(self, function: FunctionContract):
         print(f'> {function.canonical_name}')

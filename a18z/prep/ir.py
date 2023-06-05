@@ -1,6 +1,9 @@
 import z3
 from ..legacy.ir import LegacyInternalCall
 from ..post.utils import find_outcome
+from ..pre_true import PreTrueChain, PreTrueVM
+from ..post_true import PostTrueChain, PostTrueVM
+from ..path_collector import PathCollector
 from .vm import PrepVM
 from slither.slithir.operations import InternalCall
 
@@ -32,7 +35,7 @@ class PrepInternalCall(LegacyInternalCall):
             eliminated_vars = [x for x in variables if str(x) in eliminated_vars and str(x) not in marker_vars]
 
             outcome = find_outcome(vm.constraints, eliminated_vars)
-            vm.prep = (z3.substitute(outcome, vm.prep_substitutions), None)
+            vm.add_prep(z3.substitute(outcome, vm.prep_substitutions))
 
             # Set return value to 
             if ir.lvalue:
@@ -42,7 +45,31 @@ class PrepInternalCall(LegacyInternalCall):
                 vm.set_variable(ir.lvalue, value)
                 vm.add_prep_substitution((value, ret))
         elif ir.function == vm.internal_call.function:
-            print(f'***** {ir.function}')
-            super().execute(vm)
+            # Finding pre-condition given postcondition is True
+            path_collector = PathCollector()
+            path_collector.collect_paths(vm.internal_call.function.entry_point)
+            facts = []
+            for path in path_collector.paths:
+                pre_chain = PreTrueChain()
+                pre_vm = PreTrueVM()
+                for ir in path:
+                    pre_chain.add_ir(ir)
+                pre_chain.run_chain(pre_vm)
+                facts.append(pre_vm.facts)
+            fact = z3.simplify(z3.Or(facts))
+            # Finding post-condition given precondition is True
+            path_collector = PathCollector()
+            path_collector.collect_paths(vm.internal_call.function.entry_point)
+            outcomes = []
+            for path in path_collector.paths:
+                post_chain = PostTrueChain()
+                post_vm = PostTrueVM()
+                for ir in path:
+                    post_chain.add_ir(ir)
+                post_chain.run_chain(post_vm)
+                outcomes.append(post_vm.outcomes)
+            outcome = z3.simplify(z3.Or(outcomes))
+            print(outcome)
+            raise ValueError('??')
         else:
             super().execute(vm)
