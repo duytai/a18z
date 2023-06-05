@@ -13,12 +13,11 @@ Injector('contracts/A.sol')
 slith = Slither('contracts/A.sol.sol')
 for contract in slith.contracts:
     for function in contract.functions:
-        # print(f'verify> {function.name} is {verify(function)}')
-        # print(f'post> {function.name} is {postcondition(function)}')
-        # print(f'post> {function.name} is {postcondition(function)}')
-        # print(f'pre> {function.name} is {precondition(function)}')
-        # print(f'pret> {function.name} is {pretcondition(function)}')
-        for node in function.nodes:
-            for ir in node.irs:
-                if isinstance(ir, InternalCall):
-                    print(f'prep> {ir.function}:{function} is {prepcondition(function, ir)}')
+        if function.contract == contract:
+            print(f'ver> {function.name} is {verify(function)}')
+            print(f'pre> {function.name} is {precondition(function)}')
+            print(f'pos> {function.name} is {postcondition(function)}')
+            for node in function.nodes:
+                for ir in node.irs:
+                    if isinstance(ir, InternalCall):
+                        print(f'pep> {ir.function}:{function} is {prepcondition(function, ir)}')
