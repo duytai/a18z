@@ -110,7 +110,7 @@ contract BNB is SafeMath{
        
 
     /* A contract attempts to get the coins */
-    /// ensures(_from != _to, balanceOf[_to] == old(balanceOf[_to]) + _value)
+    /// ensures(_from != _to, balanceOf[_from] == old(balanceOf[_from]) - _value)
     function transferFrom(address _from, address _to, uint256 _value) returns (bool success) {
         if (_to == 0x0) throw;                                // Prevent transfer to 0x0 address. Use burn() instead
 		if (_value <= 0) throw; 

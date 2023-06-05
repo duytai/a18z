@@ -1,9 +1,10 @@
 import z3
 from ..legacy.ir import LegacyInternalCall
+from ..legacy.vm import LegacyVM
+from ..legacy.utils import check_sat
 from ..post.utils import find_outcome
-from ..pret import pretcondition
-from ..postt import posttcondition
-from ..path_collector import PathCollector
+from ..pre import precondition as find_pre
+from ..post import postcondition as find_post
 from .vm import PrepVM
 from slither.slithir.operations import InternalCall
 
@@ -45,37 +46,46 @@ class PrepInternalCall(LegacyInternalCall):
                 vm.set_variable(ir.lvalue, value)
                 vm.add_prep_substitution((value, ret))
         elif ir.function == vm.internal_call.function:
-            # Finding pre-condition given postcondition is True
-            print(vm.internal_call.function)
-            pre = pretcondition(vm.internal_call.function)
-            post = posttcondition(vm.internal_call.function)
-            print(pre)
-            print(post)
-
-            # path_collector = PathCollector()
-            # path_collector.collect_paths(vm.internal_call.function.entry_point)
-            # facts = []
-            # for path in path_collector.paths:
-            #     pre_chain = PreTrueChain()
-            #     pre_vm = PreTrueVM()
-            #     for ir in path:
-            #         pre_chain.add_ir(ir)
-            #     pre_chain.run_chain(pre_vm)
-            #     facts.append(pre_vm.facts)
-            # fact = z3.simplify(z3.Or(facts))
-            # # Finding post-condition given precondition is True
-            # path_collector = PathCollector()
-            # path_collector.collect_paths(vm.internal_call.function.entry_point)
-            # outcomes = []
-            # for path in path_collector.paths:
-            #     post_chain = PostTrueChain()
-            #     post_vm = PostTrueVM()
-            #     for ir in path:
-            #         post_chain.add_ir(ir)
-            #     post_chain.run_chain(post_vm)
-            #     outcomes.append(post_vm.outcomes)
-            # outcome = z3.simplify(z3.Or(outcomes))
-            # print(outcome)
-            raise ValueError('??')
+            pre_ = find_pre(
+                vm.internal_call.function,
+                postcondition=z3.BoolVal(True)
+            )
+            post_ = find_post(
+                vm.internal_call.function,
+                precondition=pre_
+            )
+            assert isinstance(ir, InternalCall)
+            # A trick if variable has been set
+            if ir.lvalue and ir.lvalue not in vm._variables:
+                value = vm.fresh_variable(ir.lvalue)
+                vm.set_variable(ir.lvalue, value)
+            call_vm = LegacyVM(
+                precondition=pre_,
+                postcondition=post_
+            )
+            # Read precondition
+            for i in ir.function.nodes[1].irs:
+                self._chain.add_ir(i)
+            self._chain.run_chain(call_vm)
+            # Subtitute parameters with arguments
+            parameters = ir.function.parameters + ir.function.returns
+            arguments = ir.arguments + [ir.lvalue]
+            substitutions = []
+            for param, argument in zip(parameters, arguments):
+                old_var = call_vm.get_variable(param)
+                new_var = vm.get_variable(argument)
+                substitutions.append((old_var, new_var))
+            # Imply precondition
+            precondition = z3.substitute(call_vm.precondition, *substitutions)
+            vm.rev = check_sat(z3.Not(z3.Implies(vm.constraints, precondition)))
+            # Read postcondition
+            for i in ir.function.nodes[2].irs:
+                self._chain.add_ir(i)
+            self._chain.run_chain(call_vm)
+            # Handle old_
+            for new_var, old_var in call_vm.olds:
+                vm.substitute(new_var, old_var)
+            postcondition = z3.substitute(call_vm.postcondition, *substitutions)
+            vm.add_constraint(postcondition)
         else:
             super().execute(vm)

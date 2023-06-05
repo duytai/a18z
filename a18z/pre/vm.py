@@ -3,8 +3,8 @@ from ..legacy import LegacyVM
 from .utils import find_fact
 
 class PreVM(LegacyVM):
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, precondition=None, postcondition=None) -> None:
+        super().__init__(precondition, postcondition)
         self._facts = []
 
     @property

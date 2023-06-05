@@ -110,8 +110,8 @@ contract BNB is SafeMath{string old_name;string old_symbol;uint8 old_decimals;ui
        
 
     /* A contract attempts to get the coins */
-    /// ensures(_from != _to, balanceOf[_to] == old(balanceOf[_to]) + _value)
-    function transferFrom(address _from, address _to, uint256 _value) returns (bool success) {(bool __v1, bool __v2)=(_from != _to, balanceOf[_to] == old_balanceOf[_to] + _value);require(_value >= 0);
+    /// ensures(_from != _to, balanceOf[_from] == old(balanceOf[_from]) - _value)
+    function transferFrom(address _from, address _to, uint256 _value) returns (bool success) {(bool __v1, bool __v2)=(_from != _to, balanceOf[_from] == old_balanceOf[_from] - _value);require(_value >= 0);
         if (_to == 0x0) throw;                                // Prevent transfer to 0x0 address. Use burn() instead
 		if (_value <= 0) throw; 
         if (balanceOf[_from] < _value) throw;                 // Check if the sender has enough

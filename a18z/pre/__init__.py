@@ -4,13 +4,13 @@ from ..path_collector import PathCollector
 from .chain import PreChain
 from .vm import PreVM
     
-def precondition(function: FunctionContract):
+def precondition(function: FunctionContract, postcondition=None):
     path_collector = PathCollector()
     path_collector.collect_paths(function.entry_point)
     facts = []
     for path in path_collector.paths:
         chain = PreChain()
-        vm = PreVM()
+        vm = PreVM(postcondition=postcondition)
         for ir in path:
             chain.add_ir(ir)
         chain.run_chain(vm)

@@ -9,13 +9,13 @@ from .explorer import TypeExplorer, TypeState
 from .utils import check_unsat
 
 class LegacyVM:
-    def __init__(self) -> None:
+    def __init__(self, precondition=None, postcondition=None) -> None:
         self._rev = False
         self._constraints = []
         self._variables = {}
         self._substitutions = []
-        self._postcondition = None
-        self._precondition = None
+        self._precondition = precondition
+        self._postcondition = postcondition
         self._olds = []
         self._is_verified = None
 
@@ -103,10 +103,12 @@ class LegacyVM:
         else: raise ValueError(variable)
 
     def set_precondition(self, value):
+        value = self._precondition if self._precondition is not None else value
         self._precondition = value
         self.add_constraint(value)
 
     def set_postcondition(self, value):
+        value = self._postcondition if self._postcondition is not None else value
         self._postcondition = value
         substitutions = []
         for variable in z3.z3util.get_vars(value):

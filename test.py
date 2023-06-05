@@ -1,11 +1,11 @@
 from slither.slithir.operations import InternalCall
-from a18z.injector import Injector
-from a18z.legacy import verify
-from a18z.post import postcondition
-from a18z.pre import precondition
-from a18z.postt import posttcondition
-from a18z.pret import pretcondition
-from a18z.prep import prepcondition
+from a18z import (
+    Injector,
+    verify,
+    precondition,
+    postcondition,
+    prepcondition
+)
 from slither import Slither
 
 Injector('contracts/A.sol')
