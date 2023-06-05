@@ -7,7 +7,7 @@
  * Math operations with safety checks
  */
 contract SafeMath {
-  /// ensures(a >= b, r == a - b)
+  /// ensures(true, r == a - b)
   function safeSub(uint256 a, uint256 b) internal returns (uint256 r) {
     uint x = a + 1;
     uint y = b + 1;

@@ -10,8 +10,8 @@ def verify(function: FunctionContract):
     for path in path_collector.paths:
         chain = LegacyChain()
         vm = LegacyVM()
-        for ir in path:
-            chain.add_ir(ir)
+        for ir in path: chain.add_ir(ir)
         chain.run_chain(vm)
+        vm.finalize(function)
         is_verified = is_verified and vm.is_verified
     return is_verified

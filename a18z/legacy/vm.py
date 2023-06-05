@@ -118,10 +118,7 @@ class LegacyVM:
                 substitutions.append((variable, tmp_variable))
         self._postcondition = z3.substitute(value, *substitutions)
 
-    def finalize(self, function=None):
+    def finalize(self, function):
         body = z3.And(self._constraints)
         post = self._postcondition
-        print('????')
-        print(body)
-        print(post)
         self._is_verified = not self._rev and check_unsat(z3.Not(z3.Implies(body, post)))
