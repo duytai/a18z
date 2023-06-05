@@ -1,8 +1,8 @@
 import z3
 from ..legacy.ir import LegacyInternalCall
 from ..post.utils import find_outcome
-from ..pret import PreTrueChain, PreTrueVM
-from ..pre_true_post import PostTrueChain, PostTrueVM
+from ..pret import pretcondition
+from ..postt import posttcondition
 from ..path_collector import PathCollector
 from .vm import PrepVM
 from slither.slithir.operations import InternalCall
@@ -46,30 +46,36 @@ class PrepInternalCall(LegacyInternalCall):
                 vm.add_prep_substitution((value, ret))
         elif ir.function == vm.internal_call.function:
             # Finding pre-condition given postcondition is True
-            path_collector = PathCollector()
-            path_collector.collect_paths(vm.internal_call.function.entry_point)
-            facts = []
-            for path in path_collector.paths:
-                pre_chain = PreTrueChain()
-                pre_vm = PreTrueVM()
-                for ir in path:
-                    pre_chain.add_ir(ir)
-                pre_chain.run_chain(pre_vm)
-                facts.append(pre_vm.facts)
-            fact = z3.simplify(z3.Or(facts))
-            # Finding post-condition given precondition is True
-            path_collector = PathCollector()
-            path_collector.collect_paths(vm.internal_call.function.entry_point)
-            outcomes = []
-            for path in path_collector.paths:
-                post_chain = PostTrueChain()
-                post_vm = PostTrueVM()
-                for ir in path:
-                    post_chain.add_ir(ir)
-                post_chain.run_chain(post_vm)
-                outcomes.append(post_vm.outcomes)
-            outcome = z3.simplify(z3.Or(outcomes))
-            print(outcome)
+            print(vm.internal_call.function)
+            pre = pretcondition(vm.internal_call.function)
+            post = posttcondition(vm.internal_call.function)
+            print(pre)
+            print(post)
+
+            # path_collector = PathCollector()
+            # path_collector.collect_paths(vm.internal_call.function.entry_point)
+            # facts = []
+            # for path in path_collector.paths:
+            #     pre_chain = PreTrueChain()
+            #     pre_vm = PreTrueVM()
+            #     for ir in path:
+            #         pre_chain.add_ir(ir)
+            #     pre_chain.run_chain(pre_vm)
+            #     facts.append(pre_vm.facts)
+            # fact = z3.simplify(z3.Or(facts))
+            # # Finding post-condition given precondition is True
+            # path_collector = PathCollector()
+            # path_collector.collect_paths(vm.internal_call.function.entry_point)
+            # outcomes = []
+            # for path in path_collector.paths:
+            #     post_chain = PostTrueChain()
+            #     post_vm = PostTrueVM()
+            #     for ir in path:
+            #         post_chain.add_ir(ir)
+            #     post_chain.run_chain(post_vm)
+            #     outcomes.append(post_vm.outcomes)
+            # outcome = z3.simplify(z3.Or(outcomes))
+            # print(outcome)
             raise ValueError('??')
         else:
             super().execute(vm)

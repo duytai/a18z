@@ -54,4 +54,4 @@ class PrepVM(LegacyVM):
             fact = z3.substitute(fact, self._prep_substitutions)
             self._prep.append(fact)
         else:
-            self._prep = (None, None)
+            self._prep = None

@@ -1,7 +1,6 @@
 import z3
 from ..legacy.utils import check_unsat
 
-
 def find_fact(hypothesis, outcome, eliminated_vars):
     if not eliminated_vars:
         tmp_var = z3.FreshConst(z3.BoolSort())
