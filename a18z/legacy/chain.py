@@ -9,8 +9,10 @@ from slither.slithir.operations import (
     EventCall,
     Return,
     Transfer,
-    TypeConversion
+    TypeConversion,
+    LibraryCall
 )
+from slither.slithir.operations.high_level_call import HighLevelCall
 from .ir import (
     LegacyBinary,
     LegacyAssignment,
@@ -21,7 +23,9 @@ from .ir import (
     LegacyReturn,
     LegacySolidityCall,
     LegacyTransfer,
-    LegacyTypeConversion
+    LegacyTypeConversion,
+    LegacyLibraryCall,
+    LegacyHighLevelCall,
 )
 
 class LegacyChain:
@@ -61,6 +65,12 @@ class LegacyChain:
     def add_type_conversion(self, ir: TypeConversion):
         self._irs.append(LegacyTypeConversion(ir))
 
+    def add_library_call(self, ir: LibraryCall):
+        self._irs.append(LegacyLibraryCall(ir, LegacyChain()))
+
+    def add_high_level_call(self, ir: HighLevelCall):
+        self._irs.append(LegacyHighLevelCall(ir, LegacyChain()))
+
     def add_ir(self, ir):
         if isinstance(ir, Binary):
             self.add_binary(ir)
@@ -84,6 +94,10 @@ class LegacyChain:
             self.add_transfer(ir)
         elif isinstance(ir, TypeConversion):
             self.add_type_conversion(ir)
+        elif isinstance(ir, LibraryCall):
+            self.add_library_call(ir)
+        elif isinstance(ir, HighLevelCall):
+            self.add_high_level_call(ir)
         else: raise ValueError(type(ir))
 
     def run_chain(self, vm): 

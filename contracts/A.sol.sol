@@ -7,7 +7,7 @@
  * @dev Math operations with safety checks that throw on error
  */
 library SafeMath {
-    function mul(uint256 a, uint256 b) internal pure returns (uint256) {(bool __v1, bool __v2)=(1==1,1==0);require(a >= 0);require(b >= 0);
+    function mul(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(1==1,1==0);require(a >= 0);require(b >= 0);
         if (a == 0) {
             return 0;
         }

@@ -9,8 +9,10 @@ from slither.slithir.operations import (
     InternalCall,
     SolidityCall,
     Transfer,
-    TypeConversion
+    TypeConversion,
+    LibraryCall
 )
+from slither.slithir.operations.high_level_call import HighLevelCall
 from slither.core.expressions.unary_operation import UnaryOperationType
 from slither.slithir.operations.return_operation import Return
 from slither.slithir.variables.reference import ReferenceVariable
@@ -58,6 +60,8 @@ class LegacyBinary(LegacyIR):
             result = lvar / rvar
         elif ir.type == BinaryType.MODULO:
             result = lvar % rvar
+        elif ir.type == BinaryType.POWER:
+            result = z3.ToInt(lvar**rvar)
         else: raise ValueError(ir.type)
         if isinstance(ir.lvalue, ReferenceVariable):
             lvar = vm.get_variable(ir.lvalue)
@@ -131,6 +135,57 @@ class LegacyInternalCall(LegacyIR):
         if ir.is_modifier_call:
             print(f'#### {ir.function}')
             return
+        # A trick if variable has been set
+        if ir.lvalue and ir.lvalue not in vm._variables:
+            value = vm.fresh_variable(ir.lvalue)
+            vm.set_variable(ir.lvalue, value)
+        call_vm = LegacyVM()
+        # Read precondition
+        for i in ir.function.nodes[1].irs:
+            self._chain.add_ir(i)
+        self._chain.run_chain(call_vm)
+        # Subtitute parameters with arguments
+        parameters = ir.function.parameters + ir.function.returns
+        arguments = ir.arguments + [ir.lvalue]
+        substitutions = []
+        for param, argument in zip(parameters, arguments):
+            old_var = call_vm.get_variable(param)
+            new_var = vm.get_variable(argument)
+            substitutions.append((old_var, new_var))
+        # Imply precondition
+        precondition = z3.substitute(call_vm.precondition, *substitutions)
+        vm.rev = check_sat(z3.Not(z3.Implies(vm.constraints, precondition)))
+        # Read postcondition
+        for i in ir.function.nodes[2].irs:
+            self._chain.add_ir(i)
+        self._chain.run_chain(call_vm)
+        # Handle old_
+        for new_var, old_var in call_vm.olds:
+            vm.substitute(new_var, old_var)
+        postcondition = z3.substitute(call_vm.postcondition, *substitutions)
+        vm.add_constraint(postcondition)
+
+class LegacyHighLevelCall(LegacyIR):
+    def __init__(self, _ir, _chain):
+        super().__init__(_ir)
+        self._chain = _chain
+
+    def execute(self, vm: LegacyVM):
+        ir = self._ir
+        assert isinstance(ir, HighLevelCall)
+        # TODO
+        if ir.lvalue and ir.lvalue not in vm._variables:
+            value = vm.fresh_variable(ir.lvalue)
+            vm.set_variable(ir.lvalue, value)
+
+class LegacyLibraryCall(LegacyIR):
+    def __init__(self, _ir, _chain):
+        super().__init__(_ir)
+        self._chain = _chain
+
+    def execute(self, vm: LegacyVM):
+        ir = self._ir
+        assert isinstance(ir, LibraryCall)
         # A trick if variable has been set
         if ir.lvalue and ir.lvalue not in vm._variables:
             value = vm.fresh_variable(ir.lvalue)

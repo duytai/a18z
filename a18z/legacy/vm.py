@@ -100,6 +100,8 @@ class LegacyVM:
             self._variables[variable] = value
         elif isinstance(variable, ReferenceVariable):
             self._variables[variable] = value
+        elif isinstance(variable, StateVariable):
+            self._variables[variable] = value
         else: raise ValueError(variable)
 
     def set_precondition(self, value):
