@@ -2,7 +2,7 @@ import z3
 from ..legacy import LegacyVM
 from .utils import find_fact
 
-class RevampVM(LegacyVM):
+class PreVM(LegacyVM):
     def __init__(self) -> None:
         super().__init__()
         self._facts = []

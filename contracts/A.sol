@@ -92,9 +92,9 @@ contract BNB is SafeMath{
 		if (_value <= 0) throw; 
         if (balanceOf[msg.sender] < _value) throw;           // Check if the sender has enough
         if (balanceOf[_to] + _value < balanceOf[_to]) throw; // Check for overflows
-        // require(balanceOf[msg.sender] >= _value);
+        require(balanceOf[msg.sender] >= _value);
         balanceOf[msg.sender] = SafeMath.safeSub(balanceOf[msg.sender], _value);                     // Subtract from the sender
-        // require(balanceOf[_to] >= 0 && _value >= 0);
+        require(balanceOf[_to] >= 0 && _value >= 0);
         balanceOf[_to] = SafeMath.safeAdd(balanceOf[_to], _value);                            // Add the same to the recipient
         Transfer(msg.sender, _to, _value);                   // Notify anyone listening that this transfer took place
     }

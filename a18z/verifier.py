@@ -1,10 +1,13 @@
 import z3
 from slither import Slither
+from slither.slithir.operations import InternalCall
 from slither.core.declarations.function_contract import FunctionContract
 from .legacy import LegacyVM, LegacyChain
-from .revamp import RevampVM, RevampChain
-from .morden import MordenVM, MordenChain
+from .pre import PreVM, PreChain
+from .post import PostVM, PostChain
+from .prep import PrepChain, PrepVM
 from .path_collector import PathCollector
+
 
 class Verifier:
     def __init__(self, file) -> None:
@@ -16,8 +19,8 @@ class Verifier:
         path_collector.collect_paths(function.entry_point)
         outcomes = []
         for path in path_collector.paths:
-            chain = MordenChain()
-            vm = MordenVM()
+            chain = PostChain()
+            vm = PostVM()
             for ir in path:
                 chain.add_ir(ir)
             chain.run_chain(vm)
@@ -31,14 +34,34 @@ class Verifier:
         path_collector.collect_paths(function.entry_point)
         facts = []
         for path in path_collector.paths:
-            chain = RevampChain()
-            vm = RevampVM()
+            chain = PreChain()
+            vm = PreVM()
             for ir in path:
                 chain.add_ir(ir)
             chain.run_chain(vm)
             facts.append(vm.facts)
         fact = z3.simplify(z3.Or(facts))
         print(fact)
+
+    def prepcondition(self, function: FunctionContract):
+        print(f'> {function.canonical_name}')
+        path_collector = PathCollector()
+        path_collector.collect_paths(function.entry_point)
+        # Collect all internal calls
+        internal_calls = []
+        for node in function.nodes:
+            for ir in node.irs:
+                if isinstance(ir, InternalCall):
+                    internal_calls.append(ir)
+        # Compute for each function call
+        for internal_call in internal_calls:
+            for path in path_collector.paths:
+                chain = PrepChain()
+                vm = PrepVM(internal_call)
+                for ir in path:
+                    chain.add_ir(ir)
+                chain.run_chain(vm)
+
 
     def verify_function(self, function: FunctionContract):
         print(f'> {function.canonical_name}')

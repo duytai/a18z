@@ -1,8 +1,7 @@
 import z3
 from ..legacy.utils import check_unsat
 
-
-def find_outcome(fact, hypothesis, eliminated_vars):
+def find_outcome(hypothesis, eliminated_vars):
     if not eliminated_vars:
         tmp_var = z3.FreshConst(z3.BoolSort())
         eliminated_vars.append(tmp_var)
@@ -15,10 +14,4 @@ def find_outcome(fact, hypothesis, eliminated_vars):
         z3.Tactic('simplify'),
     ).apply(z3.Exists(eliminated_vars, hypothesis))
 
-    # Remove useless
-    result = set(result[0])
-    for r in result:
-        if check_unsat(z3.And(fact, z3.Not(r))):
-            result = result - {r}
-
-    return z3.simplify(z3.And(result))
+    return z3.simplify(z3.And(*result[0]))

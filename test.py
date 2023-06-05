@@ -7,4 +7,5 @@ for contract in verifier._slither.contracts:
     for function in contract.functions:
         # verifier.verify_function(function)
         # verifier.precondition(function)
-        verifier.postcondition(function)
+        # verifier.postcondition(function)
+        verifier.prepcondition(function)

@@ -10,12 +10,12 @@ from ..legacy.ir import (
     LegacyInternalCall
 )
 from ..legacy.utils import check_sat
-from .vm import RevampVM
+from .vm import PreVM
 from .utils import find_fact
 
 
-class RevampSolidityCall(LegacySolidityCall):
-    def execute(self, vm: RevampVM):
+class PreSolidityCall(LegacySolidityCall):
+    def execute(self, vm: PreVM):
         ir = self._ir
         assert isinstance(ir, SolidityCall)
         if ir.function == SolidityFunction('assert(bool)'):
@@ -35,11 +35,13 @@ class RevampSolidityCall(LegacySolidityCall):
             vm.add_fact(fact)
         else: super().execute(vm)
 
-class RevampInternalCall(LegacyInternalCall):
-    def execute(self, vm: RevampVM):
+class PreInternalCall(LegacyInternalCall):
+    def execute(self, vm: PreVM):
         ir = self._ir
         assert isinstance(ir, InternalCall)
-        if ir.lvalue: vm.fresh_variable(ir.lvalue)
+        if ir.lvalue:
+            value = vm.fresh_variable(ir.lvalue)
+            vm.set_variable(ir.lvalue, value)
         call_vm = LegacyVM()
         # Read precondition
         for i in ir.function.nodes[1].irs:

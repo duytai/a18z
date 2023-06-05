@@ -65,9 +65,7 @@ class LegacyVM:
     def fresh_variable(self, variable):
         state = TypeState()
         TypeExplorer(variable.type, state)
-        value = z3.FreshConst(state.convert())
-        self.set_variable(variable, value)
-        return value
+        return z3.FreshConst(state.convert())
 
     def get_variable(self, variable):
         if isinstance(variable, LocalVariable):

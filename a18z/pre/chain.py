@@ -4,13 +4,13 @@ from slither.slithir.operations import (
     InternalCall
 )
 from .ir import (
-    RevampSolidityCall,
-    RevampInternalCall
+    PreSolidityCall,
+    PreInternalCall
 )
 
-class RevampChain(LegacyChain):
+class PreChain(LegacyChain):
     def add_solidity_call(self, ir: SolidityCall):
-        self._irs.append(RevampSolidityCall(ir))
+        self._irs.append(PreSolidityCall(ir))
 
     def add_internal_call(self, ir: InternalCall):
-        self._irs.append(RevampInternalCall(ir, LegacyChain()))
+        self._irs.append(PreInternalCall(ir, LegacyChain()))
