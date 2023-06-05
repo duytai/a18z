@@ -8,7 +8,8 @@ from slither.slithir.operations import (
     SolidityCall,
     EventCall,
     Return,
-    Transfer
+    Transfer,
+    TypeConversion
 )
 from .ir import (
     LegacyBinary,
@@ -19,7 +20,8 @@ from .ir import (
     LegacyInternalCall,
     LegacyReturn,
     LegacySolidityCall,
-    LegacyTransfer
+    LegacyTransfer,
+    LegacyTypeConversion
 )
 
 class LegacyChain:
@@ -56,6 +58,9 @@ class LegacyChain:
     def add_transfer(self, ir: Transfer):
         self._irs.append(LegacyTransfer(ir))
 
+    def add_type_conversion(self, ir: TypeConversion):
+        self._irs.append(LegacyTypeConversion(ir))
+
     def add_ir(self, ir):
         if isinstance(ir, Binary):
             self.add_binary(ir)
@@ -77,6 +82,8 @@ class LegacyChain:
             self.add_solidity_call(ir)
         elif isinstance(ir, Transfer):
             self.add_transfer(ir)
+        elif isinstance(ir, TypeConversion):
+            self.add_type_conversion(ir)
         else: raise ValueError(type(ir))
 
     def run_chain(self, vm): 

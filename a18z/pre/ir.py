@@ -39,6 +39,9 @@ class PreInternalCall(LegacyInternalCall):
     def execute(self, vm: PreVM):
         ir = self._ir
         assert isinstance(ir, InternalCall)
+        if ir.is_modifier_call:
+            print(f'#### {ir.function}')
+            return
         if ir.lvalue:
             value = vm.fresh_variable(ir.lvalue)
             vm.set_variable(ir.lvalue, value)

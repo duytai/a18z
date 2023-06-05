@@ -9,6 +9,7 @@ from slither.slithir.operations import (
     InternalCall,
     SolidityCall,
     Transfer,
+    TypeConversion
 )
 from slither.core.expressions.unary_operation import UnaryOperationType
 from slither.slithir.operations.return_operation import Return
@@ -127,6 +128,9 @@ class LegacyInternalCall(LegacyIR):
     def execute(self, vm: LegacyVM):
         ir = self._ir
         assert isinstance(ir, InternalCall)
+        if ir.is_modifier_call:
+            print(f'#### {ir.function}')
+            return
         # A trick if variable has been set
         if ir.lvalue and ir.lvalue not in vm._variables:
             value = vm.fresh_variable(ir.lvalue)
@@ -184,3 +188,10 @@ class LegacyTransfer(LegacyIR):
         ir = self._ir
         assert isinstance(ir, Transfer)
         # TODO: handle transfer
+
+class LegacyTypeConversion(LegacyIR):
+    def execute(self, vm: LegacyVM):
+        ir = self._ir
+        assert isinstance(ir, TypeConversion)
+        rvar = vm.get_variable(ir.variable)
+        vm.set_variable(ir.lvalue, rvar)

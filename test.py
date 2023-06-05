@@ -4,7 +4,7 @@ from a18z import (
     verify,
     precondition,
     postcondition,
-    prepcondition
+    prepcondition,
 )
 from slither import Slither
 
@@ -13,7 +13,7 @@ Injector('contracts/A.sol')
 slith = Slither('contracts/A.sol.sol')
 for contract in slith.contracts:
     for function in contract.functions:
-        if function.contract == contract:
+        if function.contract == contract and function.is_implemented:
             print(f'ver> {function.name} is {verify(function)}')
             print(f'pre> {function.name} is {precondition(function)}')
             print(f'pos> {function.name} is {postcondition(function)}')

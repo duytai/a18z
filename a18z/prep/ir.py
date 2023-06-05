@@ -12,6 +12,9 @@ class PrepInternalCall(LegacyInternalCall):
     def execute(self, vm: PrepVM):
         ir = self._ir
         assert isinstance(ir, InternalCall)
+        if ir.is_modifier_call:
+            print(f'#### {ir.function}')
+            return
         if ir == vm.internal_call:
             arguments = [vm.get_variable(x) for x in ir.arguments]
             marker_vars = [vm.fresh_variable(x) for x in ir.function.parameters]
