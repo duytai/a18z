@@ -1,8 +1,8 @@
 import z3
 from ..legacy.ir import LegacyInternalCall
 from ..post.utils import find_outcome
-from ..pre_true import PreTrueChain, PreTrueVM
-from ..post_true import PostTrueChain, PostTrueVM
+from ..pret import PreTrueChain, PreTrueVM
+from ..pre_true_post import PostTrueChain, PostTrueVM
 from ..path_collector import PathCollector
 from .vm import PrepVM
 from slither.slithir.operations import InternalCall
