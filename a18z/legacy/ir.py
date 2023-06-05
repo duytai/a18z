@@ -127,7 +127,10 @@ class LegacyInternalCall(LegacyIR):
     def execute(self, vm: LegacyVM):
         ir = self._ir
         assert isinstance(ir, InternalCall)
-        if ir.lvalue: vm.fresh_variable(ir.lvalue)
+        # A trick if variable has been set
+        if ir.lvalue and ir.lvalue not in vm._variables:
+            value = vm.fresh_variable(ir.lvalue)
+            vm.set_variable(ir.lvalue, value)
         call_vm = LegacyVM()
         # Read precondition
         for i in ir.function.nodes[1].irs:

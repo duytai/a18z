@@ -61,6 +61,8 @@ class Verifier:
                 for ir in path:
                     chain.add_ir(ir)
                 chain.run_chain(vm)
+                print(internal_call.function)
+                print(vm.prep)
 
 
     def verify_function(self, function: FunctionContract):
