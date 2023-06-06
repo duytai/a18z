@@ -3,7 +3,7 @@ from .legacy import verify
 from .post import postcondition
 from .pre import precondition
 from .prep import prepcondition
-from .fixer import fix
+from .fix import fix
 
 def inject(file):
     ij = Injector(file)
