@@ -14,9 +14,6 @@ class Injector:
         self._invariants = {}
         self._patches = {}
         self._slither = Slither(file)
-        self.parse_specification()
-        self.build_patch()
-        self.apply_patch()
 
     def parse_specification(self) -> None:
         for path, code in self._slither.source_code.items():
@@ -81,10 +78,6 @@ class Injector:
                     x = self._patches.get(path, {})
                     x.update({start: payload})
                     self._patches[path] = x
-
-    def build_patch(self) -> None:
-        self.build_patch_for_variable()
-        self.build_patch_for_function()
 
     def apply_patch(self) -> None:
         for path, x in self._patches.items():
