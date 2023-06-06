@@ -5,7 +5,7 @@ from ..path_collector import PathCollector
 from .vm import PrepVM
 from .chain import PrepChain
     
-def prepcondition(function: FunctionContract, call: InternalCall):
+def prepcondition(function: FunctionContract, call: InternalCall, query={}):
     path_collector = PathCollector()
     path_collector.collect_paths(function.entry_point)
     prep = []
@@ -14,7 +14,7 @@ def prepcondition(function: FunctionContract, call: InternalCall):
         vm = PrepVM(call)
         for ir in path:
             chain.add_ir(ir)
-        chain.run_chain(vm)
+        chain.run_chain(vm, query)
         vm.finalize(function)
         if vm.prep: prep.append(tuple(vm.prep))
     return prep

@@ -15,7 +15,7 @@ from .utils import find_fact
 
 
 class PreSolidityCall(LegacySolidityCall):
-    def execute(self, vm: PreVM):
+    def execute(self, vm: PreVM, query):
         ir = self._ir
         assert isinstance(ir, SolidityCall)
         if ir.function == SolidityFunction('assert(bool)'):
@@ -33,10 +33,10 @@ class PreSolidityCall(LegacySolidityCall):
             eliminated_vars = [x for x in variables if str(x) in eliminated_vars]
             fact = find_fact(constraints, postcondition, eliminated_vars)
             vm.add_fact(fact)
-        else: super().execute(vm)
+        else: super().execute(vm, query)
 
 class PreInternalCall(LegacyInternalCall):
-    def execute(self, vm: PreVM):
+    def execute(self, vm: PreVM, query):
         ir = self._ir
         assert isinstance(ir, InternalCall)
         if ir.is_modifier_call:

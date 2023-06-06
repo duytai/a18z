@@ -26,10 +26,10 @@ class LegacyIR:
     def __init__(self, _ir):
         self._ir = _ir
 
-    def execute(self, vm: LegacyVM): pass
+    def execute(self, vm: LegacyVM, query): pass
 
 class LegacyBinary(LegacyIR):
-    def execute(self, vm: LegacyVM):
+    def execute(self, vm: LegacyVM, query):
         ir = self._ir
         assert isinstance(ir, Binary)
         lvar = vm.get_variable(ir.variable_left)
@@ -75,7 +75,7 @@ class LegacyBinary(LegacyIR):
         vm.set_variable(ir.lvalue, result)
 
 class LegacyAssignment(LegacyIR):
-    def execute(self, vm: LegacyVM):
+    def execute(self, vm: LegacyVM, query):
         ir = self._ir
         assert isinstance(ir, Assignment)
         if isinstance(ir.lvalue, ReferenceVariable):
@@ -101,14 +101,14 @@ class LegacyAssignment(LegacyIR):
             vm.add_constraint(lvar == rvar)
 
 class LegacyCondition(LegacyIR):
-    def execute(self, vm: LegacyVM):
+    def execute(self, vm: LegacyVM, query):
         ir = self._ir
         assert isinstance(ir, Condition)
         rvar = vm.get_variable(ir.value)
         vm.add_constraint(rvar)
 
 class LegacyUnary(LegacyIR):
-    def execute(self, vm: LegacyVM):
+    def execute(self, vm: LegacyVM, query):
         ir = self._ir
         assert isinstance(ir, Unary)
         rvar = vm.get_variable(ir.rvalue)
@@ -117,7 +117,7 @@ class LegacyUnary(LegacyIR):
         else: raise ValueError(ir.type)
 
 class LegacyIndex(LegacyIR):
-    def execute(self, vm: LegacyVM):
+    def execute(self, vm: LegacyVM, query):
         ir = self._ir
         assert isinstance(ir, Index)
         lvar = vm.get_variable(ir.variable_left)
@@ -129,7 +129,7 @@ class LegacyInternalCall(LegacyIR):
         super().__init__(_ir)
         self._chain = _chain
 
-    def execute(self, vm: LegacyVM):
+    def execute(self, vm: LegacyVM, query):
         ir = self._ir
         assert isinstance(ir, InternalCall)
         if ir.is_modifier_call:
@@ -143,7 +143,7 @@ class LegacyInternalCall(LegacyIR):
         # Read precondition
         for i in ir.function.nodes[1].irs:
             self._chain.add_ir(i)
-        self._chain.run_chain(call_vm)
+        self._chain.run_chain(call_vm, query)
         # Subtitute parameters with arguments
         parameters = ir.function.parameters + ir.function.returns
         arguments = ir.arguments + [ir.lvalue]
@@ -158,7 +158,7 @@ class LegacyInternalCall(LegacyIR):
         # Read postcondition
         for i in ir.function.nodes[2].irs:
             self._chain.add_ir(i)
-        self._chain.run_chain(call_vm)
+        self._chain.run_chain(call_vm, query)
         # Handle old_
         for new_var, old_var in call_vm.olds:
             vm.substitute(new_var, old_var)
@@ -170,7 +170,7 @@ class LegacyHighLevelCall(LegacyIR):
         super().__init__(_ir)
         self._chain = _chain
 
-    def execute(self, vm: LegacyVM):
+    def execute(self, vm: LegacyVM, query):
         ir = self._ir
         assert isinstance(ir, HighLevelCall)
         # TODO
@@ -183,7 +183,7 @@ class LegacyLibraryCall(LegacyIR):
         super().__init__(_ir)
         self._chain = _chain
 
-    def execute(self, vm: LegacyVM):
+    def execute(self, vm: LegacyVM, query):
         ir = self._ir
         assert isinstance(ir, LibraryCall)
         # A trick if variable has been set
@@ -194,7 +194,7 @@ class LegacyLibraryCall(LegacyIR):
         # Read precondition
         for i in ir.function.nodes[1].irs:
             self._chain.add_ir(i)
-        self._chain.run_chain(call_vm)
+        self._chain.run_chain(call_vm, query)
         # Subtitute parameters with arguments
         parameters = ir.function.parameters + ir.function.returns
         arguments = ir.arguments + [ir.lvalue]
@@ -209,7 +209,7 @@ class LegacyLibraryCall(LegacyIR):
         # Read postcondition
         for i in ir.function.nodes[2].irs:
             self._chain.add_ir(i)
-        self._chain.run_chain(call_vm)
+        self._chain.run_chain(call_vm, query)
         # Handle old_
         for new_var, old_var in call_vm.olds:
             vm.substitute(new_var, old_var)
@@ -217,7 +217,7 @@ class LegacyLibraryCall(LegacyIR):
         vm.add_constraint(postcondition)
 
 class LegacyReturn(LegacyIR):
-    def execute(self, vm: LegacyVM):
+    def execute(self, vm: LegacyVM, query):
         ir = self._ir
         assert isinstance(ir, Return)
         for lvalue, rvalue in zip(ir.function.returns, ir.values):
@@ -227,7 +227,7 @@ class LegacyReturn(LegacyIR):
             vm.add_constraint(lvar == rvar)
 
 class LegacySolidityCall(LegacyIR):
-    def execute(self, vm: LegacyVM):
+    def execute(self, vm: LegacyVM, query):
         ir = self._ir
         assert isinstance(ir, SolidityCall)
         if ir.function == SolidityFunction('assert(bool)'):
@@ -239,13 +239,13 @@ class LegacySolidityCall(LegacyIR):
         else: raise ValueError(ir.function)
 
 class LegacyTransfer(LegacyIR):
-    def execute(self, vm: LegacyVM):
+    def execute(self, vm: LegacyVM, query):
         ir = self._ir
         assert isinstance(ir, Transfer)
         # TODO: handle transfer
 
 class LegacyTypeConversion(LegacyIR):
-    def execute(self, vm: LegacyVM):
+    def execute(self, vm: LegacyVM, query):
         ir = self._ir
         assert isinstance(ir, TypeConversion)
         rvar = vm.get_variable(ir.variable)

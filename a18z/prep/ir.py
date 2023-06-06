@@ -9,7 +9,7 @@ from .vm import PrepVM
 from slither.slithir.operations import InternalCall
 
 class PrepInternalCall(LegacyInternalCall):
-    def execute(self, vm: PrepVM):
+    def execute(self, vm: PrepVM, query):
         ir = self._ir
         assert isinstance(ir, InternalCall)
         if ir.is_modifier_call:
@@ -69,7 +69,7 @@ class PrepInternalCall(LegacyInternalCall):
             # Read precondition
             for i in ir.function.nodes[1].irs:
                 self._chain.add_ir(i)
-            self._chain.run_chain(call_vm)
+            self._chain.run_chain(call_vm, query)
             # Subtitute parameters with arguments
             parameters = ir.function.parameters + ir.function.returns
             arguments = ir.arguments + [ir.lvalue]
@@ -84,11 +84,11 @@ class PrepInternalCall(LegacyInternalCall):
             # Read postcondition
             for i in ir.function.nodes[2].irs:
                 self._chain.add_ir(i)
-            self._chain.run_chain(call_vm)
+            self._chain.run_chain(call_vm, query)
             # Handle old_
             for new_var, old_var in call_vm.olds:
                 vm.substitute(new_var, old_var)
             postcondition = z3.substitute(call_vm.postcondition, *substitutions)
             vm.add_constraint(postcondition)
         else:
-            super().execute(vm)
+            super().execute(vm, query)

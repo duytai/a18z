@@ -100,8 +100,8 @@ class LegacyChain:
             self.add_high_level_call(ir)
         else: raise ValueError(type(ir))
 
-    def run_chain(self, vm): 
+    def run_chain(self, vm, query): 
         for ir in self._irs:
-            ir.execute(vm)
+            ir.execute(vm, query)
             if vm.rev: break
         self._irs = []

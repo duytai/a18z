@@ -4,7 +4,7 @@ from ..path_collector import PathCollector
 from .chain import PreChain
 from .vm import PreVM
     
-def precondition(function: FunctionContract, postcondition=None):
+def precondition(function: FunctionContract, postcondition=None, query={}):
     path_collector = PathCollector()
     path_collector.collect_paths(function.entry_point)
     facts = []
@@ -13,7 +13,7 @@ def precondition(function: FunctionContract, postcondition=None):
         vm = PreVM(postcondition=postcondition)
         for ir in path:
             chain.add_ir(ir)
-        chain.run_chain(vm)
+        chain.run_chain(vm, query)
         vm.finalize(function)
         facts.append(vm.facts)
     return z3.simplify(z3.Or(facts))
