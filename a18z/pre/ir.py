@@ -1,11 +1,12 @@
 import z3
 from slither.slithir.operations import (
     SolidityCall,
-    InternalCall
+    InternalCall,
+    LibraryCall
 )
 from slither.core.declarations.solidity_variables import SolidityFunction
 from ..legacy.vm import LegacyVM
-from ..legacy.query import Query
+from ..legacy.query import LegacyQuery
 from ..legacy.ir import (
     LegacySolidityCall,
     LegacyInternalCall
@@ -16,7 +17,7 @@ from .utils import find_fact
 
 
 class PreSolidityCall(LegacySolidityCall):
-    def execute(self, vm: PreVM, query: Query):
+    def execute(self, vm: PreVM, query: LegacyQuery):
         ir = self._ir
         assert isinstance(ir, SolidityCall)
         if ir.function == SolidityFunction('assert(bool)'):
@@ -37,20 +38,23 @@ class PreSolidityCall(LegacySolidityCall):
         else: super().execute(vm, query)
 
 class PreInternalCall(LegacyInternalCall):
-    def execute(self, vm: PreVM, query: Query):
+    def execute(self, vm: PreVM, query: LegacyQuery):
         ir = self._ir
-        assert isinstance(ir, InternalCall)
+        assert isinstance(ir, (InternalCall, LibraryCall))
         if ir.is_modifier_call:
             print(f'#### {ir.function}')
             return
-        if ir.lvalue:
+        if ir.lvalue and ir.lvalue not in vm._variables:
             value = vm.fresh_variable(ir.lvalue)
             vm.set_variable(ir.lvalue, value)
-        call_vm = LegacyVM()
+        call_vm = LegacyVM(	
+            precondition=query.get_precondition(ir.function),	
+            postcondition=query.get_postcondition(ir.function)	
+        )
         # Read precondition
         for i in ir.function.nodes[1].irs:
             self._chain.add_ir(i)
-        self._chain.run_chain(call_vm)
+        self._chain.run_chain(call_vm, query)
         
         # Subtitute parameters with arguments
         parameters = ir.function.parameters + ir.function.returns
@@ -62,7 +66,7 @@ class PreInternalCall(LegacyInternalCall):
             substitutions.append((old_var, new_var))
         precondition = z3.substitute(call_vm.precondition, *substitutions)
         
-        # Synthesize fatc (aka precondition)
+        # Synthesize fact (aka precondition)
         constraints = vm.constraints
         reversed_subs = []
         for x, y in dict(vm.substitutions[::-1]).items():
@@ -82,7 +86,7 @@ class PreInternalCall(LegacyInternalCall):
         # Read postcondition
         for i in ir.function.nodes[2].irs:
             self._chain.add_ir(i)
-        self._chain.run_chain(call_vm)
+        self._chain.run_chain(call_vm, query)
         # Handle old_
         for new_var, old_var in call_vm.olds:
             vm.substitute(new_var, old_var)

@@ -24,10 +24,9 @@ from .ir import (
     LegacySolidityCall,
     LegacyTransfer,
     LegacyTypeConversion,
-    LegacyLibraryCall,
     LegacyHighLevelCall,
 )
-from .query import Query
+from .query import LegacyQuery
 
 class LegacyChain:
     def __init__(self) -> None:
@@ -67,7 +66,7 @@ class LegacyChain:
         self._irs.append(LegacyTypeConversion(ir))
 
     def add_library_call(self, ir: LibraryCall):
-        self._irs.append(LegacyLibraryCall(ir, LegacyChain()))
+        self._irs.append(LegacyInternalCall(ir, LegacyChain()))
 
     def add_high_level_call(self, ir: HighLevelCall):
         self._irs.append(LegacyHighLevelCall(ir, LegacyChain()))
@@ -101,7 +100,7 @@ class LegacyChain:
             self.add_high_level_call(ir)
         else: raise ValueError(type(ir))
 
-    def run_chain(self, vm, query: Query): 
+    def run_chain(self, vm, query: LegacyQuery): 
         for ir in self._irs:
             ir.execute(vm, query)
             if vm.rev: break

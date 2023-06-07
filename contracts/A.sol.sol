@@ -125,9 +125,9 @@ contract BNB is SafeMath{string old_name;string old_symbol;uint8 old_decimals;ui
         return true;
     }
 
-    /// ensures(true, totalSupply == old(totalSupply) + _value)
-    function burn(uint256 _value) returns (bool success) {(bool __v1, bool __v2)=(true, totalSupply == old_totalSupply + _value);require(_value >= 0);require(totalSupply >= 0);
-        if (balanceOf[msg.sender] < _value) throw;            // Check if the sender has enough
+    /// ensures(true, totalSupply == old(totalSupply) - _value)
+    function burn(uint256 _value) returns (bool success) {(bool __v1, bool __v2)=(true, totalSupply == old_totalSupply - _value);require(_value >= 0);require(totalSupply >= 0);
+        // if (balanceOf[msg.sender] < _value) throw;            // Check if the sender has enough
         if (_value <= 0) throw; 
         balanceOf[msg.sender] = SafeMath.safeSub(balanceOf[msg.sender], _value);                      // Subtract from the sender
         totalSupply = SafeMath.safeSub(totalSupply,_value);                                // Updates totalSupply

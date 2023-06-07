@@ -2,7 +2,7 @@ import networkx as nx
 from slither.slithir.operations import InternalCall
 
 from .state import State
-from ..legacy import verify
+from ..legacy import verify, LegacyQuery
 from ..pre import precondition
 
 class Task:
@@ -39,15 +39,16 @@ class BuildInternalCall(Task):
 
 class FixFunction(Task):
     def execute(self, state: State):
-        if state.all_verified():
+        query = LegacyQuery()
+        if state.all_verified(query):
             print('Hum? all are verified')
             return
         functions = list(nx.topological_sort(state.call_graph))[::-1]
         for function in functions:
-            if not verify(function):
+            if not verify(function, query):
+                print(f'fix> {function}')
                 pre_ = precondition(function)
-                query = {
-                    function.canonical_name: (pre_, None)
-                }
+                query.add_precondition(function, pre_)
                 state.all_verified(query)
+                query.clear()
                 break
