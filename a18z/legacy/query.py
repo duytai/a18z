@@ -21,6 +21,10 @@ class LegacyQuery:
         name = function.canonical_name
         return self._post_conditions.get(name)
 
-    def clear(self):
-        self._pre_conditions = {}
-        self._post_conditions = {}
+    def __str__(self) -> str:
+        results = []
+        for k, v in self._pre_conditions.items():
+            results.append(f'> Pre of `{k}` is {v}')
+        for k, v in self._post_conditions.items():
+            results.append(f'> Post of `{k}` is {v}')
+        return '\n'.join(results)

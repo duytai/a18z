@@ -2,8 +2,8 @@ import networkx as nx
 from slither.slithir.operations import InternalCall
 
 from .state import State
-from ..legacy import verify, LegacyQuery
-from ..pre import precondition
+from ..legacy import LegacyQuery
+from a18z import precondition, postcondition, prepcondition, verify
 
 class Task:
     def execute(self, state: State): pass
@@ -39,16 +39,37 @@ class BuildInternalCall(Task):
 
 class FixFunction(Task):
     def execute(self, state: State):
-        query = LegacyQuery()
-        if state.all_verified(query):
+        if state.is_verified():
             print('Hum? all are verified')
             return
-        functions = list(nx.topological_sort(state.call_graph))[::-1]
-        for function in functions:
-            if not verify(function, query):
-                print(f'fix> {function}')
-                pre_ = precondition(function)
-                query.add_precondition(function, pre_)
-                state.all_verified(query)
-                query.clear()
-                break
+        # Fix pre
+        for function in state.functions:
+            pre_ = precondition(function)
+            query = LegacyQuery()
+            query.add_precondition(function, pre_)
+            if state.is_verified(query):
+                print(f'{query} @ True')
+            else:
+                print(f'{query} @ False')
+        # Fix post
+        for function in state.functions:
+            post_ = postcondition(function)
+            query = LegacyQuery()
+            query.add_postcondition(function, post_)
+            if state.is_verified(query):
+                print(f'{query} @ True')
+            else:
+                print(f'{query} @ False')
+        # Function call
+        for function in state.functions:
+            for node in function.nodes:
+                for ir in node.irs:
+                    if isinstance(ir, InternalCall):
+                        for pre_, post_ in prepcondition(ir):
+                            query = LegacyQuery()
+                            query.add_precondition(ir.function, pre_)
+                            query.add_postcondition(ir.function, post_)
+                            if state.is_verified(query):
+                                print(f'{query} @ True')
+                            else:
+                                print(f'{query} @ False')

@@ -25,14 +25,11 @@ class State:
     def internal_calls(self):
         return self._internal_calls
 
-    def all_verified(self, query: LegacyQuery) -> bool:
-        is_verified = True
+    def is_verified(self, query: LegacyQuery=LegacyQuery()):
+        r = True
         for function in self._functions:
-            r = verify(function, query)
-            if not r:
-                print(f'failed> {function}')
-            is_verified = is_verified and r
-        return is_verified
+            r = r and verify(function, query)
+        return r
 
     def add_function(self, val):
         self._functions.add(val)

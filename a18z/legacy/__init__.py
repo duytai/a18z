@@ -4,7 +4,7 @@ from .chain import LegacyChain
 from .vm import LegacyVM
 from .query import LegacyQuery
 
-def verify(function: FunctionContract, query: LegacyQuery):
+def verify(function: FunctionContract, query: LegacyQuery = LegacyQuery()):
     path_collector = PathCollector()
     path_collector.collect_paths(function.entry_point)
     is_verified = True

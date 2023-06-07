@@ -3,8 +3,8 @@ from ..legacy import LegacyVM
 from .utils import find_outcome
 
 class PostVM(LegacyVM):
-    def __init__(self, precondition=None, postcondition=None) -> None:
-        super().__init__(precondition, postcondition)
+    def __init__(self, precondition=None) -> None:
+        super().__init__(precondition, None)
         self._outcomes = []
 
     @property

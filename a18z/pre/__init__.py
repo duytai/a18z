@@ -1,16 +1,17 @@
 import z3
 from slither.core.declarations.function_contract import FunctionContract
 from ..path_collector import PathCollector
+from ..legacy import LegacyQuery
 from .chain import PreChain
 from .vm import PreVM
     
-def precondition(function: FunctionContract, postcondition=None, query=None):
+def precondition(function: FunctionContract, postcondition=None, query: LegacyQuery=LegacyQuery()):
     path_collector = PathCollector()
     path_collector.collect_paths(function.entry_point)
     facts = []
     for path in path_collector.paths:
         chain = PreChain()
-        vm = PreVM(postcondition=postcondition)
+        vm = PreVM(postcondition)
         for ir in path:
             chain.add_ir(ir)
         chain.run_chain(vm, query)
