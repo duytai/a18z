@@ -5,6 +5,7 @@ from slither.slithir.operations import (
 )
 from slither.core.declarations.solidity_variables import SolidityFunction
 from ..legacy.vm import LegacyVM
+from ..legacy.query import Query
 from ..legacy.ir import (
     LegacySolidityCall,
     LegacyInternalCall
@@ -15,7 +16,7 @@ from .utils import find_fact
 
 
 class PreSolidityCall(LegacySolidityCall):
-    def execute(self, vm: PreVM, query):
+    def execute(self, vm: PreVM, query: Query):
         ir = self._ir
         assert isinstance(ir, SolidityCall)
         if ir.function == SolidityFunction('assert(bool)'):
@@ -36,7 +37,7 @@ class PreSolidityCall(LegacySolidityCall):
         else: super().execute(vm, query)
 
 class PreInternalCall(LegacyInternalCall):
-    def execute(self, vm: PreVM, query):
+    def execute(self, vm: PreVM, query: Query):
         ir = self._ir
         assert isinstance(ir, InternalCall)
         if ir.is_modifier_call:

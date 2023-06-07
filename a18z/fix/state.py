@@ -25,10 +25,10 @@ class State:
     def internal_calls(self):
         return self._internal_calls
 
-    def all_verified(self) -> bool:
+    def all_verified(self, query={}) -> bool:
         is_verified = True
         for function in self._functions:
-            is_verified = is_verified and verify(function)
+            is_verified = is_verified and verify(function, query=query)
         return is_verified
 
     def add_function(self, val):

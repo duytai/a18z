@@ -2,6 +2,7 @@ import z3
 from ..legacy.ir import LegacyInternalCall
 from ..legacy.vm import LegacyVM
 from ..legacy.utils import check_sat
+from ..legacy.query import Query
 from ..post.utils import find_outcome
 from ..pre import precondition as find_pre
 from ..post import postcondition as find_post
@@ -9,7 +10,7 @@ from .vm import PrepVM
 from slither.slithir.operations import InternalCall
 
 class PrepInternalCall(LegacyInternalCall):
-    def execute(self, vm: PrepVM, query):
+    def execute(self, vm: PrepVM, query: Query):
         ir = self._ir
         assert isinstance(ir, InternalCall)
         if ir.is_modifier_call:

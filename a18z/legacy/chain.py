@@ -27,6 +27,7 @@ from .ir import (
     LegacyLibraryCall,
     LegacyHighLevelCall,
 )
+from .query import Query
 
 class LegacyChain:
     def __init__(self) -> None:
@@ -100,7 +101,7 @@ class LegacyChain:
             self.add_high_level_call(ir)
         else: raise ValueError(type(ir))
 
-    def run_chain(self, vm, query): 
+    def run_chain(self, vm, query: Query): 
         for ir in self._irs:
             ir.execute(vm, query)
             if vm.rev: break

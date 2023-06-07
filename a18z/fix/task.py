@@ -46,6 +46,8 @@ class FixFunction(Task):
         for function in functions:
             if not verify(function):
                 pre_ = precondition(function)
-                print(function)
-                print(pre_)
+                query = {
+                    function.canonical_name: (pre_, None)
+                }
+                state.all_verified(query)
                 break

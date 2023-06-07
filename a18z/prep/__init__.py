@@ -5,7 +5,8 @@ from ..path_collector import PathCollector
 from .vm import PrepVM
 from .chain import PrepChain
     
-def prepcondition(function: FunctionContract, call: InternalCall, query={}):
+def prepcondition(call: InternalCall, query=None):
+    function = call.node.function
     path_collector = PathCollector()
     path_collector.collect_paths(function.entry_point)
     prep = []

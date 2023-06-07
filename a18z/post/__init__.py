@@ -4,7 +4,7 @@ from ..path_collector import PathCollector
 from .chain import PostChain
 from .vm import PostVM
 
-def postcondition(function: FunctionContract, precondition=None, query={}):
+def postcondition(function: FunctionContract, precondition=None, query=None):
     path_collector = PathCollector()
     path_collector.collect_paths(function.entry_point)
     outcomes = []

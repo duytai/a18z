@@ -4,7 +4,7 @@ from ..path_collector import PathCollector
 from .chain import PreChain
 from .vm import PreVM
     
-def precondition(function: FunctionContract, postcondition=None, query={}):
+def precondition(function: FunctionContract, postcondition=None, query=None):
     path_collector = PathCollector()
     path_collector.collect_paths(function.entry_point)
     facts = []

@@ -3,7 +3,7 @@ from ..path_collector import PathCollector
 from .chain import LegacyChain
 from .vm import LegacyVM
 
-def verify(function: FunctionContract, query={}):
+def verify(function: FunctionContract, query=None):
     path_collector = PathCollector()
     path_collector.collect_paths(function.entry_point)
     is_verified = True

@@ -4,7 +4,7 @@ from .task import (
     EnumerateFunction,
     BuildCallGraph,
     BuildInternalCall,
-    FixFunction,
+    FixFunction
 )
 
 def fix(file):
@@ -14,7 +14,7 @@ def fix(file):
         EnumerateFunction(),
         BuildCallGraph(),
         BuildInternalCall(),
-        FixFunction(),
+        FixFunction()
     ]
     for task in tasks:
         chain.add_task(task)
