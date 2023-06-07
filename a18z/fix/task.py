@@ -1,5 +1,6 @@
+import sexpdata
+import networkx as nx
 from slither.slithir.operations import InternalCall
-
 from .state import State
 from a18z import (
     precondition,
@@ -42,6 +43,19 @@ class BuildInternalCall(Task):
                         state.add_internal_call(ir)
 
 class FixFunction(Task):
+    def build_graph(self, sexpr):
+        def add_node(expr, G: nx.Graph):
+            node, *args = expr if isinstance(expr, list) else [expr]
+            n = G.number_of_nodes()
+            G.add_node(n, label=node)
+            G.graph[n] = node
+            for arg in args:
+                G.add_edge(n, add_node(arg, G))
+            return n
+        G = nx.Graph()
+        add_node(sexpr, G)
+        return G
+
     def execute(self, state: State):
         if state.is_verified():
             print('Hum? all are verified')
@@ -56,8 +70,10 @@ class FixFunction(Task):
             query.add_precondition(function, pre_)
             if state.is_verified(query):
                 print(f'{query} @ True')
-            else:
-                print(f'{query} @ False')
+                # origin_ = root_query.get_precondition(function)
+                # g0 = self.build_graph(sexpdata.loads(origin_.sexpr()))
+                # g1 = self.build_graph(sexpdata.loads(pre_.sexpr()))
+                # print(nx.graph_edit_distance(g0, g1))
         # Fix post
         for function in state.functions:
             post_ = postcondition(function)
@@ -65,8 +81,10 @@ class FixFunction(Task):
             query.add_postcondition(function, post_)
             if state.is_verified(query):
                 print(f'{query} @ True')
-            else:
-                print(f'{query} @ False')
+                # origin_ = root_query.get_postcondition(function)
+                # g0 = self.build_graph(sexpdata.loads(origin_.sexpr()))
+                # g1 = self.build_graph(sexpdata.loads(post_.sexpr()))
+                # print(nx.graph_edit_distance(g0, g1))
         # Function call
         for function in state.functions:
             for node in function.nodes:
@@ -78,5 +96,12 @@ class FixFunction(Task):
                             query.add_postcondition(ir.function, post_)
                             if state.is_verified(query):
                                 print(f'{query} @ True')
-                            else:
-                                print(f'{query} @ False')
+                                # origin_ = root_query.get_precondition(function)
+                                # g0 = self.build_graph(sexpdata.loads(origin_.sexpr()))
+                                # g1 = self.build_graph(sexpdata.loads(pre_.sexpr()))
+                                # d0 = nx.graph_edit_distance(g0, g1)
+                                # origin_ = root_query.get_postcondition(function)
+                                # g0 = self.build_graph(sexpdata.loads(origin_.sexpr()))
+                                # g1 = self.build_graph(sexpdata.loads(post_.sexpr()))
+                                # d1 = nx.graph_edit_distance(g0, g1)
+                                # print(d0 + d1)
