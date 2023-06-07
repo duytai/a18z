@@ -1,6 +1,6 @@
 import networkx as nx
 from slither import Slither
-from ..legacy import verify, LegacyQuery
+from a18z import verify, LegacyQuery
 
 class State:
     def __init__(self, file) -> None:

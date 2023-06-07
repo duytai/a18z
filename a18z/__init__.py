@@ -1,5 +1,5 @@
 from .injector import Injector
-from .legacy import verify
+from .legacy import verify, collect, LegacyQuery
 from .post import postcondition
 from .pre import precondition
 from .prep import prepcondition

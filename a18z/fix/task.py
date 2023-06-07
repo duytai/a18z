@@ -1,9 +1,13 @@
-import networkx as nx
 from slither.slithir.operations import InternalCall
 
 from .state import State
-from ..legacy import LegacyQuery
-from a18z import precondition, postcondition, prepcondition, verify
+from a18z import (
+    precondition,
+    postcondition,
+    prepcondition,
+    LegacyQuery,
+    collect
+)
 
 class Task:
     def execute(self, state: State): pass
@@ -42,6 +46,9 @@ class FixFunction(Task):
         if state.is_verified():
             print('Hum? all are verified')
             return
+        root_query = LegacyQuery()
+        for function in state.functions:
+            collect(function, root_query)
         # Fix pre
         for function in state.functions:
             pre_ = precondition(function)
