@@ -70,10 +70,8 @@ class FixFunction(Task):
             query.add_precondition(function, pre_)
             if state.is_verified(query):
                 print(f'{query} @ True')
-                # origin_ = root_query.get_precondition(function)
-                # g0 = self.build_graph(sexpdata.loads(origin_.sexpr()))
-                # g1 = self.build_graph(sexpdata.loads(pre_.sexpr()))
-                # print(nx.graph_edit_distance(g0, g1))
+            else:
+                print(f'{query} @ False')
         # Fix post
         for function in state.functions:
             post_ = postcondition(function)
@@ -81,10 +79,8 @@ class FixFunction(Task):
             query.add_postcondition(function, post_)
             if state.is_verified(query):
                 print(f'{query} @ True')
-                # origin_ = root_query.get_postcondition(function)
-                # g0 = self.build_graph(sexpdata.loads(origin_.sexpr()))
-                # g1 = self.build_graph(sexpdata.loads(post_.sexpr()))
-                # print(nx.graph_edit_distance(g0, g1))
+            else:
+                print(f'{query} @ False')
         # Function call
         for function in state.functions:
             for node in function.nodes:
@@ -96,12 +92,5 @@ class FixFunction(Task):
                             query.add_postcondition(ir.function, post_)
                             if state.is_verified(query):
                                 print(f'{query} @ True')
-                                # origin_ = root_query.get_precondition(function)
-                                # g0 = self.build_graph(sexpdata.loads(origin_.sexpr()))
-                                # g1 = self.build_graph(sexpdata.loads(pre_.sexpr()))
-                                # d0 = nx.graph_edit_distance(g0, g1)
-                                # origin_ = root_query.get_postcondition(function)
-                                # g0 = self.build_graph(sexpdata.loads(origin_.sexpr()))
-                                # g1 = self.build_graph(sexpdata.loads(post_.sexpr()))
-                                # d1 = nx.graph_edit_distance(g0, g1)
-                                # print(d0 + d1)
+                            else:
+                                print(f'{query} @ False')
