@@ -68,6 +68,13 @@ class LegacyBinary(LegacyIR):
             lvar = vm.get_variable(ir.lvalue)
             assert z3.is_select(lvar)
             base, index = lvar.children()
+            if z3.is_select(base):
+                root, _ = base.children()
+                tmp = vm.substitute(root)
+                result = z3.Store(base, index, result)
+                result = z3.substitute(result, (root, tmp))
+                vm.add_constraint(base == result)
+                return
             rvar = z3.Store(base, index, result)
             tmp = vm.substitute(base)
             rvar = z3.substitute(rvar, (base, tmp))
