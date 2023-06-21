@@ -107,6 +107,7 @@ class EvaluateInference(Task):
         p_value = 0
         for function in state.functions:
             print(f'> Function {function.canonical_name}')
+            print(f'> Verified {verify(function)}')
             pre_ = precondition(function)
             print(f'{Color.YELLOW}{pre_}{Color.OFF}')
             if str(pre_) != 'True':
@@ -114,7 +115,7 @@ class EvaluateInference(Task):
         end = timer()
         print(f'#F: {len(state.functions)}')
         print(f'#D: {end - start}')
-        print(f'#P: {p_value}')
+        print(f'#P: {p_value} ({round(p_value / len(state.functions) * 100)})')
         print('::: Postcondition :::')
         start = timer()
         p_value = 0
@@ -127,4 +128,4 @@ class EvaluateInference(Task):
         end = timer()
         print(f'#F: {len(state.functions)}')
         print(f'#D: {end - start}')
-        print(f'#Q: {p_value}')
+        print(f'#Q: {p_value} ({round(p_value / len(state.functions) * 100)})')

@@ -115,7 +115,7 @@ contract BAToken is StandardToken, SafeMath {
     event LogRefund(address indexed _to, uint256 _value);
     event CreateBAT(address indexed _to, uint256 _value);
 
-    /// ensures(true, true)
+    /// ensures(true, !isFinalized && ethFundDeposit == _ethFundDeposit && batFundDeposit == _batFundDeposit && fundingStartBlock == _fundingStartBlock && fundingEndBlock == _fundingEndBlock && totalSupply == batFund && balances[batFundDeposit] == batFund)
     function BAToken(
         address _ethFundDeposit,
         address _batFundDeposit,

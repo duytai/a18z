@@ -115,13 +115,13 @@ contract BAToken is StandardToken, SafeMath {string old_name;string old_symbol;u
     event LogRefund(address indexed _to, uint256 _value);
     event CreateBAT(address indexed _to, uint256 _value);
 
-    /// ensures(true, true)
+    /// ensures(true, !isFinalized && ethFundDeposit == _ethFundDeposit && batFundDeposit == _batFundDeposit && fundingStartBlock == _fundingStartBlock && fundingEndBlock == _fundingEndBlock && totalSupply == batFund && balances[batFundDeposit] == batFund)
     function BAToken(
         address _ethFundDeposit,
         address _batFundDeposit,
         uint256 _fundingStartBlock,
         uint256 _fundingEndBlock)
-    {(bool __v1, bool __v2)=(true, true);require(_fundingStartBlock >= 0);require(_fundingEndBlock >= 0);require(batFund >= 0);
+    {(bool __v1, bool __v2)=(true, !isFinalized && ethFundDeposit == _ethFundDeposit && batFundDeposit == _batFundDeposit && fundingStartBlock == _fundingStartBlock && fundingEndBlock == _fundingEndBlock && totalSupply == batFund && balances[batFundDeposit] == batFund);require(_fundingStartBlock >= 0);require(_fundingEndBlock >= 0);require(batFund >= 0);
       isFinalized = false;                   //controls pre through crowdsale state
       ethFundDeposit = _ethFundDeposit;
       batFundDeposit = _batFundDeposit;
