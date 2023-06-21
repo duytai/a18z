@@ -9,6 +9,7 @@ from slither.slithir.operations import (
     InternalCall,
     SolidityCall,
     Transfer,
+    Send,
     TypeConversion,
     LibraryCall
 )
@@ -17,6 +18,7 @@ from slither.core.expressions.unary_operation import UnaryOperationType
 from slither.slithir.operations.return_operation import Return
 from slither.slithir.variables.reference import ReferenceVariable
 from slither.core.declarations.solidity_variables import SolidityFunction
+from a18z.legacy.query import LegacyQuery
 
 from a18z.legacy.vm import LegacyVM
 from .vm import LegacyVM
@@ -216,6 +218,13 @@ class LegacyTransfer(LegacyIR):
         ir = self._ir
         assert isinstance(ir, Transfer)
         # TODO: handle transfer
+    
+class LegacySend(LegacyIR):
+    def execute(self, vm: LegacyVM, query: LegacyQuery):
+        ir = self._ir
+        assert isinstance(ir, Send)
+        rvar = z3.BoolVal(True)
+        vm.set_variable(ir.lvalue, rvar)
 
 class LegacyTypeConversion(LegacyIR):
     def execute(self, vm: LegacyVM, query: LegacyQuery):

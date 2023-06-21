@@ -1,13 +1,18 @@
 import sexpdata
 import networkx as nx
+from timeit import default_timer as timer
 from slither.slithir.operations import InternalCall
+from colorist import Color
+
+from a18z.fix.state import State
 from .state import State
 from a18z import (
     precondition,
     postcondition,
     prepcondition,
     LegacyQuery,
-    collect
+    collect,
+    verify
 )
 
 class Task:
@@ -94,3 +99,32 @@ class FixFunction(Task):
                                 print(f'{query} @ True')
                             else:
                                 print(f'{query} @ False')
+
+class EvaluateInference(Task):
+    def execute(self, state: State):
+        print('::: Precondition :::')
+        start = timer()
+        p_value = 0
+        for function in state.functions:
+            print(f'> Function {function.canonical_name}')
+            pre_ = precondition(function)
+            print(f'{Color.YELLOW}{pre_}{Color.OFF}')
+            if str(pre_) != 'True':
+                p_value += 1
+        end = timer()
+        print(f'#F: {len(state.functions)}')
+        print(f'#D: {end - start}')
+        print(f'#P: {p_value}')
+        print('::: Postcondition :::')
+        start = timer()
+        p_value = 0
+        for function in state.functions:
+            print(f'> Function {function.canonical_name}')
+            post_ = postcondition(function)
+            print(f'{Color.YELLOW}{post_}{Color.OFF}')
+            if str(post_) != 'False':
+                p_value += 1
+        end = timer()
+        print(f'#F: {len(state.functions)}')
+        print(f'#D: {end - start}')
+        print(f'#Q: {p_value}')

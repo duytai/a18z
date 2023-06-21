@@ -1,4 +1,6 @@
 from slither.core.declarations import FunctionContract
+from .printer import pp
+from colorist import Color
 
 class LegacyQuery:
     def __init__(self) -> None:
@@ -24,7 +26,7 @@ class LegacyQuery:
     def __str__(self) -> str:
         results = []
         for k, v in self._preconditions.items():
-            results.append(f'> Pre of `{k}` is {v}')
+            results.append(f'> Pre of `{k}` is {Color.YELLOW}{v}{Color.OFF}')
         for k, v in self._postconditions.items():
-            results.append(f'> Post of `{k}` is {v}')
+            results.append(f'> Post of `{k}` is {Color.YELLOW}{v}{Color.OFF}')
         return '\n'.join(results)

@@ -4,7 +4,8 @@ from .task import (
     EnumerateFunction,
     BuildCallGraph,
     BuildInternalCall,
-    FixFunction
+    FixFunction,
+    EvaluateInference,
 )
 
 def fix(file):
@@ -15,6 +16,17 @@ def fix(file):
         BuildCallGraph(),
         BuildInternalCall(),
         FixFunction()
+    ]
+    for task in tasks:
+        chain.add_task(task)
+    chain.run_chain(state)
+
+def rq1(file):
+    state = State(file)
+    chain = FixChain()
+    tasks = [
+        EnumerateFunction(),
+        EvaluateInference(),
     ]
     for task in tasks:
         chain.add_task(task)
