@@ -142,7 +142,7 @@ class LegacyInternalCall(LegacyIR):
     def execute(self, vm: LegacyVM, query: LegacyQuery):
         ir = self._ir
         assert isinstance(ir, (InternalCall, LibraryCall))
-        if ir.is_modifier_call:
+        if hasattr(ir, 'is_modifier_call'):
             print(f'#### {ir.function}')
             return
         # A trick if variable has been set
