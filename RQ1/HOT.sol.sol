@@ -279,8 +279,8 @@ contract HoloToken is Ownable {string old_name;string old_symbol;uint8 old_decim
   function setDestroyer(address _destroyer) external onlyOwner {(bool __v1, bool __v2)=(msg.sender == owner, destroyer == _destroyer);
     destroyer = _destroyer;
   }
-  /// ensures(msg.sender == destroyer && balances[destroyer] >= _amount && _amount > 0, balances[destroyer] == old(balances[destroyer]) - _amount && totalSupply == old(totalSupply) - _amount)
-  function burn(uint256 _amount) external onlyDestroyer {(bool __v1, bool __v2)=(msg.sender == destroyer && balances[destroyer] >= _amount && _amount > 0, balances[destroyer] == old_balances[destroyer] - _amount && totalSupply == old_totalSupply - _amount);require(_amount >= 0);require(totalSupply >= 0);
+  /// ensures(msg.sender == destroyer && balances[destroyer] >= _amount && _amount > 0 && totalSupply >= _amount, balances[destroyer] == old(balances[destroyer]) - _amount && totalSupply == old(totalSupply) - _amount)
+  function burn(uint256 _amount) external onlyDestroyer {(bool __v1, bool __v2)=(msg.sender == destroyer && balances[destroyer] >= _amount && _amount > 0 && totalSupply >= _amount, balances[destroyer] == old_balances[destroyer] - _amount && totalSupply == old_totalSupply - _amount);require(_amount >= 0);require(totalSupply >= 0);
     require(balances[destroyer] >= _amount && _amount > 0);
     balances[destroyer] = balances[destroyer].sub(_amount);
     totalSupply = totalSupply.sub(_amount);

@@ -279,7 +279,7 @@ contract HoloToken is Ownable {
   function setDestroyer(address _destroyer) external onlyOwner {
     destroyer = _destroyer;
   }
-  /// ensures(msg.sender == destroyer && balances[destroyer] >= _amount && _amount > 0, balances[destroyer] == old(balances[destroyer]) - _amount && totalSupply == old(totalSupply) - _amount)
+  /// ensures(msg.sender == destroyer && balances[destroyer] >= _amount && _amount > 0 && totalSupply >= _amount, balances[destroyer] == old(balances[destroyer]) - _amount && totalSupply == old(totalSupply) - _amount)
   function burn(uint256 _amount) external onlyDestroyer {
     require(balances[destroyer] >= _amount && _amount > 0);
     balances[destroyer] = balances[destroyer].sub(_amount);
