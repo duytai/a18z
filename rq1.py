@@ -1,7 +1,7 @@
 from a18z import inject, rq1
 
-# inject('RQ1/BAT.sol')
-# rq1('RQ1/BAT.sol.sol')
+inject('RQ1/BAT.sol')
+rq1('RQ1/BAT.sol.sol')
 
 # inject('RQ1/BNB.sol')
 # rq1('RQ1/BNB.sol.sol')
@@ -24,5 +24,8 @@ from a18z import inject, rq1
 # inject('RQ1/ZIL.sol')
 # rq1('RQ1/ZIL.sol.sol')
 
-inject('RQ1/NXM.sol')
-rq1('RQ1/NXM.sol.sol')
+# inject('RQ1/NXM.sol')
+# rq1('RQ1/NXM.sol.sol')
+
+# inject('RQ1/SHIB.sol')
+# rq1('RQ1/SHIB.sol.sol')

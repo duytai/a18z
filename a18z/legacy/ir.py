@@ -218,6 +218,9 @@ class LegacySolidityCall(LegacyIR):
         elif ir.function == SolidityFunction('require(bool)'):
             precondition = vm.get_variable(ir.arguments[0])
             vm.add_constraint(precondition)
+        elif ir.function == SolidityFunction('require(bool,string)'):
+            precondition = vm.get_variable(ir.arguments[0])
+            vm.add_constraint(precondition)
         else: raise ValueError(ir.function)
 
 class LegacyTransfer(LegacyIR):
