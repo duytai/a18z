@@ -89,10 +89,17 @@ class LegacyAssignment(LegacyIR):
         ir = self._ir
         assert isinstance(ir, Assignment)
         if isinstance(ir.lvalue, ReferenceVariable):
+            rvar = vm.get_variable(ir.rvalue)
             lvar = vm.get_variable(ir.lvalue)
             assert z3.is_select(lvar)
             base, index = lvar.children()
-            rvar = vm.get_variable(ir.rvalue)
+            if z3.is_select(base):
+                root, _ = base.children()
+                tmp = vm.substitute(root)
+                result = z3.Store(base, index, rvar)
+                result = z3.substitute(result, (root, tmp))
+                vm.add_constraint(base == result)
+                return
             rvar = z3.Store(base, index, rvar)
             tmp = vm.substitute(base)
             rvar = z3.substitute(rvar, (base, tmp))
