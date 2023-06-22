@@ -22,12 +22,12 @@ library SafeMath {
     @post msg == msg__post
    */
   /* CertiK Smart Labelling, for more details visit: https://certik.org */
-  /// ensures(true, c == a * b)
-  function mul(uint256 a, uint256 b) internal pure returns (uint256 c) {
+  /// ensures(true, r == a * b)
+  function mul(uint256 a, uint256 b) internal pure returns (uint256 r) {
     if (a == 0) {
       return 0;
     }
-    c = a * b;
+    uint c = a * b;
     // assert(c / a == b);
     return c;
   }
@@ -80,9 +80,9 @@ library SafeMath {
     @post msg == msg__post
    */
   /* CertiK Smart Labelling, for more details visit: https://certik.org */
-  /// ensures(true, c == a + b)
-  function add(uint256 a, uint256 b) internal pure returns (uint256 c) {
-    c = a + b;
+  /// ensures(true, r == a + b)
+  function add(uint256 a, uint256 b) internal pure returns (uint256 r) {
+    uint c = a + b;
     assert(c >= a);
     return c;
   }
@@ -448,7 +448,7 @@ contract IoTeXNetwork is StandardToken, Pausable {
       @post __has_overflow == false
      */
     /* CertiK Smart Labelling, for more details visit: https://certik.org */
-    /// ensures(!paused && _to != address(0x0) && _to != address(this), true)
+    /// ensures(!paused && _to != address(0x0) && _to != address(this) && msg.sender != _to && _value <= balances[msg.sender], true)
     function transfer(address _to, uint _value) whenNotPaused
         validDestination(_to)
         returns (bool) {
@@ -466,7 +466,7 @@ contract IoTeXNetwork is StandardToken, Pausable {
       @post __has_overflow == false
      */
     /* CertiK Smart Labelling, for more details visit: https://certik.org */
-    /// ensures(!paused && _to != address(0x0) && _to != address(this))
+    /// ensures(!paused && _to != address(0x0) && _to != address(this) && _from != _to && _value <= balances[_from] && _value <= allowed[_from][msg.sender], true)
     function transferFrom(address _from, address _to, uint _value) whenNotPaused
         validDestination(_to)
         returns (bool) {
@@ -513,7 +513,7 @@ contract IoTeXNetwork is StandardToken, Pausable {
       @post __has_overflow == false
      */
     /* CertiK Smart Labelling, for more details visit: https://certik.org */
-    /// ensures(!paused, true)
+    /// ensures(!paused && _subtractedValue <= allowed[msg.sender][_spender], true)
     function decreaseApproval(address _spender, uint _subtractedValue) public whenNotPaused
       returns (bool success) {
       return super.decreaseApproval(_spender, _subtractedValue);
