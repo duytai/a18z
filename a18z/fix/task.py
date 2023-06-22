@@ -106,8 +106,8 @@ class EvaluateInference(Task):
         start = timer()
         p_value = 0
         for function in state.functions:
-            print(f'> Function {function.canonical_name}')
-            print(f'> Verified {verify(function)}')
+            if not verify(function):
+                print(f'> Function {function.canonical_name}')
             pre_ = precondition(function)
             print(f'{Color.YELLOW}{pre_}{Color.OFF}')
             if str(pre_) != 'True':

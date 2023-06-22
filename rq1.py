@@ -18,5 +18,8 @@ from a18z import inject, rq1
 # inject('RQ1/QNT.sol')
 # rq1('RQ1/QNT.sol.sol')
 
-inject('RQ1/MANA.sol')
-rq1('RQ1/MANA.sol.sol')
+# inject('RQ1/MANA.sol')
+# rq1('RQ1/MANA.sol.sol')
+
+inject('RQ1/ZIL.sol')
+rq1('RQ1/ZIL.sol.sol')
