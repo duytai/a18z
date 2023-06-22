@@ -224,7 +224,7 @@ contract BasicToken is ERC20Basic {
   /**
   * @dev total number of tokens in existence
   */
-  /// ensures(true, r )
+  /// ensures(true, r == totalSupply_)
   function totalSupply() public view returns (uint256 r) {
     return totalSupply_;
   }
@@ -253,6 +253,7 @@ contract BasicToken is ERC20Basic {
     @post __post.balances[msg.sender] == balances[msg.sender] - _value
    */
   /* CertiK Smart Labelling, for more details visit: https://certik.org */
+  /// ensures(msg.sender != _to && _to != address(0) && _value <= balances[msg.sender], balances[msg.sender] == old(balances[msg.sender]) - _value && balances[_to] == old(balances[_to]) + _value)
   function transfer(address _to, uint256 _value) public returns (bool) {
     require(_to != address(0));
     require(_value <= balances[msg.sender]);
@@ -273,7 +274,8 @@ contract BasicToken is ERC20Basic {
     @post __return == balances[_owner]
    */
   /* CertiK Smart Labelling, for more details visit: https://certik.org */
-  function balanceOf(address _owner) public view returns (uint256) {
+  /// ensures(true, r == balances[_owner])
+  function balanceOf(address _owner) public view returns (uint256 r) {
     return balances[_owner];
   }
 
@@ -306,6 +308,7 @@ contract StandardToken is ERC20, BasicToken {
     @post __has_overflow == false
    */
   /* CertiK Smart Labelling, for more details visit: https://certik.org */
+  /// ensures(_from != _to && _to != address(0) && _value <= balances[_from] && _value <= allowed[_from][msg.sender], balances[_from] == old(balances[_from]) - _value && balances[_to] == old(balances[_to]) + _value && allowed[_from][msg.sender] == old(allowed[_from][msg.sender]) - _value)
   function transferFrom(address _from, address _to, uint256 _value) public returns (bool) {
     require(_to != address(0));
     require(_value <= balances[_from]);
@@ -337,6 +340,7 @@ contract StandardToken is ERC20, BasicToken {
     @post __post.allowed[msg.sender][_spender] == _value
    */
   /* CertiK Smart Labelling, for more details visit: https://certik.org */
+  /// ensures(true, allowed[msg.sender][_spender] == _value)
   function approve(address _spender, uint256 _value) public returns (bool) {
     allowed[msg.sender][_spender] = _value;
     emit Approval(msg.sender, _spender, _value);
@@ -349,7 +353,8 @@ contract StandardToken is ERC20, BasicToken {
    * @param _spender address The address which will spend the funds.
    * @return A uint256 specifying the amount of tokens still available for the spender.
    */
-  function allowance(address _owner, address _spender) public view returns (uint256) {
+   /// ensures(true, r == allowed[_owner][_spender])
+  function allowance(address _owner, address _spender) public view returns (uint256 r) {
     return allowed[_owner][_spender];
   }
 
@@ -369,6 +374,7 @@ contract StandardToken is ERC20, BasicToken {
     @post __has_overflow == false
    */
   /* CertiK Smart Labelling, for more details visit: https://certik.org */
+  /// ensures(true, allowed[msg.sender][_spender] == old(allowed[msg.sender][_spender]) + _addedValue)
   function increaseApproval(address _spender, uint _addedValue) public returns (bool) {
     allowed[msg.sender][_spender] = allowed[msg.sender][_spender].add(_addedValue);
     emit Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
@@ -398,6 +404,7 @@ contract StandardToken is ERC20, BasicToken {
     @post __has_overflow == false
    */
   /* CertiK Smart Labelling, for more details visit: https://certik.org */
+  /// ensures(_subtractedValue <= allowed[msg.sender][_spender], allowed[msg.sender][_spender] == old(allowed[msg.sender][_spender]) - _subtractedValue)
   function decreaseApproval(address _spender, uint _subtractedValue) public returns (bool) {
     uint oldValue = allowed[msg.sender][_spender];
     if (_subtractedValue > oldValue) {
@@ -421,7 +428,7 @@ contract IoTeXNetwork is StandardToken, Pausable {
         require(to != address(this) );
         _;
     }
-
+    /// ensures(true, totalSupply_ == tokenTotalAmount && balances[msg.sender] == tokenTotalAmount)
     function IoTeXNetwork(uint tokenTotalAmount) {
         totalSupply_ = tokenTotalAmount;
         balances[msg.sender] = tokenTotalAmount;
@@ -441,6 +448,7 @@ contract IoTeXNetwork is StandardToken, Pausable {
       @post __has_overflow == false
      */
     /* CertiK Smart Labelling, for more details visit: https://certik.org */
+    /// ensures(!paused && _to != address(0x0) && _to != address(this), true)
     function transfer(address _to, uint _value) whenNotPaused
         validDestination(_to)
         returns (bool) {
@@ -458,6 +466,7 @@ contract IoTeXNetwork is StandardToken, Pausable {
       @post __has_overflow == false
      */
     /* CertiK Smart Labelling, for more details visit: https://certik.org */
+    /// ensures(!paused && _to != address(0x0) && _to != address(this))
     function transferFrom(address _from, address _to, uint _value) whenNotPaused
         validDestination(_to)
         returns (bool) {
@@ -472,6 +481,7 @@ contract IoTeXNetwork is StandardToken, Pausable {
       @post __post.allowed[msg.sender][_spender] == _value
      */
     /* CertiK Smart Labelling, for more details visit: https://certik.org */
+    /// ensures(!paused, true)
     function approve(address _spender, uint256 _value) public whenNotPaused
       returns (bool) {
       return super.approve(_spender, _value);
@@ -487,6 +497,7 @@ contract IoTeXNetwork is StandardToken, Pausable {
       @post __has_overflow == false
      */
     /* CertiK Smart Labelling, for more details visit: https://certik.org */
+    /// ensures(!paused, true)
     function increaseApproval(address _spender, uint _addedValue) public whenNotPaused
       returns (bool success) {
       return super.increaseApproval(_spender, _addedValue);
@@ -502,6 +513,7 @@ contract IoTeXNetwork is StandardToken, Pausable {
       @post __has_overflow == false
      */
     /* CertiK Smart Labelling, for more details visit: https://certik.org */
+    /// ensures(!paused, true)
     function decreaseApproval(address _spender, uint _subtractedValue) public whenNotPaused
       returns (bool success) {
       return super.decreaseApproval(_spender, _subtractedValue);

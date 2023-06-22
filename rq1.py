@@ -9,7 +9,8 @@ from a18z import inject, rq1
 # inject('RQ1/HT.sol')
 # rq1('RQ1/HT.sol.sol')
 
-inject('RQ1/HOT.sol')
-rq1('RQ1/HOT.sol.sol')
+# inject('RQ1/HOT.sol')
+# rq1('RQ1/HOT.sol.sol')
 
-# inject('RQ1/IOTX.sol')
+inject('RQ1/IOTX.sol')
+rq1('RQ1/IOTX.sol.sol')
