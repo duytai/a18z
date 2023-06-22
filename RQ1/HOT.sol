@@ -156,7 +156,7 @@ contract HoloToken is Ownable {
    * @param _to address The address which you want to transfer to
    * @param _value uint256 the amout of tokens to be transfered
    */
-  /// ensures(_from != _to && mintingFinished && _to != address(0) && _value <= balances[_from] && _value <= allowed[_from][msg.sender], balances[_from] == old(balances[_from]) - _value && balances[_to] == old(balances[_to]) + _value)
+  /// ensures(_from != _to && mintingFinished && _to != address(0) && _value <= balances[_from] && _value <= allowed[_from][msg.sender], balances[_from] == old(balances[_from]) - _value && balances[_to] == old(balances[_to]) + _value && allowed[_from][msg.sender] == old(allowed[_from][msg.sender]) - _value)
   function transferFrom(address _from, address _to, uint256 _value) public whenMintingFinished returns (bool) {
     require(_to != address(0));
     require(_value <= balances[_from]);

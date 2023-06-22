@@ -2,12 +2,14 @@ import re
 from slither import Slither
 from slither.core.solidity_types.elementary_type import ElementaryType, Uint
 
-A17Z_EXT    = r'.sol'
-KW_FUNCTION = r'function'
-RE_ENSURES  = r'\s*\/\/\/\s*ensures\s*\(([^,]*),(.+)\)'
-RE_FUNCTION = r'\s*function'
-RE_OLD_ARG  = r'old\s*\(\s*([^)]*)\s*\)'
-RE_OLD_TAR  = r'old_\1'
+A17Z_EXT        = r'.sol'
+KW_FUNCTION     = r'function'
+KW_CONSTUCTOR   = r'constructor'
+RE_ENSURES      = r'\s*\/\/\/\s*ensures\s*\(([^,]*),(.+)\)'
+RE_FUNCTION     = r'\s*function'
+RE_CONSTRUCTOR  = r'\s*constructor'
+RE_OLD_ARG      = r'old\s*\(\s*([^)]*)\s*\)'
+RE_OLD_TAR      = r'old_\1'
 
 class Injector:
     def __init__(self, file: str) -> None:
@@ -28,6 +30,10 @@ class Injector:
                 # The ensures(x, y) belongs to the current function
                 if re.search(RE_FUNCTION, line):
                     loc = offset + line.find(KW_FUNCTION)
+                    self._invariants[(path, loc)] = invariants[::] or [('1==1', '1==0')]
+                    invariants.clear()
+                if re.search(RE_CONSTRUCTOR, line):
+                    loc = offset + line.find(KW_CONSTUCTOR)
                     self._invariants[(path, loc)] = invariants[::] or [('1==1', '1==0')]
                     invariants.clear()
                 # Update the offset based on the length of the current line
