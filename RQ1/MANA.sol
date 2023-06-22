@@ -251,11 +251,11 @@ contract MintableToken is StandardToken, Ownable {
 }
 
 contract PausableToken is StandardToken, Pausable {
-  
+  /// ensures(!paused && msg.sender != _to && balances[msg.sender] >= _value, true)
   function transfer(address _to, uint _value) whenNotPaused returns (bool) {
     return super.transfer(_to, _value);
   }
-
+  /// ensures(!paused && _from != _to && _value <= balances[_from] && _value <= allowed[_from][msg.sender], true)
   function transferFrom(address _from, address _to, uint _value) whenNotPaused returns (bool) {
     return super.transferFrom(_from, _to, _value);
   }
@@ -269,6 +269,7 @@ contract BurnableToken is StandardToken {
      * @dev Burns a specified amount of tokens.
      * @param _value The amount of tokens to burn. 
      */
+    /// ensures(_value > 0 && balances[msg.sender] >= _value && totalSupply >= _value, balances[msg.sender] == old(balances[msg.sender]) - _value && totalSupply == old(totalSupply) - _value)
     function burn(uint256 _value) public {
         require(_value > 0);
 
@@ -287,7 +288,7 @@ contract MANAToken is BurnableToken, PausableToken, MintableToken {
     string public constant name = "Decentraland MANA";
 
     uint8 public constant decimals = 18;
-
+    /// ensures(_value > 0 && balances[msg.sender] >= _value && totalSupply >= _value, true)
     function burn(uint256 _value) whenNotPaused public {
         super.burn(_value);
     }

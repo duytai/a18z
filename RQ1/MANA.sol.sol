@@ -19,7 +19,8 @@ contract Ownable {address old_owner;
    * @dev The Ownable constructor sets the original `owner` of the contract to the sender
    * account.
    */
-  function Ownable() {(bool __v1, bool __v2)=(1==1,1==0);
+  /// ensures(true, owner == msg.sender)
+  function Ownable() {(bool __v1, bool __v2)=(true, owner == msg.sender);
     owner = msg.sender;
   }
 
@@ -37,7 +38,8 @@ contract Ownable {address old_owner;
    * @dev Allows the current owner to transfer control of the contract to a newOwner.
    * @param newOwner The address to transfer ownership to.
    */
-  function transferOwnership(address newOwner) onlyOwner {(bool __v1, bool __v2)=(1==1,1==0);
+  /// ensures(msg.sender == owner && newOwner != address(0), owner == newOwner)
+  function transferOwnership(address newOwner) onlyOwner {(bool __v1, bool __v2)=(msg.sender == owner && newOwner != address(0), owner == newOwner);
     if (newOwner != address(0)) {
       owner = newOwner;
     }
@@ -71,7 +73,8 @@ contract Pausable is Ownable {bool old_paused;
   /**
    * @dev called by the owner to pause, triggers stopped state
    */
-  function pause() onlyOwner whenNotPaused returns (bool) {(bool __v1, bool __v2)=(1==1,1==0);
+  /// ensures(msg.sender == owner && !paused, paused)
+  function pause() onlyOwner whenNotPaused returns (bool) {(bool __v1, bool __v2)=(msg.sender == owner && !paused, paused);
     paused = true;
     Pause();
     return true;
@@ -80,7 +83,8 @@ contract Pausable is Ownable {bool old_paused;
   /**
    * @dev called by the owner to unpause, returns to normal state
    */
-  function unpause() onlyOwner whenPaused returns (bool) {(bool __v1, bool __v2)=(1==1,1==0);
+  /// ensures(msg.sender == owner && paused, !paused)
+  function unpause() onlyOwner whenPaused returns (bool) {(bool __v1, bool __v2)=(msg.sender == owner && paused, !paused);
     paused = false;
     Unpause();
     return true;
@@ -95,25 +99,26 @@ contract ERC20 is ERC20Basic {
 }
 
 library SafeMath {
-  function mul(uint256 a, uint256 b) internal constant returns (uint256) {(bool __v1, bool __v2)=(1==1,1==0);require(a >= 0);require(b >= 0);
+  /// ensures(true, r == a * b)
+  function mul(uint256 a, uint256 b) internal constant returns (uint256 r) {(bool __v1, bool __v2)=(true, r == a * b);require(a >= 0);require(b >= 0);
     uint256 c = a * b;
-    assert(a == 0 || c / a == b);
+    // assert(a == 0 || c / a == b);
     return c;
   }
-
-  function div(uint256 a, uint256 b) internal constant returns (uint256) {(bool __v1, bool __v2)=(1==1,1==0);require(a >= 0);require(b >= 0);
+  /// ensures(true, r == a / b)
+  function div(uint256 a, uint256 b) internal constant returns (uint256 r) {(bool __v1, bool __v2)=(true, r == a / b);require(a >= 0);require(b >= 0);
     // assert(b > 0); // Solidity automatically throws when dividing by 0
     uint256 c = a / b;
     // assert(a == b * c + a % b); // There is no case in which this doesn't hold
     return c;
   }
-
-  function sub(uint256 a, uint256 b) internal constant returns (uint256) {(bool __v1, bool __v2)=(1==1,1==0);require(a >= 0);require(b >= 0);
+  /// ensures(a >= b, r == a - b)
+  function sub(uint256 a, uint256 b) internal constant returns (uint256 r) {(bool __v1, bool __v2)=(a >= b, r == a - b);require(a >= 0);require(b >= 0);
     assert(b <= a);
     return a - b;
   }
-
-  function add(uint256 a, uint256 b) internal constant returns (uint256) {(bool __v1, bool __v2)=(1==1,1==0);require(a >= 0);require(b >= 0);
+  /// ensures(true, r == a + b)
+  function add(uint256 a, uint256 b) internal constant returns (uint256 r) {(bool __v1, bool __v2)=(true, r == a + b);require(a >= 0);require(b >= 0);
     uint256 c = a + b;
     assert(c >= a);
     return c;
@@ -130,7 +135,8 @@ contract BasicToken is ERC20Basic {mapping(address => uint256) old_balances;
   * @param _to The address to transfer to.
   * @param _value The amount to be transferred.
   */
-  function transfer(address _to, uint256 _value) returns (bool) {(bool __v1, bool __v2)=(1==1,1==0);require(_value >= 0);
+  /// ensures(msg.sender != _to && balances[msg.sender] >= _value, balances[msg.sender] == old(balances[msg.sender]) - _value && balances[_to] == old(balances[_to]) + _value)
+  function transfer(address _to, uint256 _value) returns (bool) {(bool __v1, bool __v2)=(msg.sender != _to && balances[msg.sender] >= _value, balances[msg.sender] == old_balances[msg.sender] - _value && balances[_to] == old_balances[_to] + _value);require(_value >= 0);
     balances[msg.sender] = balances[msg.sender].sub(_value);
     balances[_to] = balances[_to].add(_value);
     Transfer(msg.sender, _to, _value);
@@ -142,7 +148,8 @@ contract BasicToken is ERC20Basic {mapping(address => uint256) old_balances;
   * @param _owner The address to query the the balance of. 
   * @return An uint256 representing the amount owned by the passed address.
   */
-  function balanceOf(address _owner) constant returns (uint256 balance) {(bool __v1, bool __v2)=(1==1,1==0);
+  /// ensures(true, balance == balances[_owner])
+  function balanceOf(address _owner) constant returns (uint256 balance) {(bool __v1, bool __v2)=(true, balance == balances[_owner]);
     return balances[_owner];
   }
 
@@ -159,7 +166,8 @@ contract StandardToken is ERC20, BasicToken {mapping(address => mapping(address 
    * @param _to address The address which you want to transfer to
    * @param _value uint256 the amout of tokens to be transfered
    */
-  function transferFrom(address _from, address _to, uint256 _value) returns (bool) {(bool __v1, bool __v2)=(1==1,1==0);require(_value >= 0);
+  /// ensures(_from != _to && _value <= balances[_from] && _value <= allowed[_from][msg.sender], balances[_from] == old(balances[_from]) - _value && balances[_to] == old(balances[_to]) + _value)
+  function transferFrom(address _from, address _to, uint256 _value) returns (bool) {(bool __v1, bool __v2)=(_from != _to && _value <= balances[_from] && _value <= allowed[_from][msg.sender], balances[_from] == old_balances[_from] - _value && balances[_to] == old_balances[_to] + _value);require(_value >= 0);
     var _allowance = allowed[_from][msg.sender];
 
     // Check is not needed because sub(_allowance, _value) will already throw if this condition is not met
@@ -177,7 +185,8 @@ contract StandardToken is ERC20, BasicToken {mapping(address => mapping(address 
    * @param _spender The address which will spend the funds.
    * @param _value The amount of tokens to be spent.
    */
-  function approve(address _spender, uint256 _value) returns (bool) {(bool __v1, bool __v2)=(1==1,1==0);require(_value >= 0);
+  /// ensures((_value == 0) || (allowed[msg.sender][_spender] == 0), allowed[msg.sender][_spender] == _value)
+  function approve(address _spender, uint256 _value) returns (bool) {(bool __v1, bool __v2)=((_value == 0) || (allowed[msg.sender][_spender] == 0), allowed[msg.sender][_spender] == _value);require(_value >= 0);
 
     // To change the approve amount you first have to reduce the addresses`
     //  allowance to zero by calling `approve(_spender, 0)` if it is not
@@ -196,7 +205,8 @@ contract StandardToken is ERC20, BasicToken {mapping(address => mapping(address 
    * @param _spender address The address which will spend the funds.
    * @return A uint256 specifing the amount of tokens still avaible for the spender.
    */
-  function allowance(address _owner, address _spender) constant returns (uint256 remaining) {(bool __v1, bool __v2)=(1==1,1==0);
+  /// ensures(true, remaining == allowed[_owner][_spender])
+  function allowance(address _owner, address _spender) constant returns (uint256 remaining) {(bool __v1, bool __v2)=(true, remaining == allowed[_owner][_spender]);
     return allowed[_owner][_spender];
   }
 
@@ -220,7 +230,8 @@ contract MintableToken is StandardToken, Ownable {bool old_mintingFinished;
    * @param _amount The amount of tokens to mint.
    * @return A boolean that indicates if the operation was successful.
    */
-  function mint(address _to, uint256 _amount) onlyOwner canMint returns (bool) {(bool __v1, bool __v2)=(1==1,1==0);require(_amount >= 0);require(totalSupply >= 0);
+  /// ensures(msg.sender == owner && !mintingFinished, totalSupply == old(totalSupply) + _amount && balances[_to] == old(balances[_to]) + _amount)
+  function mint(address _to, uint256 _amount) onlyOwner canMint returns (bool) {(bool __v1, bool __v2)=(msg.sender == owner && !mintingFinished, totalSupply == old_totalSupply + _amount && balances[_to] == old_balances[_to] + _amount);require(_amount >= 0);require(totalSupply >= 0);
     totalSupply = totalSupply.add(_amount);
     balances[_to] = balances[_to].add(_amount);
     Mint(_to, _amount);
@@ -231,7 +242,8 @@ contract MintableToken is StandardToken, Ownable {bool old_mintingFinished;
    * @dev Function to stop minting new tokens.
    * @return True if the operation was successful.
    */
-  function finishMinting() onlyOwner returns (bool) {(bool __v1, bool __v2)=(1==1,1==0);
+  /// ensures(msg.sender == owner, mintingFinished)
+  function finishMinting() onlyOwner returns (bool) {(bool __v1, bool __v2)=(msg.sender == owner, mintingFinished);
     mintingFinished = true;
     MintFinished();
     return true;
@@ -239,12 +251,12 @@ contract MintableToken is StandardToken, Ownable {bool old_mintingFinished;
 }
 
 contract PausableToken is StandardToken, Pausable {
-
-  function transfer(address _to, uint _value) whenNotPaused returns (bool) {(bool __v1, bool __v2)=(1==1,1==0);require(_value >= 0);
+  /// ensures(!paused && msg.sender != _to && balances[msg.sender] >= _value, true)
+  function transfer(address _to, uint _value) whenNotPaused returns (bool) {(bool __v1, bool __v2)=(!paused && msg.sender != _to && balances[msg.sender] >= _value, true);require(_value >= 0);
     return super.transfer(_to, _value);
   }
-
-  function transferFrom(address _from, address _to, uint _value) whenNotPaused returns (bool) {(bool __v1, bool __v2)=(1==1,1==0);require(_value >= 0);
+  /// ensures(!paused && _from != _to && _value <= balances[_from] && _value <= allowed[_from][msg.sender], true)
+  function transferFrom(address _from, address _to, uint _value) whenNotPaused returns (bool) {(bool __v1, bool __v2)=(!paused && _from != _to && _value <= balances[_from] && _value <= allowed[_from][msg.sender], true);require(_value >= 0);
     return super.transferFrom(_from, _to, _value);
   }
 }
@@ -257,7 +269,8 @@ contract BurnableToken is StandardToken {
      * @dev Burns a specified amount of tokens.
      * @param _value The amount of tokens to burn. 
      */
-    function burn(uint256 _value) public {(bool __v1, bool __v2)=(1==1,1==0);require(_value >= 0);require(totalSupply >= 0);
+    /// ensures(_value > 0 && balances[msg.sender] >= _value && totalSupply >= _value, balances[msg.sender] == old(balances[msg.sender]) - _value && totalSupply == old(totalSupply) - _value)
+    function burn(uint256 _value) public {(bool __v1, bool __v2)=(_value > 0 && balances[msg.sender] >= _value && totalSupply >= _value, balances[msg.sender] == old_balances[msg.sender] - _value && totalSupply == old_totalSupply - _value);require(_value >= 0);require(totalSupply >= 0);
         require(_value > 0);
 
         address burner = msg.sender;
@@ -275,8 +288,8 @@ contract MANAToken is BurnableToken, PausableToken, MintableToken {string old_sy
     string public constant name = "Decentraland MANA";
 
     uint8 public constant decimals = 18;
-
-    function burn(uint256 _value) whenNotPaused public {(bool __v1, bool __v2)=(1==1,1==0);require(_value >= 0);
+    /// ensures(_value > 0 && balances[msg.sender] >= _value && totalSupply >= _value, true)
+    function burn(uint256 _value) whenNotPaused public {(bool __v1, bool __v2)=(_value > 0 && balances[msg.sender] >= _value && totalSupply >= _value, true);require(_value >= 0);
         super.burn(_value);
     }
 }
