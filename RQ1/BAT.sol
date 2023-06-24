@@ -131,7 +131,7 @@ contract BAToken is StandardToken, SafeMath {
       balances[batFundDeposit] = batFund;    // Deposit Brave Intl share
       CreateBAT(batFundDeposit, batFund);  // logs Brave Intl fund
     }
-    /// ensures(!isFinalized && block.number >= fundingStartBlock && block.number <= fundingEndBlock && msg.value > 0 && tokenExchangeRate >= 0 && totalSupply >= 0 && msg.value * tokenExchangeRate + totalSupply > tokenCreationCap, totalSupply == old(totalSupply) + msg.value * tokenExchangeRate && balances[msg.sender] == old(balances[msg.sender]) + msg.value * tokenExchangeRate)
+    /// ensures(!isFinalized && block.number >= fundingStartBlock && block.number <= fundingEndBlock && msg.value > 0 && tokenExchangeRate >= 0 && totalSupply >= 0 && msg.value * tokenExchangeRate + totalSupply <= tokenCreationCap, totalSupply == old(totalSupply) + msg.value * tokenExchangeRate && balances[msg.sender] == old(balances[msg.sender]) + msg.value * tokenExchangeRate)
     function createTokens() payable external {
       if (isFinalized) throw;
       if (block.number < fundingStartBlock) throw;
