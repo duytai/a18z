@@ -6,6 +6,7 @@ from .task import (
     BuildInternalCall,
     FixFunction,
     EvaluateInference,
+    EvaluateCallsite,
 )
 
 def fix(file):
@@ -27,6 +28,17 @@ def rq1(file):
     tasks = [
         EnumerateFunction(),
         EvaluateInference(),
+    ]
+    for task in tasks:
+        chain.add_task(task)
+    chain.run_chain(state)
+
+def rq2(file):
+    state = State(file)
+    chain = FixChain()
+    tasks = [
+        EnumerateFunction(),
+        EvaluateCallsite()
     ]
     for task in tasks:
         chain.add_task(task)

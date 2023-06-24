@@ -130,3 +130,14 @@ class EvaluateInference(Task):
         print(f'#F: {len(state.functions)}')
         print(f'#D: {end - start}')
         print(f'#Q: {p_value} ({round(p_value / len(state.functions) * 100)})')
+
+
+class EvaluateCallsite(Task):
+    def execute(self, state: State):
+        for function in state.functions:
+            print(f'> {function.canonical_name}')
+            for node in function.nodes:
+                for ir in node.irs:
+                    if isinstance(ir, InternalCall):
+                        print(ir)
+                        print(prepcondition(ir))
