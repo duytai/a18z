@@ -51,7 +51,10 @@ class PrepVM(LegacyVM):
             eliminated_vars = [x for x in variables if str(x) in eliminated_vars and str(x) not in marker_vars]
 
             fact = find_fact(constraints, postcondition, eliminated_vars)
-            fact = z3.substitute(fact, self._prep_substitutions)
-            self._prep.append(fact)
+            if fact is not None:
+                fact = z3.substitute(fact, self._prep_substitutions)
+                self._prep.append(fact)
+            else:
+                self._prep = None
         else:
             self._prep = None

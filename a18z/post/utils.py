@@ -16,6 +16,4 @@ def find_outcome(hypothesis, eliminated_vars):
         ), 5000).apply(z3.Exists(eliminated_vars, hypothesis))
         return z3.simplify(z3.And(*result[0]))
     except:
-        print(z3.simplify(hypothesis))
-        print(eliminated_vars)
         return None

@@ -60,37 +60,40 @@ class PrepInternalCall(LegacyInternalCall):
                 vm.internal_call.function,
                 precondition=pre_
             )
-            # A trick if variable has been set
-            if ir.lvalue and ir.lvalue not in vm._variables:
-                value = vm.fresh_variable(ir.lvalue)
-                vm.set_variable(ir.lvalue, value)
-            call_vm = LegacyVM(
-                precondition=pre_,
-                postcondition=post_
-            )
-            # Read precondition
-            for i in ir.function.nodes[1].irs:
-                self._chain.add_ir(i)
-            self._chain.run_chain(call_vm, query)
-            # Subtitute parameters with arguments
-            parameters = ir.function.parameters + ir.function.returns
-            arguments = ir.arguments + [ir.lvalue]
-            substitutions = []
-            for param, argument in zip(parameters, arguments):
-                old_var = call_vm.get_variable(param)
-                new_var = vm.get_variable(argument)
-                substitutions.append((old_var, new_var))
-            # Imply precondition
-            precondition = z3.substitute(call_vm.precondition, *substitutions)
-            vm.rev = check_sat(z3.Not(z3.Implies(vm.constraints, precondition)))
-            # Read postcondition
-            for i in ir.function.nodes[2].irs:
-                self._chain.add_ir(i)
-            self._chain.run_chain(call_vm, query)
-            # Handle old_
-            for new_var, old_var in call_vm.olds:
-                vm.substitute(new_var, old_var)
-            postcondition = z3.substitute(call_vm.postcondition, *substitutions)
-            vm.add_constraint(postcondition)
+            if pre_ is not None and post_ is not None:
+                # A trick if variable has been set
+                if ir.lvalue and ir.lvalue not in vm._variables:
+                    value = vm.fresh_variable(ir.lvalue)
+                    vm.set_variable(ir.lvalue, value)
+                call_vm = LegacyVM(
+                    precondition=pre_,
+                    postcondition=post_
+                )
+                # Read precondition
+                for i in ir.function.nodes[1].irs:
+                    self._chain.add_ir(i)
+                self._chain.run_chain(call_vm, query)
+                # Subtitute parameters with arguments
+                parameters = ir.function.parameters + ir.function.returns
+                arguments = ir.arguments + [ir.lvalue]
+                substitutions = []
+                for param, argument in zip(parameters, arguments):
+                    old_var = call_vm.get_variable(param)
+                    new_var = vm.get_variable(argument)
+                    substitutions.append((old_var, new_var))
+                # Imply precondition
+                precondition = z3.substitute(call_vm.precondition, *substitutions)
+                vm.rev = check_sat(z3.Not(z3.Implies(vm.constraints, precondition)))
+                # Read postcondition
+                for i in ir.function.nodes[2].irs:
+                    self._chain.add_ir(i)
+                self._chain.run_chain(call_vm, query)
+                # Handle old_
+                for new_var, old_var in call_vm.olds:
+                    vm.substitute(new_var, old_var)
+                postcondition = z3.substitute(call_vm.postcondition, *substitutions)
+                vm.add_constraint(postcondition)
+            else:
+                self.rev = True
         else:
             super().execute(vm, query)

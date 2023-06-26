@@ -5,14 +5,18 @@ from .utils import find_outcome
 class PostVM(LegacyVM):
     def __init__(self, precondition=None) -> None:
         super().__init__(precondition, None)
-        self._outcomes = []
+        self._outcomes = None
 
     @property
     def outcomes(self):
-        return z3.simplify(z3.And(self._outcomes))
+        return self._outcomes
 
     def add_outcome(self, outcome):
-        self._outcomes.append(outcome)
+        if outcome is not None:
+            if self._outcomes is not None:
+                self._outcomes = z3.simplify(z3.And(z3._outcomes, outcome))
+            else:
+                self._outcomes = outcome
 
     def set_postcondition(self, value):
         self._postcondition = z3.BoolVal(True)
@@ -33,5 +37,4 @@ class PostVM(LegacyVM):
             eliminated_vars = [x for x in variables if str(x) in eliminated_vars]
 
             outcome = find_outcome(constraints, eliminated_vars)
-            if outcome is not None:
-                self._outcomes.append(outcome)
+            self.add_outcome(outcome)

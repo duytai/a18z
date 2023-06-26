@@ -8,7 +8,7 @@ from .vm import PostVM
 def postcondition(function: FunctionContract, precondition=None, query: LegacyQuery=LegacyQuery()):
     path_collector = PathCollector()
     path_collector.collect_paths(function.entry_point)
-    outcomes = []
+    outcomes = None
     for path in path_collector.paths:
         chain = PostChain()
         vm = PostVM(precondition)
@@ -16,5 +16,9 @@ def postcondition(function: FunctionContract, precondition=None, query: LegacyQu
             chain.add_ir(ir)
         chain.run_chain(vm, query)
         vm.finalize(function)
-        outcomes.append(vm.outcomes)
-    return z3.simplify(z3.Or(outcomes))
+        if vm.outcomes is not None:
+            if outcomes is not None:
+                outcomes = z3.simplify(z3.Or(outcomes, vm.outcomes))
+            else:
+                outcomes = vm.outcomes
+    return outcomes

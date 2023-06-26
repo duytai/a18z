@@ -5,14 +5,18 @@ from .utils import find_fact
 class PreVM(LegacyVM):
     def __init__(self, postcondition=None) -> None:
         super().__init__(None, postcondition)
-        self._facts = []
+        self._facts = None
 
     @property
     def facts(self):
-        return z3.simplify(z3.And(self._facts))
+        return self._facts
 
     def add_fact(self, fact):
-        self._facts.append(fact)
+        if fact is not None:
+            if self._facts is not None:
+                self._facts = z3.simplify(z3.And(self._facts, fact))
+            else:
+                self._facts = fact
 
     def set_precondition(self, value):
         self._precondition = z3.BoolVal(True)
@@ -31,4 +35,4 @@ class PreVM(LegacyVM):
         eliminated_vars = local_vars + temporary_vars
         eliminated_vars = [x for x in variables if str(x) in eliminated_vars]
         fact = find_fact(constraints, postcondition, eliminated_vars)
-        self._facts.append(fact)
+        self.add_fact(fact)
