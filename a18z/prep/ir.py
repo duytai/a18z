@@ -13,7 +13,7 @@ class PrepInternalCall(LegacyInternalCall):
     def execute(self, vm: PrepVM, query: LegacyQuery):
         ir = self._ir
         assert isinstance(ir, (InternalCall, LibraryCall))
-        if ir.is_modifier_call:
+        if isinstance(ir, InternalCall) and ir.is_modifier_call:
             print(f'#### {ir.function}')
             return
         if ir == vm.internal_call:
@@ -40,15 +40,17 @@ class PrepInternalCall(LegacyInternalCall):
             eliminated_vars = [x for x in variables if str(x) in eliminated_vars and str(x) not in marker_vars]
 
             outcome = find_outcome(vm.constraints, eliminated_vars)
-            vm.add_prep(z3.substitute(outcome, vm.prep_substitutions))
-
-            # Set return value to 
-            if ir.lvalue:
-                assert len(ir.function.returns) == 1
-                ret = vm.get_variable(ir.function.returns[0])
-                value = vm.fresh_variable(ir.lvalue)
-                vm.set_variable(ir.lvalue, value)
-                vm.add_prep_substitution((value, ret))
+            if outcome is not None:
+                vm.add_prep(z3.substitute(outcome, vm.prep_substitutions))
+                # Set return value to
+                if ir.lvalue:
+                    assert len(ir.function.returns) == 1
+                    ret = vm.get_variable(ir.function.returns[0])
+                    value = vm.fresh_variable(ir.lvalue)
+                    vm.set_variable(ir.lvalue, value)
+                    vm.add_prep_substitution((value, ret))
+            else:
+                vm.rev = True
         elif ir.function == vm.internal_call.function:
             pre_ = find_pre(
                 vm.internal_call.function,
@@ -58,7 +60,6 @@ class PrepInternalCall(LegacyInternalCall):
                 vm.internal_call.function,
                 precondition=pre_
             )
-            assert isinstance(ir, InternalCall)
             # A trick if variable has been set
             if ir.lvalue and ir.lvalue not in vm._variables:
                 value = vm.fresh_variable(ir.lvalue)

@@ -1,7 +1,7 @@
 import sexpdata
 import networkx as nx
 from timeit import default_timer as timer
-from slither.slithir.operations import InternalCall
+from slither.slithir.operations import InternalCall, LibraryCall
 from colorist import Color
 
 from a18z.fix.state import State
@@ -128,16 +128,34 @@ class EvaluateInference(Task):
                 p_value += 1
         end = timer()
         print(f'#F: {len(state.functions)}')
-        print(f'#D: {end - start}')
+        print(f'#d: {end - start}')
         print(f'#Q: {p_value} ({round(p_value / len(state.functions) * 100)})')
 
 
 class EvaluateCallsite(Task):
     def execute(self, state: State):
+        start = timer()
+        p_value = 0
+        goods = 0
         for function in state.functions:
             print(f'> {function.canonical_name}')
             for node in function.nodes:
                 for ir in node.irs:
-                    if isinstance(ir, InternalCall):
-                        print(ir)
-                        print(prepcondition(ir))
+                    if isinstance(ir, (InternalCall, LibraryCall)):
+                        if not hasattr(ir, 'is_modifier_call') or not ir.is_modifier_call:
+                            r = prepcondition(ir)
+                            if r:
+                                print(r)
+                                [(p, q)] = r
+                                query = LegacyQuery()
+                                query.add_precondition(ir.function, p)
+                                query.add_postcondition(ir.function, q)
+                                print(verify(ir.function))
+                                goods += 1
+                            else:
+                                print(ir)
+                            p_value += 1
+        end = timer()
+        print(f'#internal: {p_value}')
+        print(f'#success: {goods}')
+        print(f'#d: {end - start}')

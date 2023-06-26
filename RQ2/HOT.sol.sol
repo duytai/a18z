@@ -156,8 +156,8 @@ contract HoloToken is Ownable {string old_name;string old_symbol;uint8 old_decim
    * @param _to address The address which you want to transfer to
    * @param _value uint256 the amout of tokens to be transfered
    */
-  /// ensures(_from != _to && mintingFinished && _to != address(0) && _value <= balances[_from] && _value <= allowed[_from][msg.sender], balances[_from] == old(balances[_from]) - _value && balances[_to] == old(balances[_to]) + _value)
-  function transferFrom(address _from, address _to, uint256 _value) public whenMintingFinished returns (bool) {(bool __v1, bool __v2)=(_from != _to && mintingFinished && _to != address(0) && _value <= balances[_from] && _value <= allowed[_from][msg.sender], balances[_from] == old_balances[_from] - _value && balances[_to] == old_balances[_to] + _value);require(_value >= 0);
+  /// ensures(_from != _to && mintingFinished && _to != address(0) && _value <= balances[_from] && _value <= allowed[_from][msg.sender], balances[_from] == old(balances[_from]) - _value && balances[_to] == old(balances[_to]) + _value && allowed[_from][msg.sender] == old(allowed[_from][msg.sender]) - _value)
+  function transferFrom(address _from, address _to, uint256 _value) public whenMintingFinished returns (bool) {(bool __v1, bool __v2)=(_from != _to && mintingFinished && _to != address(0) && _value <= balances[_from] && _value <= allowed[_from][msg.sender], balances[_from] == old_balances[_from] - _value && balances[_to] == old_balances[_to] + _value && allowed[_from][msg.sender] == old_allowed[_from][msg.sender] - _value);require(_value >= 0);
     require(_to != address(0));
     require(_value <= balances[_from]);
     require(_value <= allowed[_from][msg.sender]);

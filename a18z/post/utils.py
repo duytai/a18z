@@ -7,11 +7,15 @@ def find_outcome(hypothesis, eliminated_vars):
         eliminated_vars.append(tmp_var)
 
     # CNF form
-    result = z3.Then(
-        z3.Tactic('qe2'),
-        z3.Tactic('ctx-solver-simplify'),
-        z3.Tactic('ctx-simplify'),
-        z3.Tactic('simplify'),
-    ).apply(z3.Exists(eliminated_vars, hypothesis))
-
-    return z3.simplify(z3.And(*result[0]))
+    try:
+        result = z3.TryFor(z3.Then(
+            z3.Tactic('qe2'),
+            z3.Tactic('ctx-solver-simplify'),
+            z3.Tactic('ctx-simplify'),
+            z3.Tactic('simplify'),
+        ), 5000).apply(z3.Exists(eliminated_vars, hypothesis))
+        return z3.simplify(z3.And(*result[0]))
+    except:
+        print(z3.simplify(hypothesis))
+        print(eliminated_vars)
+        return None

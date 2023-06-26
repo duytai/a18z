@@ -33,4 +33,5 @@ class PostVM(LegacyVM):
             eliminated_vars = [x for x in variables if str(x) in eliminated_vars]
 
             outcome = find_outcome(constraints, eliminated_vars)
-            self._outcomes.append(outcome)
+            if outcome is not None:
+                self._outcomes.append(outcome)

@@ -29,7 +29,7 @@ class PrepVM(LegacyVM):
         self._prep_substitutions.append(sub)
 
     def finalize(self, function=None):
-        if not self.rev:
+        if not self.rev and self.prep :
             # Find eliminated variables
             ir = self._internal_call
             constraints = z3.And(self._constraints)
