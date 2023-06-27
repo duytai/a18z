@@ -7,7 +7,7 @@ class State:
         self._slither = Slither(file)
         self._functions = set()
         self._call_graph = nx.DiGraph()
-        self._internal_calls = []
+        self._clusters = []
 
     @property
     def slither(self):
@@ -18,18 +18,12 @@ class State:
         return self._functions
 
     @property
-    def call_graph(self):
-        return self._call_graph
+    def clusters(self):
+        return self._clusters
 
     @property
-    def internal_calls(self):
-        return self._internal_calls
-
-    def is_verified(self, query: LegacyQuery=LegacyQuery()):
-        r = True
-        for function in self._functions:
-            r = r and verify(function, query)
-        return r
+    def call_graph(self):
+        return self._call_graph
 
     def add_function(self, val):
         self._functions.add(val)
@@ -40,5 +34,5 @@ class State:
     def add_node(self, node):
         self._call_graph.add_node(node)
 
-    def add_internal_call(self, ir):
-        self._internal_calls.append(ir)
+    def add_cluster(self, cluster):
+        self._clusters.append(cluster)

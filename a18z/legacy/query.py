@@ -7,6 +7,14 @@ class LegacyQuery:
         self._preconditions = {}
         self._postconditions = {}
 
+    @property
+    def preconditions(self):
+        return self._preconditions
+
+    @property
+    def postconditions(self):
+        return self._postconditions
+
     def add_precondition(self, function: FunctionContract, precondition):
         name = function.canonical_name
         self._preconditions[name] = precondition
@@ -22,6 +30,12 @@ class LegacyQuery:
     def get_postcondition(self, function: FunctionContract):
         name = function.canonical_name
         return self._postconditions.get(name)
+
+    def __copy__(self) -> 'LegacyQuery':
+        r = LegacyQuery()
+        r._preconditions = self._preconditions.copy()
+        r._postconditions = self._postconditions.copy()
+        return r
 
     def __str__(self) -> str:
         results = []

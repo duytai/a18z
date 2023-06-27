@@ -1,16 +1,18 @@
 import sexpdata
 import networkx as nx
+from copy import copy
 from timeit import default_timer as timer
 from slither.slithir.operations import InternalCall, LibraryCall
 from colorist import Color
+from typing import List
 
 from a18z.fix.state import State
 from .state import State
 from a18z import (
+    LegacyQuery,
     precondition,
     postcondition,
     prepcondition,
-    LegacyQuery,
     collect,
     verify
 )
@@ -28,24 +30,30 @@ class EnumerateFunction(Task):
 
 class BuildCallGraph(Task):
     def execute(self, state: State):
-        func_map = dict((f.canonical_name, f) for f in state.functions)
         for contract in state.slither.contracts:
             for function in contract.functions:
                 if function in state.functions:
-                    state.add_node(function)
+                    state.add_node(function.canonical_name)
                     for node in function.nodes:
                         for ir in node.irs:
                             if isinstance(ir, InternalCall):
-                                call = func_map[ir.function.canonical_name]
-                                state.add_edge(function, call)
+                                if not ir.is_modifier_call:
+                                    state.add_edge(function.canonical_name, ir.function.canonical_name)
+                            elif isinstance(ir, LibraryCall):
+                                state.add_edge(function.canonical_name, ir.function.canonical_name)
 
-class BuildInternalCall(Task):
+class BuildCluster(Task):
     def execute(self, state: State):
-        for function in state.functions:
-            for node in function.nodes:
-                for ir in node.irs:
-                    if isinstance(ir, InternalCall):
-                        state.add_internal_call(ir)
+        visited = set()
+        func_map = dict((f.canonical_name, verify(f)) for f in state.functions)
+        for node in state.call_graph.nodes:
+            if not func_map[node] and node not in visited:
+                selected = [node]
+                selected += nx.descendants(state.call_graph.to_undirected(), node)
+                visited = visited.union(set(selected))
+                graph = nx.subgraph(state.call_graph, selected)
+                cluster = list(reversed(list(nx.topological_sort(graph))))
+                state.add_cluster(cluster)
 
 class FixFunction(Task):
     def build_graph(self, sexpr):
@@ -61,44 +69,73 @@ class FixFunction(Task):
         add_node(sexpr, G)
         return G
 
+    def update_patch(self, pending: List[str], query: LegacyQuery, state: State):
+        if not pending:
+            yield query
+        else:
+            func_map = dict((f.canonical_name, f) for f in state.functions)
+            func = func_map[pending.pop(0)]
+            if not verify(func, query):
+                # Fix precondition
+                pre_ = precondition(func, query=query)
+                pre_query = copy(query)
+                pre_query.add_precondition(func, pre_)
+                yield from self.update_patch(pending[::], pre_query, state)
+                # Fix postcondition
+                post_ = postcondition(func, query=query)
+                post_query = copy(query)
+                post_query.add_postcondition(func, post_)
+                yield from self.update_patch(pending[::], post_query, state)
+            else:
+                # No fix
+                yield from self.update_patch(pending[::], copy(query), state)
+                # Fix precondition
+                pre_ = precondition(func, query=query)
+                pre_query = copy(query)
+                pre_query.add_precondition(func, pre_)
+                yield from self.update_patch(pending[::], pre_query, state)
+                # Fix postcondition
+                post_ = postcondition(func, query=query)
+                post_query = copy(query)
+                post_query.add_postcondition(func, post_)
+                yield from self.update_patch(pending[::], post_query, state)
+
     def execute(self, state: State):
-        if state.is_verified():
-            print('Hum? all are verified')
-            return
+        func_map = dict((f.canonical_name, f) for f in state.functions)
         root_query = LegacyQuery()
-        for function in state.functions:
-            collect(function, root_query)
-        # Fix pre
-        for function in state.functions:
-            pre_ = precondition(function)
-            query = LegacyQuery()
-            query.add_precondition(function, pre_)
-            if state.is_verified(query):
-                print(f'{query} @ True')
-            else:
-                print(f'{query} @ False')
-        # Fix post
-        for function in state.functions:
-            post_ = postcondition(function)
-            query = LegacyQuery()
-            query.add_postcondition(function, post_)
-            if state.is_verified(query):
-                print(f'{query} @ True')
-            else:
-                print(f'{query} @ False')
-        # Function call
-        for function in state.functions:
-            for node in function.nodes:
-                for ir in node.irs:
-                    if isinstance(ir, InternalCall):
-                        for pre_, post_ in prepcondition(ir):
-                            query = LegacyQuery()
-                            query.add_precondition(ir.function, pre_)
-                            query.add_postcondition(ir.function, post_)
-                            if state.is_verified(query):
-                                print(f'{query} @ True')
-                            else:
-                                print(f'{query} @ False')
+        for f in state.functions:
+            collect(f, root_query)
+        for cluster in state.clusters:
+            result_query = None
+            result_acc = None
+            for query in self.update_patch(cluster[::], LegacyQuery(), state):
+                acc = 0
+                for name, new_pre in query.preconditions.items():
+                    old_pre = root_query.get_precondition(func_map[name])
+                    x = sexpdata.loads(old_pre.sexpr())
+                    x = self.build_graph(x)
+                    y = sexpdata.loads(new_pre.sexpr())
+                    y = self.build_graph(y)
+                    acc += nx.graph_edit_distance(x, y, node_match=lambda x, y: x == y)
+                for name, new_post in query.postconditions.items():
+                    old_post = root_query.get_postcondition(func_map[name])
+                    x = sexpdata.loads(old_post.sexpr())
+                    x = self.build_graph(x)
+                    y = sexpdata.loads(new_post.sexpr())
+                    y = self.build_graph(y)
+                    acc += nx.graph_edit_distance(x, y, node_match=lambda x, y: x == y)
+                print(query)
+                print(acc)
+                print('--')
+                if result_acc is None:
+                    result_acc = acc
+                    result_query = query
+                elif acc < result_acc:
+                    result_acc = acc
+                    result_query = query
+            print(result_query)
+            print(result_acc)
+            break
 
 class EvaluateInference(Task):
     def execute(self, state: State):

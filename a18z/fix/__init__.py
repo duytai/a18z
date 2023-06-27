@@ -3,10 +3,10 @@ from .state import State
 from .task import (
     EnumerateFunction,
     BuildCallGraph,
-    BuildInternalCall,
     FixFunction,
     EvaluateInference,
     EvaluateCallsite,
+    BuildCluster,
 )
 
 def fix(file):
@@ -15,7 +15,7 @@ def fix(file):
     tasks = [
         EnumerateFunction(),
         BuildCallGraph(),
-        BuildInternalCall(),
+        BuildCluster(),
         FixFunction()
     ]
     for task in tasks:
