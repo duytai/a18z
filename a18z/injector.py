@@ -65,14 +65,8 @@ class Injector:
                     loc = function.source_mapping.start
                     # Get invariants for the current path and location
                     invariants = self._invariants.get((path, loc), [])
-                    modifies = []
-                    for x in function.state_variables_written:
-                        if isinstance(x.type, ElementaryType):
-                            modifies.append(f'old_{x.name} == old_{x.name}')
-                        # TODO: handle mapping
                     # Concatenate invariants to form the payload
                     for pre_, post_ in invariants:
-                        post_ += '&&' + '&&'.join(modifies)
                         payload = f'(bool __v1, bool __v2)=({pre_}, {post_});'
                     # Add require to parameters
                     for variable in function.parameters:

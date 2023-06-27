@@ -10,7 +10,6 @@ def prepcondition(call: InternalCall, query: LegacyQuery = LegacyQuery()):
     function = call.node.function
     path_collector = PathCollector()
     path_collector.collect_paths(function.entry_point)
-    prep = []
     for path in path_collector.paths:
         chain = PrepChain()
         vm = PrepVM(call)
@@ -18,5 +17,5 @@ def prepcondition(call: InternalCall, query: LegacyQuery = LegacyQuery()):
             chain.add_ir(ir)
         chain.run_chain(vm, query)
         vm.finalize(function)
-        if vm.prep: prep.append(tuple(vm.prep))
-    return prep
+        if vm.prep:
+            return tuple(vm.prep)

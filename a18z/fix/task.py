@@ -91,6 +91,18 @@ class FixFunction(Task):
                 post_query = copy(query)
                 post_query.add_postcondition(func, post_)
                 yield from self.update_patch(pending[::], post_query, state)
+            # Internal function call
+            for node in func.nodes:
+                for ir in node.irs:
+                    if isinstance(ir, InternalCall):
+                        if not ir.is_modifier_call:
+                            prep = prepcondition(ir, query)
+                            if prep is not None:
+                                pre_, post_ = prep
+                                prep_query = copy(query)
+                                prep_query.add_precondition(ir.function, pre_)
+                                prep_query.add_postcondition(ir.function, post_)
+                                yield from self.update_patch(pending[::], prep_query, state)
 
     def execute(self, state: State):
         queries = []
@@ -102,6 +114,12 @@ class FixFunction(Task):
             result_query = None
             result_acc = None
             for query in tqdm(self.update_patch(cluster[::], LegacyQuery(), state)):
+                # check if the query is ok
+                ok = True
+                for name in cluster:
+                    ok = ok and verify(func_map[name], query)
+                if not ok: continue
+                # if ok, we proceed
                 acc = 0
                 for name, new_pre in query.preconditions.items():
                     old_pre = root_query.get_precondition(func_map[name])
@@ -110,7 +128,7 @@ class FixFunction(Task):
                     y = sexpdata.loads(new_pre.sexpr())
                     y = self.build_graph(y)
                     acc += nx.graph_edit_distance(x, y, node_match=lambda x, y: x == y)
-                    acc += 1
+                    acc += 20
                 for name, new_post in query.postconditions.items():
                     old_post = root_query.get_postcondition(func_map[name])
                     x = sexpdata.loads(old_post.sexpr())
@@ -118,7 +136,7 @@ class FixFunction(Task):
                     y = sexpdata.loads(new_post.sexpr())
                     y = self.build_graph(y)
                     acc += nx.graph_edit_distance(x, y, node_match=lambda x, y: x == y)
-                    acc += 1
+                    acc += 20
                 if result_acc is None:
                     result_acc = acc
                     result_query = query
