@@ -8,7 +8,7 @@ from .vm import PreVM
 def precondition(function: FunctionContract, postcondition=None, query: LegacyQuery=LegacyQuery()):
     path_collector = PathCollector()
     path_collector.collect_paths(function.entry_point)
-    facts = []
+    facts = None
     for path in path_collector.paths:
         chain = PreChain()
         vm = PreVM(postcondition)
@@ -16,5 +16,9 @@ def precondition(function: FunctionContract, postcondition=None, query: LegacyQu
             chain.add_ir(ir)
         chain.run_chain(vm, query)
         vm.finalize(function)
-        facts.append(vm.facts)
-    return z3.simplify(z3.Or(facts))
+        if vm.facts is not None:
+            if facts is None:
+                facts = vm.facts
+            else:
+                facts = z3.simplify(z3.Or(facts, vm.facts))
+    return facts

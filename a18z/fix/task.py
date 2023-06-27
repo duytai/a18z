@@ -1,5 +1,6 @@
 import sexpdata
 import networkx as nx
+from tqdm import tqdm
 from copy import copy
 from timeit import default_timer as timer
 from slither.slithir.operations import InternalCall, LibraryCall
@@ -75,32 +76,24 @@ class FixFunction(Task):
         else:
             func_map = dict((f.canonical_name, f) for f in state.functions)
             func = func_map[pending.pop(0)]
-            if not verify(func, query):
-                # Fix precondition
-                pre_ = precondition(func, query=query)
-                pre_query = copy(query)
-                pre_query.add_precondition(func, pre_)
-                yield from self.update_patch(pending[::], pre_query, state)
-                # Fix postcondition
-                post_ = postcondition(func, query=query)
-                post_query = copy(query)
-                post_query.add_postcondition(func, post_)
-                yield from self.update_patch(pending[::], post_query, state)
-            else:
+            if verify(func, query):
                 # No fix
                 yield from self.update_patch(pending[::], copy(query), state)
-                # Fix precondition
-                pre_ = precondition(func, query=query)
+            # Fix precondition
+            pre_ = precondition(func, query=query)
+            if pre_ is not None and str(pre_) != 'False':
                 pre_query = copy(query)
                 pre_query.add_precondition(func, pre_)
                 yield from self.update_patch(pending[::], pre_query, state)
-                # Fix postcondition
-                post_ = postcondition(func, query=query)
+            # Fix postcondition
+            post_ = postcondition(func, query=query)
+            if post_ is not None and str(post_) != 'True':
                 post_query = copy(query)
                 post_query.add_postcondition(func, post_)
                 yield from self.update_patch(pending[::], post_query, state)
 
     def execute(self, state: State):
+        queries = []
         func_map = dict((f.canonical_name, f) for f in state.functions)
         root_query = LegacyQuery()
         for f in state.functions:
@@ -108,7 +101,7 @@ class FixFunction(Task):
         for cluster in state.clusters:
             result_query = None
             result_acc = None
-            for query in self.update_patch(cluster[::], LegacyQuery(), state):
+            for query in tqdm(self.update_patch(cluster[::], LegacyQuery(), state)):
                 acc = 0
                 for name, new_pre in query.preconditions.items():
                     old_pre = root_query.get_precondition(func_map[name])
@@ -117,6 +110,7 @@ class FixFunction(Task):
                     y = sexpdata.loads(new_pre.sexpr())
                     y = self.build_graph(y)
                     acc += nx.graph_edit_distance(x, y, node_match=lambda x, y: x == y)
+                    acc += 1
                 for name, new_post in query.postconditions.items():
                     old_post = root_query.get_postcondition(func_map[name])
                     x = sexpdata.loads(old_post.sexpr())
@@ -124,18 +118,17 @@ class FixFunction(Task):
                     y = sexpdata.loads(new_post.sexpr())
                     y = self.build_graph(y)
                     acc += nx.graph_edit_distance(x, y, node_match=lambda x, y: x == y)
-                print(query)
-                print(acc)
-                print('--')
+                    acc += 1
                 if result_acc is None:
                     result_acc = acc
                     result_query = query
                 elif acc < result_acc:
                     result_acc = acc
                     result_query = query
-            print(result_query)
-            print(result_acc)
-            break
+            assert result_query is not None
+            queries.append(result_query)
+        for query in queries:
+            print(query)
 
 class EvaluateInference(Task):
     def execute(self, state: State):
