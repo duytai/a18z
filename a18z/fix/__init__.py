@@ -7,7 +7,19 @@ from .task import (
     EvaluateInference,
     EvaluateCallsite,
     BuildCluster,
+    TestFunction,
 )
+
+def test(file):
+    state = State(file)
+    chain = FixChain()
+    tasks = [
+        EnumerateFunction(),
+        TestFunction(),
+    ]
+    for task in tasks:
+        chain.add_task(task)
+    chain.run_chain(state)
 
 def fix(file):
     state = State(file)

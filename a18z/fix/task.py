@@ -207,3 +207,10 @@ class EvaluateCallsite(Task):
         print(f'#internal: {p_value}')
         print(f'#success: {goods}')
         print(f'#d: {end - start}')
+
+
+class TestFunction(Task):
+    def execute(self, state: State):
+        for function in state.functions:
+            print(function.canonical_name)
+            print(verify(function))
