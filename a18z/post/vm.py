@@ -18,9 +18,6 @@ class PostVM(LegacyVM):
             else:
                 self._outcomes = outcome
 
-    def set_postcondition(self, value):
-        self._postcondition = z3.BoolVal(True)
-
     def finalize(self, function=None):
         if not self.rev:
 

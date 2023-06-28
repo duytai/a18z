@@ -212,5 +212,5 @@ class EvaluateCallsite(Task):
 class TestFunction(Task):
     def execute(self, state: State):
         for function in state.functions:
-            print(function.canonical_name)
+            print(f'> {Color.YELLOW}{function.canonical_name}{Color.OFF}')
             print(verify(function))

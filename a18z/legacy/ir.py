@@ -111,7 +111,8 @@ class LegacyAssignment(LegacyIR):
             vm.set_precondition(rvar)
         elif str(lvar) == '__v2':
             rvar = vm.get_variable(ir.rvalue)
-            vm.set_postcondition(rvar)
+            variables = ir.function.state_variables_written
+            vm.set_postcondition(rvar, variables)
         else:
             vm.substitute(lvar)
             rvar = vm.get_variable(ir.rvalue)

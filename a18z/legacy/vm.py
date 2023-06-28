@@ -1,4 +1,5 @@
 import z3
+from slither.core.declarations import FunctionContract
 from slither.core.declarations.solidity_variables import SolidityVariableComposed, SolidityVariable
 from slither.core.variables.local_variable import LocalVariable
 from slither.core.variables.state_variable import StateVariable
@@ -113,9 +114,8 @@ class LegacyVM:
         self._precondition = value
         self.add_constraint(value)
 
-    def set_postcondition(self, value):
+    def set_postcondition(self, value, state_variables):
         value = self._postcondition if self._postcondition is not None else value
-        self._postcondition = value
         substitutions = []
         for variable in z3.z3util.get_vars(value):
             if str(variable).startswith('old_'):
@@ -124,6 +124,11 @@ class LegacyVM:
                 self._constraints.append(new_variable == tmp_variable)
                 self._olds.append((new_variable, tmp_variable))
                 substitutions.append((variable, tmp_variable))
+                state_variables = [x for x in state_variables if x.name != str(new_variable)]
+        for variable in state_variables:
+            new_variable = self.get_variable(variable)
+            tmp_variable = z3.FreshConst(new_variable.sort())
+            self._olds.append((new_variable, tmp_variable))
         self._postcondition = z3.substitute(value, *substitutions)
 
     def finalize(self, function):
