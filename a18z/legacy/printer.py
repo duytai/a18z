@@ -5,7 +5,11 @@ def pp(expr):
     if z3.is_and(expr):
         if len(operands) == 1:
             return pp(operands[0])
-        return ' && '.join([pp(x) for x in operands])
+        return ' && '.join([f'{pp(x)}' for x in operands])
+    elif z3.is_or(expr):
+        if len(operands) == 1:
+            return pp(operands[0])
+        return ' || '.join([f'{pp(x)}' for x in operands])
     elif z3.is_not(expr):
         return ' ! '.join([pp(x) for x in operands])
     elif z3.is_eq(expr):

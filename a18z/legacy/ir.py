@@ -13,6 +13,7 @@ from slither.slithir.operations import (
     TypeConversion,
     LibraryCall
 )
+from slither.core.expressions.assignment_operation import AssignmentOperation
 from slither.slithir.operations.high_level_call import HighLevelCall
 from slither.core.expressions.unary_operation import UnaryOperationType
 from slither.slithir.operations.return_operation import Return
@@ -66,22 +67,24 @@ class LegacyBinary(LegacyIR):
         elif ir.type == BinaryType.POWER:
             result = z3.ToInt(lvar**rvar)
         else: raise ValueError(ir.type)
-        if isinstance(ir.lvalue, ReferenceVariable):
-            lvar = vm.get_variable(ir.lvalue)
-            assert z3.is_select(lvar)
-            base, index = lvar.children()
-            if z3.is_select(base):
-                root, _ = base.children()
-                tmp = vm.substitute(root)
-                result = z3.Store(base, index, result)
-                result = z3.substitute(result, (root, tmp))
-                vm.add_constraint(base == result)
+        if isinstance(ir.expression, AssignmentOperation):
+            if isinstance(ir.lvalue, ReferenceVariable):
+                lvar = vm.get_variable(ir.lvalue)
+                assert z3.is_select(lvar)
+                base, index = lvar.children()
+                if z3.is_select(base):
+                    root, _ = base.children()
+                    tmp = vm.substitute(root)
+                    result = z3.Store(base, index, result)
+                    result = z3.substitute(result, (root, tmp))
+                    vm.add_constraint(base == result)
+                    return
+                rvar = z3.Store(base, index, result)
+                tmp = vm.substitute(base)
+                rvar = z3.substitute(rvar, (base, tmp))
+                vm.add_constraint(base == rvar)
                 return
-            rvar = z3.Store(base, index, result)
-            tmp = vm.substitute(base)
-            rvar = z3.substitute(rvar, (base, tmp))
-            vm.add_constraint(base == rvar)
-            return
+            else: raise ValueError(ir.expression)
         vm.set_variable(ir.lvalue, result)
 
 class LegacyAssignment(LegacyIR):

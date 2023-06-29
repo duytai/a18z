@@ -40,7 +40,7 @@ class LegacyQuery:
     def __str__(self) -> str:
         results = []
         for k, v in self._preconditions.items():
-            results.append(f'> Pre of `{k}` is {Color.YELLOW}{v}{Color.OFF}')
+            results.append(f'> Pre of `{k}` is {Color.YELLOW}{pp(v)}{Color.OFF}')
         for k, v in self._postconditions.items():
-            results.append(f'> Post of `{k}` is {Color.YELLOW}{v}{Color.OFF}')
+            results.append(f'> Post of `{k}` is {Color.YELLOW}{pp(v)}{Color.OFF}')
         return '\n'.join(results)

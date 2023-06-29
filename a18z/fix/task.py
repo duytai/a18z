@@ -113,12 +113,12 @@ class FixFunction(Task):
         for cluster in state.clusters:
             result_query = None
             result_acc = None
-            for query in tqdm(self.update_patch(cluster[::], LegacyQuery(), state)):
+            for query in self.update_patch(cluster[::], LegacyQuery(), state):
                 # check if the query is ok
-                ok = True
-                for name in cluster:
-                    ok = ok and verify(func_map[name], query)
-                if not ok: continue
+                # ok = True
+                # for name in cluster:
+                #     ok = ok and verify(func_map[name], query)
+                # if not ok: continue
                 # if ok, we proceed
                 acc = 0
                 for name, new_pre in query.preconditions.items():
@@ -127,7 +127,15 @@ class FixFunction(Task):
                     x = self.build_graph(x)
                     y = sexpdata.loads(new_pre.sexpr())
                     y = self.build_graph(y)
-                    acc += nx.graph_edit_distance(x, y, node_match=lambda x, y: x == y)
+                    # for lol in nx.optimize_graph_edit_distance(x, y, node_match=lambda x, y: x == y):
+                    #     print(lol)
+                    acc += nx.graph_edit_distance(
+                        x,
+                        y,
+                        node_subst_cost=lambda x, y: x == y,
+                        node_match=lambda x, y: x == y,
+                        timeout=2
+                    )
                     acc += 20
                 for name, new_post in query.postconditions.items():
                     old_post = root_query.get_postcondition(func_map[name])
@@ -135,8 +143,17 @@ class FixFunction(Task):
                     x = self.build_graph(x)
                     y = sexpdata.loads(new_post.sexpr())
                     y = self.build_graph(y)
-                    acc += nx.graph_edit_distance(x, y, node_match=lambda x, y: x == y)
+                    acc += nx.graph_edit_distance(
+                        x,
+                        y,
+                        node_subst_cost=lambda x, y: x == y,
+                        node_match=lambda x, y: x == y,
+                        timeout=2
+                    )
                     acc += 20
+                print('----')
+                print(query)
+                print(acc)
                 if result_acc is None:
                     result_acc = acc
                     result_query = query

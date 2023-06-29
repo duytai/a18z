@@ -1,15 +1,14 @@
-contract A {uint256 old_z;mapping(address => uint256) old_balances;
-    uint z;
-    mapping(address => uint) balances;
-    /// ensures(true, balances[msg.sender] == 100)
-    function a() public {(bool __v1, bool __v2)=(true,  balances[msg.sender] == 100);
-        z = 10;
-        balances[msg.sender] = 100;
-        b();
+contract A {mapping(address => uint256) old_balances;
+  mapping(address => uint256) balances;
+
+  /// ensures(true, balances[msg.sender] == old(balances)[msg.sender] - _value && balances[_to] == old(balances)[_to] + _value)
+  function transfer(address _to, uint256 _value) returns(bool success) {(bool __v1, bool __v2)=(true,  balances[msg.sender] == old_balances[msg.sender] - _value && balances[_to] == old_balances[_to] + _value);require(_value >= 0);
+    if (balances[msg.sender] >= _value) {
+      balances[msg.sender] -= _value;
+      balances[_to] += _value;
+      return true;
+    } else {
+      return false;
     }
-    /// ensures(true, z == 11 && balances[msg.sender] == 100)
-    function b() public {(bool __v1, bool __v2)=(true,  z == 11 && balances[msg.sender] == 100);
-        z = 11;
-        balances[msg.sender] += 100;
-    }
+  }
 }
