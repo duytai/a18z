@@ -151,9 +151,6 @@ class FixFunction(Task):
                         timeout=2
                     )
                     acc += 20
-                print('----')
-                print(query)
-                print(acc)
                 if result_acc is None:
                     result_acc = acc
                     result_query = query

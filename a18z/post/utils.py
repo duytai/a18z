@@ -34,13 +34,13 @@ def find_outcome(hypothesis, eliminated_vars):
                         z3.Tactic('elim-term-ite')
                     ).apply(expr)[0])
                     variables = [x for x in z3.z3util.get_vars(expr) if str(x).startswith('k!')]
-                    expr = z3.And(*z3.Then(
-                        z3.Tactic('qe2'),
-                        z3.Tactic('ctx-solver-simplify'),
-                        z3.Tactic('ctx-simplify'),
-                        z3.Tactic('simplify')
-                    ).apply(z3.Exists(variables, expr))[0])
-
+                    if variables:
+                        expr = z3.And(*z3.Then(
+                            z3.Tactic('qe2'),
+                            z3.Tactic('ctx-solver-simplify'),
+                            z3.Tactic('ctx-simplify'),
+                            z3.Tactic('simplify')
+                        ).apply(z3.Exists(variables, expr))[0])
                     split_all = z3.Then(
                         z3.Repeat(
                             z3.OrElse(
@@ -62,6 +62,6 @@ def find_outcome(hypothesis, eliminated_vars):
                     operands.append(r)
             else:
                 operands.append(r)
-        return z3.And(*operands)
+        return z3.simplify(z3.And(*operands))
     except:
         return None
