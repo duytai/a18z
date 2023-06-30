@@ -113,12 +113,12 @@ class FixFunction(Task):
         for cluster in state.clusters:
             result_query = None
             result_acc = None
-            for query in self.update_patch(cluster[::], LegacyQuery(), state):
+            for query in tqdm(self.update_patch(cluster[::], LegacyQuery(), state)):
                 # check if the query is ok
-                # ok = True
-                # for name in cluster:
-                #     ok = ok and verify(func_map[name], query)
-                # if not ok: continue
+                ok = True
+                for name in cluster:
+                    ok = ok and verify(func_map[name], query)
+                if not ok: continue
                 # if ok, we proceed
                 acc = 0
                 for name, new_pre in query.preconditions.items():
@@ -127,13 +127,9 @@ class FixFunction(Task):
                     x = self.build_graph(x)
                     y = sexpdata.loads(new_pre.sexpr())
                     y = self.build_graph(y)
-                    # for lol in nx.optimize_graph_edit_distance(x, y, node_match=lambda x, y: x == y):
-                    #     print(lol)
                     acc += nx.graph_edit_distance(
                         x,
                         y,
-                        node_subst_cost=lambda x, y: x == y,
-                        node_match=lambda x, y: x == y,
                         timeout=2
                     )
                     acc += 20
@@ -146,8 +142,6 @@ class FixFunction(Task):
                     acc += nx.graph_edit_distance(
                         x,
                         y,
-                        node_subst_cost=lambda x, y: x == y,
-                        node_match=lambda x, y: x == y,
                         timeout=2
                     )
                     acc += 20
@@ -228,3 +222,4 @@ class TestFunction(Task):
         for function in state.functions:
             print(f'> {Color.YELLOW}{function.canonical_name}{Color.OFF}')
             print(verify(function))
+            print(postcondition(function))

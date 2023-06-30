@@ -1,18 +1,19 @@
 import z3
 from ..legacy.utils import check_unsat
 
+QE2 = z3.TryFor(z3.Tactic('qe2'), 5000)
+
 def find_outcome(hypothesis, eliminated_vars):
     if not eliminated_vars:
         tmp_var = z3.FreshConst(z3.BoolSort())
         eliminated_vars.append(tmp_var)
-
     try:
-        result = z3.TryFor(z3.Then(
-            z3.Tactic('qe2'),
+        result = z3.Then(
+            QE2,
             z3.Tactic('ctx-solver-simplify'),
             z3.Tactic('ctx-simplify'),
             z3.Tactic('simplify'),
-        ), 5000).apply(z3.Exists(eliminated_vars, hypothesis))
+        ).apply(z3.Exists(eliminated_vars, hypothesis))
 
         operands = []
         for r in result[0]:
@@ -36,7 +37,7 @@ def find_outcome(hypothesis, eliminated_vars):
                     variables = [x for x in z3.z3util.get_vars(expr) if str(x).startswith('k!')]
                     if variables:
                         expr = z3.And(*z3.Then(
-                            z3.Tactic('qe2'),
+                            QE2,
                             z3.Tactic('ctx-solver-simplify'),
                             z3.Tactic('ctx-simplify'),
                             z3.Tactic('simplify')
