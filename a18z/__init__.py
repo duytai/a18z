@@ -3,7 +3,7 @@ from .legacy import verify, collect, LegacyQuery
 from .post import postcondition
 from .pre import precondition
 from .prep import prepcondition
-from .fix import fix, rq1, rq2, test
+from .fix import rq3, rq1, rq2, test
 
 def inject(file):
     ij = Injector(file)

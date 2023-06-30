@@ -21,7 +21,7 @@ def test(file):
         chain.add_task(task)
     chain.run_chain(state)
 
-def fix(file):
+def rq3(file):
     state = State(file)
     chain = FixChain()
     tasks = [
