@@ -210,7 +210,7 @@ contract NXMToken is IERC20 {
     * @param value The amount of tokens to be spent.
     */
     /// ensures(spender != address(0), _allowed[msg.sender][spender] == value)
-    function approve(address spender, uint256 value) public returns (bool) {
+    function approve(address spender, uint256 value) public returns (bool r) {
         require(spender != address(0));
 
         _allowed[msg.sender][spender] = value;
@@ -233,7 +233,7 @@ contract NXMToken is IERC20 {
         uint256 addedValue
     )
         public
-        returns (bool)
+        returns (bool r)
     {
         require(spender != address(0));
 
@@ -258,7 +258,7 @@ contract NXMToken is IERC20 {
         uint256 subtractedValue
     )
         public
-        returns (bool)
+        returns (bool r)
     {
         require(spender != address(0));
 
@@ -273,7 +273,7 @@ contract NXMToken is IERC20 {
     * @param _member address to add to whitelist
     */
     /// ensures(msg.sender == operator, whiteListed[_member])
-    function addToWhiteList(address _member) public onlyOperator returns (bool) {
+    function addToWhiteList(address _member) public onlyOperator returns (bool r) {
         whiteListed[_member] = true;
         emit WhiteListed(_member);
         return true;
@@ -284,7 +284,7 @@ contract NXMToken is IERC20 {
     * @param _member address to remove from whitelist
     */
     /// ensures(msg.sender == operator, !whiteListed[_member])
-    function removeFromWhiteList(address _member) public onlyOperator returns (bool) {
+    function removeFromWhiteList(address _member) public onlyOperator returns (bool r) {
         whiteListed[_member] = false;
         emit BlackListed(_member);
         return true;
@@ -295,7 +295,7 @@ contract NXMToken is IERC20 {
     * @param _newOperator address of new operator
     */
     /// ensures(msg.sender == operator, operator == _newOperator)
-    function changeOperator(address _newOperator) public onlyOperator returns (bool) {
+    function changeOperator(address _newOperator) public onlyOperator returns (bool r) {
         operator = _newOperator;
         return true;
     }
@@ -306,7 +306,7 @@ contract NXMToken is IERC20 {
     * @param amount The amount that will be burnt.
     */
     /// ensures(amount <= _balances[msg.sender] && _totalSupply >= amount, true)
-    function burn(uint256 amount) public returns (bool) {
+    function burn(uint256 amount) public returns (bool r) {
         _burn(msg.sender, amount);
         return true;
     }
@@ -317,7 +317,7 @@ contract NXMToken is IERC20 {
     * @param value uint256 The amount of token to be burned
     */
     /// ensures(_totalSupply >= value && value <= _balances[from] && value <= _allowed[from][msg.sender], true)
-    function burnFrom(address from, uint256 value) public returns (bool) {
+    function burnFrom(address from, uint256 value) public returns (bool r) {
         _burnFrom(from, value);
         return true;
     }
@@ -338,8 +338,8 @@ contract NXMToken is IERC20 {
     * @param to The address to transfer to.
     * @param value The amount to be transferred.
     */
-    /// ensures(isLockedForMV[msg.sender] < now && value <= _balances[msg.sender] && msg.sender != to && _balances[msg.sender] >= value, true)
-    function transfer(address to, uint256 value) public canTransfer(to) returns (bool) {
+    /// ensures(isLockedForMV[msg.sender] < now && msg.sender != to && _balances[msg.sender] >= value, true)
+    function transfer(address to, uint256 value) public canTransfer(to) returns (bool r) {
 
         require(isLockedForMV[msg.sender] < now); // if not voted under governance
         require(value <= _balances[msg.sender]);
@@ -353,7 +353,7 @@ contract NXMToken is IERC20 {
     * @param value The amount to be transferred.
     */
     /// ensures(msg.sender == operator && from != operator && value <= _balances[from] && value <= _allowed[from][msg.sender], true)
-    function operatorTransfer(address from, uint256 value) public onlyOperator returns (bool) {
+    function operatorTransfer(address from, uint256 value) public onlyOperator returns (bool r) {
         require(value <= _balances[from]);
         _transferFrom(from, operator, value);
         return true;
@@ -373,7 +373,7 @@ contract NXMToken is IERC20 {
     )
         public
         canTransfer(to)
-        returns (bool)
+        returns (bool r)
     {
         require(isLockedForMV[from] < now); // if not voted under governance
         require(value <= _balances[from]);

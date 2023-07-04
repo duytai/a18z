@@ -160,7 +160,7 @@ contract BAToken is StandardToken, SafeMath {string old_name;string old_symbol;u
       //if(!ethFundDeposit.send(this.balance)) throw;  // send the eth to Brave International
     }
 
-     /// ensures(!isFinalized && block.number > fundingEndBlock && totalSupply < tokenCreationMin && msg.sender != batFundDeposit && balances[msg.sender] > 0 && totalSupply > balances[msg.sender], totalSupply == old(totalSupply) - old(balances[msg.sender]) && balances[msg.sender] == 0)
+    /// ensures(!isFinalized && block.number > fundingEndBlock && totalSupply < tokenCreationMin && msg.sender != batFundDeposit && balances[msg.sender] > 0 && totalSupply > balances[msg.sender], totalSupply == old(totalSupply) - old(balances[msg.sender]) && balances[msg.sender] == 0)
     function refund() external {(bool __v1, bool __v2)=(!isFinalized && block.number > fundingEndBlock && totalSupply < tokenCreationMin && msg.sender != batFundDeposit && balances[msg.sender] > 0 && totalSupply > balances[msg.sender],  totalSupply == old_totalSupply - old_balances[msg.sender] && balances[msg.sender] == 0);require(fundingEndBlock >= 0);require(tokenCreationMin >= 0);require(tokenExchangeRate >= 0);require(totalSupply >= 0);
       if(isFinalized) throw;                       // prevents refund if operational
       if (block.number <= fundingEndBlock) throw; // prevents refund until sale period is over

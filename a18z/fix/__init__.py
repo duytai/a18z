@@ -8,6 +8,7 @@ from .task import (
     EvaluateCallsite,
     BuildCluster,
     TestFunction,
+    RQ3,
 )
 
 def test(file):
@@ -21,7 +22,7 @@ def test(file):
         chain.add_task(task)
     chain.run_chain(state)
 
-def rq3(file):
+def fix(file):
     state = State(file)
     chain = FixChain()
     tasks = [
@@ -29,6 +30,18 @@ def rq3(file):
         BuildCallGraph(),
         BuildCluster(),
         FixFunction()
+    ]
+    for task in tasks:
+        chain.add_task(task)
+    chain.run_chain(state)
+
+def rq3(file):
+    state = State(file)
+    chain = FixChain()
+    tasks = [
+        EnumerateFunction(),
+        BuildCallGraph(),
+        RQ3(),
     ]
     for task in tasks:
         chain.add_task(task)

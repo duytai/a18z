@@ -22,7 +22,7 @@ contract Ownable {address old_owner;
    * account.
    */
   /// ensures(true, owner == msg.sender)
-  function Ownable() public {(bool __v1, bool __v2)=(true, owner == msg.sender);
+  function Ownable() public {(bool __v1, bool __v2)=(true,  owner == msg.sender);
     owner = msg.sender;
   }
 
@@ -41,7 +41,7 @@ contract Ownable {address old_owner;
    * @param newOwner The address to transfer ownership to.
    */
   /// ensures(msg.sender == owner && newOwner != address(0), owner == newOwner)
-  function transferOwnership(address newOwner) public onlyOwner {(bool __v1, bool __v2)=(msg.sender == owner && newOwner != address(0), owner == newOwner);
+  function transferOwnership(address newOwner) public onlyOwner {(bool __v1, bool __v2)=(msg.sender == owner && newOwner != address(0),  owner == newOwner);
     require(newOwner != address(0));
     OwnershipTransferred(owner, newOwner);
     owner = newOwner;
@@ -54,7 +54,7 @@ contract Ownable {address old_owner;
  */
 library SafeMath {
   /// ensures(true, r == a * b)
-  function mul(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true, r == a * b);require(a >= 0);require(b >= 0);
+  function mul(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true,  r == a * b);require(a >= 0);require(b >= 0);
     if (a == 0) {
       return 0;
     }
@@ -63,19 +63,19 @@ library SafeMath {
     return c;
   }
   /// ensures(true, r == a / b)
-  function div(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true, r == a / b);require(a >= 0);require(b >= 0);
+  function div(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true,  r == a / b);require(a >= 0);require(b >= 0);
     // assert(b > 0); // Solidity automatically throws when dividing by 0
     uint256 c = a / b;
     // assert(a == b * c + a % b); // There is no case in which this doesn't hold
     return c;
   }
   /// ensures(a >= b, r == a - b)
-  function sub(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(a >= b, r == a - b);require(a >= 0);require(b >= 0);
+  function sub(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(a >= b,  r == a - b);require(a >= 0);require(b >= 0);
     assert(b <= a);
     return a - b;
   }
   /// ensures(true, r == a + b)
-  function add(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true, r == a + b);require(a >= 0);require(b >= 0);
+  function add(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true,  r == a + b);require(a >= 0);require(b >= 0);
     uint256 c = a + b;
     assert(c >= a);
     return c;
@@ -122,7 +122,7 @@ contract HoloToken is Ownable {string old_name;string old_symbol;uint8 old_decim
   * @param _value The amount to be transferred.
   */
   /// ensures(msg.sender != _to && mintingFinished && _to != address(0) && _value <= balances[msg.sender], balances[msg.sender] == old(balances[msg.sender]) - _value && balances[_to] == old(balances[_to]) + _value)
-  function transfer(address _to, uint256 _value) public whenMintingFinished returns (bool) {(bool __v1, bool __v2)=(msg.sender != _to && mintingFinished && _to != address(0) && _value <= balances[msg.sender], balances[msg.sender] == old_balances[msg.sender] - _value && balances[_to] == old_balances[_to] + _value);require(_value >= 0);
+  function transfer(address _to, uint256 _value) public whenMintingFinished returns (bool) {(bool __v1, bool __v2)=(msg.sender != _to && mintingFinished && _to != address(0) && _value <= balances[msg.sender],  balances[msg.sender] == old_balances[msg.sender] - _value && balances[_to] == old_balances[_to] + _value);require(_value >= 0);
     require(_to != address(0));
     require(_value <= balances[msg.sender]);
 
@@ -139,7 +139,7 @@ contract HoloToken is Ownable {string old_name;string old_symbol;uint8 old_decim
   * @return An uint256 representing the amount owned by the passed address.
   */
   /// ensures(true, balance == balances[_owner])
-  function balanceOf(address _owner) public view returns (uint256 balance) {(bool __v1, bool __v2)=(true, balance == balances[_owner]);
+  function balanceOf(address _owner) public view returns (uint256 balance) {(bool __v1, bool __v2)=(true,  balance == balances[_owner]);
     return balances[_owner];
   }
 
@@ -157,7 +157,7 @@ contract HoloToken is Ownable {string old_name;string old_symbol;uint8 old_decim
    * @param _value uint256 the amout of tokens to be transfered
    */
   /// ensures(_from != _to && mintingFinished && _to != address(0) && _value <= balances[_from] && _value <= allowed[_from][msg.sender], balances[_from] == old(balances[_from]) - _value && balances[_to] == old(balances[_to]) + _value && allowed[_from][msg.sender] == old(allowed[_from][msg.sender]) - _value)
-  function transferFrom(address _from, address _to, uint256 _value) public whenMintingFinished returns (bool) {(bool __v1, bool __v2)=(_from != _to && mintingFinished && _to != address(0) && _value <= balances[_from] && _value <= allowed[_from][msg.sender], balances[_from] == old_balances[_from] - _value && balances[_to] == old_balances[_to] + _value && allowed[_from][msg.sender] == old_allowed[_from][msg.sender] - _value);require(_value >= 0);
+  function transferFrom(address _from, address _to, uint256 _value) public whenMintingFinished returns (bool) {(bool __v1, bool __v2)=(_from != _to && mintingFinished && _to != address(0) && _value <= balances[_from] && _value <= allowed[_from][msg.sender],  balances[_from] == old_balances[_from] - _value && balances[_to] == old_balances[_to] + _value && allowed[_from][msg.sender] == old_allowed[_from][msg.sender] - _value);require(_value >= 0);
     require(_to != address(0));
     require(_value <= balances[_from]);
     require(_value <= allowed[_from][msg.sender]);
@@ -180,7 +180,7 @@ contract HoloToken is Ownable {string old_name;string old_symbol;uint8 old_decim
    * @param _value The amount of tokens to be spent.
    */
   /// ensures(mintingFinished, allowed[msg.sender][_spender] == _value)
-  function approve(address _spender, uint256 _value) public whenMintingFinished returns (bool) {(bool __v1, bool __v2)=(mintingFinished, allowed[msg.sender][_spender] == _value);require(_value >= 0);
+  function approve(address _spender, uint256 _value) public whenMintingFinished returns (bool) {(bool __v1, bool __v2)=(mintingFinished,  allowed[msg.sender][_spender] == _value);require(_value >= 0);
     allowed[msg.sender][_spender] = _value;
     Approval(msg.sender, _spender, _value);
     return true;
@@ -193,7 +193,7 @@ contract HoloToken is Ownable {string old_name;string old_symbol;uint8 old_decim
    * @return A uint256 specifying the amount of tokens still available for the spender.
    */
    /// ensures(true, r == allowed[_owner][_spender])
-  function allowance(address _owner, address _spender) public view returns (uint256 r) {(bool __v1, bool __v2)=(true, r == allowed[_owner][_spender]);
+  function allowance(address _owner, address _spender) public view returns (uint256 r) {(bool __v1, bool __v2)=(true,  r == allowed[_owner][_spender]);
     return allowed[_owner][_spender];
   }
 
@@ -204,14 +204,14 @@ contract HoloToken is Ownable {string old_name;string old_symbol;uint8 old_decim
    * From MonolithDAO Token.sol
    */
   /// ensures(true, allowed[msg.sender][_spender] == old(allowed[msg.sender][_spender]) + _addedValue)
-  function increaseApproval(address _spender, uint _addedValue) public returns (bool) {(bool __v1, bool __v2)=(true, allowed[msg.sender][_spender] == old_allowed[msg.sender][_spender] + _addedValue);require(_addedValue >= 0);
+  function increaseApproval(address _spender, uint _addedValue) public returns (bool) {(bool __v1, bool __v2)=(true,  allowed[msg.sender][_spender] == old_allowed[msg.sender][_spender] + _addedValue);require(_addedValue >= 0);
     allowed[msg.sender][_spender] = allowed[msg.sender][_spender].add(_addedValue);
     Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
     return true;
   }
 
   /// ensures(_subtractedValue <= allowed[msg.sender][_spender], allowed[msg.sender][_spender] == old(allowed[msg.sender][_spender]) - _subtractedValue)
-  function decreaseApproval(address _spender, uint _subtractedValue) public returns (bool) {(bool __v1, bool __v2)=(_subtractedValue <= allowed[msg.sender][_spender], allowed[msg.sender][_spender] == old_allowed[msg.sender][_spender] - _subtractedValue);require(_subtractedValue >= 0);
+  function decreaseApproval(address _spender, uint _subtractedValue) public returns (bool) {(bool __v1, bool __v2)=(_subtractedValue <= allowed[msg.sender][_spender],  allowed[msg.sender][_spender] == old_allowed[msg.sender][_spender] - _subtractedValue);require(_subtractedValue >= 0);
     uint oldValue = allowed[msg.sender][_spender];
     if (_subtractedValue > oldValue) {
       allowed[msg.sender][_spender] = 0;
@@ -246,11 +246,11 @@ contract HoloToken is Ownable {string old_name;string old_symbol;uint8 old_decim
     _;
   }
   /// ensures(msg.sender == owner, minter == _minter)
-  function setMinter(address _minter) external onlyOwner {(bool __v1, bool __v2)=(msg.sender == owner, minter == _minter);
+  function setMinter(address _minter) external onlyOwner {(bool __v1, bool __v2)=(msg.sender == owner,  minter == _minter);
     minter = _minter;
   }
   /// ensures(msg.sender == owner && !mintingFinished && balances[_to] + _amount > balances[_to] && totalSupply + _amount > totalSupply, totalSupply == old(totalSupply) + _amount && balances[_to] == old(balances[_to]) + _amount)
-  function mint(address _to, uint256 _amount) external onlyMinter canMint  returns (bool) {(bool __v1, bool __v2)=(msg.sender == owner && !mintingFinished && balances[_to] + _amount > balances[_to] && totalSupply + _amount > totalSupply, totalSupply == old_totalSupply + _amount && balances[_to] == old_balances[_to] + _amount);require(_amount >= 0);require(totalSupply >= 0);
+  function mint(address _to, uint256 _amount) external onlyMinter canMint  returns (bool) {(bool __v1, bool __v2)=(msg.sender == owner && !mintingFinished && balances[_to] + _amount > balances[_to] && totalSupply + _amount > totalSupply,  totalSupply == old_totalSupply + _amount && balances[_to] == old_balances[_to] + _amount);require(_amount >= 0);require(totalSupply >= 0);
     require(balances[_to] + _amount > balances[_to]); // Guard against overflow
     require(totalSupply + _amount > totalSupply);     // Guard against overflow  (this should never happen)
     totalSupply = totalSupply.add(_amount);
@@ -259,7 +259,7 @@ contract HoloToken is Ownable {string old_name;string old_symbol;uint8 old_decim
     return true;
   }
   /// ensures(msg.sender == minter, mintingFinished)
-  function finishMinting() external onlyMinter returns (bool) {(bool __v1, bool __v2)=(msg.sender == minter, mintingFinished);
+  function finishMinting() external onlyMinter returns (bool) {(bool __v1, bool __v2)=(msg.sender == minter,  mintingFinished);
     mintingFinished = true;
     MintingFinished();
     return true;
@@ -276,11 +276,11 @@ contract HoloToken is Ownable {string old_name;string old_symbol;uint8 old_decim
      _;
   }
   /// ensures(msg.sender == owner, destroyer == _destroyer)
-  function setDestroyer(address _destroyer) external onlyOwner {(bool __v1, bool __v2)=(msg.sender == owner, destroyer == _destroyer);
+  function setDestroyer(address _destroyer) external onlyOwner {(bool __v1, bool __v2)=(msg.sender == owner,  destroyer == _destroyer);
     destroyer = _destroyer;
   }
   /// ensures(msg.sender == destroyer && balances[destroyer] >= _amount && _amount > 0 && totalSupply >= _amount, balances[destroyer] == old(balances[destroyer]) - _amount && totalSupply == old(totalSupply) - _amount)
-  function burn(uint256 _amount) external onlyDestroyer {(bool __v1, bool __v2)=(msg.sender == destroyer && balances[destroyer] >= _amount && _amount > 0 && totalSupply >= _amount, balances[destroyer] == old_balances[destroyer] - _amount && totalSupply == old_totalSupply - _amount);require(_amount >= 0);require(totalSupply >= 0);
+  function burn(uint256 _amount) external onlyDestroyer {(bool __v1, bool __v2)=(msg.sender == destroyer && balances[destroyer] >= _amount && _amount > 0 && totalSupply >= _amount,  balances[destroyer] == old_balances[destroyer] - _amount && totalSupply == old_totalSupply - _amount);require(_amount >= 0);require(totalSupply >= 0);
     require(balances[destroyer] >= _amount && _amount > 0);
     balances[destroyer] = balances[destroyer].sub(_amount);
     totalSupply = totalSupply.sub(_amount);

@@ -154,6 +154,6 @@ contract BNB is SafeMath{
   	
   	// can accept ether
     /// ensures(true, true)
-  	function() payable {
-    }
+  	// function() payable {
+    // }
 }

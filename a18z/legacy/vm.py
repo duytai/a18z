@@ -19,6 +19,7 @@ class LegacyVM:
         self._postcondition = postcondition
         self._olds = []
         self._is_verified = None
+        self._clocs = []
 
     @property
     def precondition(self):
@@ -31,6 +32,10 @@ class LegacyVM:
     @property
     def substitutions(self):
         return self._substitutions
+
+    @property
+    def clocs(self):
+        return self._clocs
 
     @property
     def constraints(self):
@@ -62,6 +67,10 @@ class LegacyVM:
 
     def add_constraint(self, constraint):
         self._constraints.append(constraint)
+
+    def add_cloc(self, cloc=None):
+        cloc = cloc if cloc else len(self._constraints)
+        self._clocs.append(cloc)
 
     def fresh_variable(self, variable):
         state = TypeState()

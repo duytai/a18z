@@ -9,25 +9,25 @@ pragma solidity ^0.4.8;
  */
 contract SafeMath {
   /// ensures(true, r == a * b)
-  function safeMul(uint256 a, uint256 b) internal returns (uint256 r) {(bool __v1, bool __v2)=(true, r == a * b);require(a >= 0);require(b >= 0);
+  function safeMul(uint256 a, uint256 b) internal returns (uint256 r) {(bool __v1, bool __v2)=(true,  r == a * b);require(a >= 0);require(b >= 0);
     uint256 c = a * b;
     // assert(a == 0 || c / a == b);
     return c;
   }
   /// ensures(b > 0, r == a / b)
-  function safeDiv(uint256 a, uint256 b) internal returns (uint256 r) {(bool __v1, bool __v2)=(b > 0, r == a / b);require(a >= 0);require(b >= 0);
+  function safeDiv(uint256 a, uint256 b) internal returns (uint256 r) {(bool __v1, bool __v2)=(b > 0,  r == a / b);require(a >= 0);require(b >= 0);
     assert(b > 0);
     uint256 c = a / b;
     assert(a == b * c + a % b);
     return c;
   }
   /// ensures(a >= b, r == a - b)
-  function safeSub(uint256 a, uint256 b) internal returns (uint256 r) {(bool __v1, bool __v2)=(a >= b, r == a - b);require(a >= 0);require(b >= 0);
+  function safeSub(uint256 a, uint256 b) internal returns (uint256 r) {(bool __v1, bool __v2)=(a >= b,  r == a - b);require(a >= 0);require(b >= 0);
     assert(b <= a);
     return a - b;
   }
   /// ensures(true, r == a + b)
-  function safeAdd(uint256 a, uint256 b) internal returns (uint256 r) {(bool __v1, bool __v2)=(true, r == a + b);require(a >= 0);require(b >= 0);
+  function safeAdd(uint256 a, uint256 b) internal returns (uint256 r) {(bool __v1, bool __v2)=(true,  r == a + b);require(a >= 0);require(b >= 0);
     uint256 c = a + b;
     assert(c>=a && c>=b);
     return c;
@@ -70,7 +70,7 @@ contract BNB is SafeMath{string old_name;string old_symbol;uint8 old_decimals;ui
         string tokenName,
         uint8 decimalUnits,
         string tokenSymbol
-        ) {(bool __v1, bool __v2)=(true, balanceOf[msg.sender] == initialSupply && totalSupply == initialSupply && decimals == decimalUnits && owner == msg.sender);require(initialSupply >= 0);require(decimalUnits >= 0);
+        ) {(bool __v1, bool __v2)=(true,  balanceOf[msg.sender] == initialSupply && totalSupply == initialSupply && decimals == decimalUnits && owner == msg.sender);require(initialSupply >= 0);require(decimalUnits >= 0);
         balanceOf[msg.sender] = initialSupply;              // Give the creator all initial tokens
         totalSupply = initialSupply;                        // Update total supply
         name = tokenName;                                   // Set the name for display purposes
@@ -81,7 +81,7 @@ contract BNB is SafeMath{string old_name;string old_symbol;uint8 old_decimals;ui
 
     /* Send coins */
     /// ensures(msg.sender != _to && _to != address(0) && _value > 0 && balanceOf[msg.sender] >= _value && balanceOf[_to] >= 0, balanceOf[msg.sender] == old(balanceOf[msg.sender]) - _value && balanceOf[_to] == old(balanceOf[_to]) + _value)
-    function transfer(address _to, uint256 _value) {(bool __v1, bool __v2)=(msg.sender != _to && _to != address(0) && _value > 0 && balanceOf[msg.sender] >= _value && balanceOf[_to] >= 0, balanceOf[msg.sender] == old_balanceOf[msg.sender] - _value && balanceOf[_to] == old_balanceOf[_to] + _value);require(_value >= 0);
+    function transfer(address _to, uint256 _value) {(bool __v1, bool __v2)=(msg.sender != _to && _to != address(0) && _value > 0 && balanceOf[msg.sender] >= _value && balanceOf[_to] >= 0,  balanceOf[msg.sender] == old_balanceOf[msg.sender] - _value && balanceOf[_to] == old_balanceOf[_to] + _value);require(_value >= 0);
         if (_to == 0x0) throw;                               // Prevent transfer to 0x0 address. Use burn() instead
 		    if (_value <= 0) throw; 
         if (balanceOf[msg.sender] < _value) throw;           // Check if the sender has enough
@@ -94,7 +94,7 @@ contract BNB is SafeMath{string old_name;string old_symbol;uint8 old_decimals;ui
     /* Allow another contract to spend some tokens in your behalf */
     /// ensures(_value > 0, allowance[msg.sender][_spender] == _value)
     function approve(address _spender, uint256 _value)
-        returns (bool success) {(bool __v1, bool __v2)=(_value > 0, allowance[msg.sender][_spender] == _value);require(_value >= 0);
+        returns (bool success) {(bool __v1, bool __v2)=(_value > 0,  allowance[msg.sender][_spender] == _value);require(_value >= 0);
 		    if (_value <= 0) throw; 
         allowance[msg.sender][_spender] = _value;
         return true;
@@ -103,7 +103,7 @@ contract BNB is SafeMath{string old_name;string old_symbol;uint8 old_decimals;ui
 
     /* A contract attempts to get the coins */
     /// ensures(_from != _to && balanceOf[_to] >= 0 && _to != address(0) && _value > 0 && balanceOf[_from] >= _value && _value <= allowance[_from][msg.sender], balanceOf[_from] == old(balanceOf[_from]) - _value && balanceOf[_to] == old(balanceOf[_to]) + _value && allowance[_from][msg.sender] == old(allowance[_from][msg.sender]) - _value)
-    function transferFrom(address _from, address _to, uint256 _value) returns (bool success) {(bool __v1, bool __v2)=(_from != _to && balanceOf[_to] >= 0 && _to != address(0) && _value > 0 && balanceOf[_from] >= _value && _value <= allowance[_from][msg.sender], balanceOf[_from] == old_balanceOf[_from] - _value && balanceOf[_to] == old_balanceOf[_to] + _value && allowance[_from][msg.sender] == old_allowance[_from][msg.sender] - _value);require(_value >= 0);
+    function transferFrom(address _from, address _to, uint256 _value) returns (bool success) {(bool __v1, bool __v2)=(_from != _to && balanceOf[_to] >= 0 && _to != address(0) && _value > 0 && balanceOf[_from] >= _value && _value <= allowance[_from][msg.sender],  balanceOf[_from] == old_balanceOf[_from] - _value && balanceOf[_to] == old_balanceOf[_to] + _value && allowance[_from][msg.sender] == old_allowance[_from][msg.sender] - _value);require(_value >= 0);
         if (_to == 0x0) throw;                                // Prevent transfer to 0x0 address. Use burn() instead
 		    if (_value <= 0) throw; 
         if (balanceOf[_from] < _value) throw;                 // Check if the sender has enough
@@ -116,7 +116,7 @@ contract BNB is SafeMath{string old_name;string old_symbol;uint8 old_decimals;ui
         return true;
     }
     /// ensures(totalSupply >= _value && balanceOf[msg.sender] >= _value && _value > 0, balanceOf[msg.sender] == old(balanceOf[msg.sender]) - _value && totalSupply == old(totalSupply) - _value)
-    function burn(uint256 _value) returns (bool success) {(bool __v1, bool __v2)=(totalSupply >= _value && balanceOf[msg.sender] >= _value && _value > 0, balanceOf[msg.sender] == old_balanceOf[msg.sender] - _value && totalSupply == old_totalSupply - _value);require(_value >= 0);require(totalSupply >= 0);
+    function burn(uint256 _value) returns (bool success) {(bool __v1, bool __v2)=(totalSupply >= _value && balanceOf[msg.sender] >= _value && _value > 0,  balanceOf[msg.sender] == old_balanceOf[msg.sender] - _value && totalSupply == old_totalSupply - _value);require(_value >= 0);require(totalSupply >= 0);
         if (balanceOf[msg.sender] < _value) throw;            // Check if the sender has enough
 		    if (_value <= 0) throw; 
         balanceOf[msg.sender] = SafeMath.safeSub(balanceOf[msg.sender], _value);                      // Subtract from the sender
@@ -126,7 +126,7 @@ contract BNB is SafeMath{string old_name;string old_symbol;uint8 old_decimals;ui
     }
 	
     /// ensures(balanceOf[msg.sender] >= _value && _value > 0 && balanceOf[msg.sender] >= 0 && freezeOf[msg.sender] >= 0, balanceOf[msg.sender] == old(balanceOf[msg.sender]) - _value && freezeOf[msg.sender] == old(freezeOf[msg.sender]) + _value)
-  	function freeze(uint256 _value) returns (bool success) {(bool __v1, bool __v2)=(balanceOf[msg.sender] >= _value && _value > 0 && balanceOf[msg.sender] >= 0 && freezeOf[msg.sender] >= 0, balanceOf[msg.sender] == old_balanceOf[msg.sender] - _value && freezeOf[msg.sender] == old_freezeOf[msg.sender] + _value);require(_value >= 0);
+  	function freeze(uint256 _value) returns (bool success) {(bool __v1, bool __v2)=(balanceOf[msg.sender] >= _value && _value > 0 && balanceOf[msg.sender] >= 0 && freezeOf[msg.sender] >= 0,  balanceOf[msg.sender] == old_balanceOf[msg.sender] - _value && freezeOf[msg.sender] == old_freezeOf[msg.sender] + _value);require(_value >= 0);
         if (balanceOf[msg.sender] < _value) throw;            // Check if the sender has enough
   		  if (_value <= 0) throw; 
         balanceOf[msg.sender] = SafeMath.safeSub(balanceOf[msg.sender], _value);                      // Subtract from the sender
@@ -136,7 +136,7 @@ contract BNB is SafeMath{string old_name;string old_symbol;uint8 old_decimals;ui
     }
 	 
     /// ensures(freezeOf[msg.sender] >= _value && _value > 0 && balanceOf[msg.sender] >= 0 && freezeOf[msg.sender] >= 0, balanceOf[msg.sender] == old(balanceOf[msg.sender]) + _value && freezeOf[msg.sender] == old(freezeOf[msg.sender]) - _value)
-	  function unfreeze(uint256 _value) returns (bool success) {(bool __v1, bool __v2)=(freezeOf[msg.sender] >= _value && _value > 0 && balanceOf[msg.sender] >= 0 && freezeOf[msg.sender] >= 0, balanceOf[msg.sender] == old_balanceOf[msg.sender] + _value && freezeOf[msg.sender] == old_freezeOf[msg.sender] - _value);require(_value >= 0);
+	  function unfreeze(uint256 _value) returns (bool success) {(bool __v1, bool __v2)=(freezeOf[msg.sender] >= _value && _value > 0 && balanceOf[msg.sender] >= 0 && freezeOf[msg.sender] >= 0,  balanceOf[msg.sender] == old_balanceOf[msg.sender] + _value && freezeOf[msg.sender] == old_freezeOf[msg.sender] - _value);require(_value >= 0);
       if (freezeOf[msg.sender] < _value) throw;            // Check if the sender has enough
 		  if (_value <= 0) throw; 
       freezeOf[msg.sender] = SafeMath.safeSub(freezeOf[msg.sender], _value);                      // Subtract from the sender
@@ -147,13 +147,13 @@ contract BNB is SafeMath{string old_name;string old_symbol;uint8 old_decimals;ui
 	
   	// transfer balance to owner
     /// ensures(msg.sender == owner, true)
-  	function withdrawEther(uint256 amount) {(bool __v1, bool __v2)=(msg.sender == owner, true);require(amount >= 0);
+  	function withdrawEther(uint256 amount) {(bool __v1, bool __v2)=(msg.sender == owner,  true);require(amount >= 0);
   		if(msg.sender != owner) throw;
   		// owner.transfer(amount);
   	}
   	
   	// can accept ether
     /// ensures(true, true)
-  	function() payable {(bool __v1, bool __v2)=(true, true);
-    }
+  	// function() payable {
+    // }
 }

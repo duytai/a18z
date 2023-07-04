@@ -1,8 +1,8 @@
-import z3
+from copy import copy
 from slither.slithir.operations import InternalCall
 from slither.core.declarations.function_contract import FunctionContract
 from ..path_collector import PathCollector
-from ..legacy import LegacyQuery
+from ..legacy import LegacyQuery, verify
 from .vm import PrepVM
 from .chain import PrepChain
     
@@ -18,4 +18,9 @@ def prepcondition(call: InternalCall, query: LegacyQuery = LegacyQuery()):
         chain.run_chain(vm, query)
         vm.finalize(function)
         if vm.prep:
-            return tuple(vm.prep)
+            pre_, post_ = vm.prep
+            query_ = copy(query)
+            query_.add_precondition(function, pre_)
+            query_.add_postcondition(function, post_)
+            if verify(call.function, query_):
+                return tuple(vm.prep)

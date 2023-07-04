@@ -1,5 +1,6 @@
 import sexpdata
 import networkx as nx
+import z3
 from tqdm import tqdm
 from copy import copy
 from timeit import default_timer as timer
@@ -31,6 +32,8 @@ class EnumerateFunction(Task):
 
 class BuildCallGraph(Task):
     def execute(self, state: State):
+        for f in state.functions:
+            collect(f, state.root_query)
         for contract in state.slither.contracts:
             for function in contract.functions:
                 if function in state.functions:
@@ -42,6 +45,35 @@ class BuildCallGraph(Task):
                                     state.add_edge(function.canonical_name, ir.function.canonical_name)
                             elif isinstance(ir, LibraryCall):
                                 state.add_edge(function.canonical_name, ir.function.canonical_name)
+class RQ3(Task):
+    def execute(self, state: State):
+        queries = []
+        for function in state.functions:
+            query = LegacyQuery()
+            query.add_precondition(function, z3.BoolVal(True))
+            queries.append(query)
+            query = LegacyQuery()
+            query.add_postcondition(function, z3.BoolVal(False))
+            queries.append(query)
+        for query in queries:
+            clusters = []
+            visited = set()
+            func_map = dict((f.canonical_name, verify(f, query)) for f in state.functions)
+            for node in state.call_graph.nodes:
+                if not func_map[node] and node not in visited:
+                    selected = [node]
+                    selected += nx.descendants(state.call_graph.to_undirected(), node)
+                    visited = visited.union(set(selected))
+                    graph = nx.subgraph(state.call_graph, selected)
+                    cluster = list(reversed(list(nx.topological_sort(graph))))
+                    clusters.append(cluster)
+            print('....')
+            print(query)
+            print(clusters)
+            state._clusters = clusters
+            ff = FixFunction()
+            ff.execute(state, query)
+            print('---> FINISH <---')
 
 class BuildCluster(Task):
     def execute(self, state: State):
@@ -57,6 +89,8 @@ class BuildCluster(Task):
                 state.add_cluster(cluster)
 
 class FixFunction(Task):
+    min_query = None
+    min_acc = None
     def build_graph(self, sexpr):
         def add_node(expr, G: nx.Graph):
             node, *args = expr if isinstance(expr, list) else [expr]
@@ -70,89 +104,103 @@ class FixFunction(Task):
         add_node(sexpr, G)
         return G
 
-    def update_patch(self, pending: List[str], query: LegacyQuery, state: State):
+    def update_patch(self, pending: List[str], query: LegacyQuery, state: State, acc: int):
+        print(f'LLEN: {len(pending)}')
         if not pending:
-            yield query
+            yield query, acc
         else:
             func_map = dict((f.canonical_name, f) for f in state.functions)
             func = func_map[pending.pop(0)]
+            print(f'FUNC {func.canonical_name}')
             if verify(func, query):
-                # No fix
-                yield from self.update_patch(pending[::], copy(query), state)
+                print('NO-CHANGE')
+                yield from self.update_patch(pending[::], copy(query), state, acc)
+                return
             # Fix precondition
-            pre_ = precondition(func, query=query)
-            if pre_ is not None and str(pre_) != 'False':
-                pre_query = copy(query)
-                pre_query.add_precondition(func, pre_)
-                yield from self.update_patch(pending[::], pre_query, state)
+            print('COMPUTE-PRE')
+            new_pre = precondition(func, query=query)
+            if new_pre is not None:
+                print('NEW-PRE')
+                new_acc = acc
+                old_pre = state.root_query.get_precondition(func)
+                x = sexpdata.loads(old_pre.sexpr())
+                x = self.build_graph(x)
+                y = sexpdata.loads(new_pre.sexpr())
+                y = self.build_graph(y)
+                new_acc += nx.graph_edit_distance(x, y, timeout=2) + 20
+                if new_acc < self.min_acc:
+                    print('ADD-PRE')
+                    pre_query = copy(query)
+                    pre_query.add_precondition(func, new_pre)
+                    yield from self.update_patch(pending[::], pre_query, state, new_acc)
             # Fix postcondition
-            post_ = postcondition(func, query=query)
-            if post_ is not None and str(post_) != 'True':
-                post_query = copy(query)
-                post_query.add_postcondition(func, post_)
-                yield from self.update_patch(pending[::], post_query, state)
+            print('COMPUTE-POST')
+            new_post = postcondition(func, query=query)
+            if new_post is not None:
+                print('NEW-POST')
+                new_acc = acc
+                old_post = state.root_query.get_postcondition(func)
+                x = sexpdata.loads(old_post.sexpr())
+                x = self.build_graph(x)
+                y = sexpdata.loads(new_post.sexpr())
+                y = self.build_graph(y)
+                new_acc += nx.graph_edit_distance(x, y, timeout=2) + 20
+                if new_acc < self.min_acc:
+                    print('ADD-POST')
+                    post_query = copy(query)
+                    post_query.add_postcondition(func, new_post)
+                    yield from self.update_patch(pending[::], post_query, state, new_acc)
             # Internal function call
-            for node in func.nodes:
-                for ir in node.irs:
-                    if isinstance(ir, InternalCall):
-                        if not ir.is_modifier_call:
-                            prep = prepcondition(ir, query)
-                            if prep is not None:
-                                pre_, post_ = prep
-                                prep_query = copy(query)
-                                prep_query.add_precondition(ir.function, pre_)
-                                prep_query.add_postcondition(ir.function, post_)
-                                yield from self.update_patch(pending[::], prep_query, state)
+            # for node in func.nodes:
+            #     for ir in node.irs:
+            #         if isinstance(ir, InternalCall):
+            #             if not ir.is_modifier_call:
+            #                 prep = prepcondition(ir, query)
+            #                 if prep is not None:
+            #                     new_acc = acc
+            #                     new_pre, new_post = prep
+            #                     # new precondition
+            #                     old_pre = state.root_query.get_precondition(func)
+            #                     x = sexpdata.loads(old_pre.sexpr())
+            #                     x = self.build_graph(x)
+            #                     y = sexpdata.loads(new_pre.sexpr())
+            #                     y = self.build_graph(y)
+            #                     new_acc += nx.graph_edit_distance(x, y, timeout=2) + 20
+            #                     # new postcondition
+            #                     old_post = state.root_query.get_postcondition(func)
+            #                     x = sexpdata.loads(old_post.sexpr())
+            #                     x = self.build_graph(x)
+            #                     y = sexpdata.loads(new_post.sexpr())
+            #                     y = self.build_graph(y)
+            #                     new_acc += nx.graph_edit_distance(x, y, timeout=2) + 20
+            #                     # update prep
+            #                     if new_acc < self.min_acc:
+            #                         prep_query = copy(query)
+            #                         prep_query.add_precondition(ir.function, new_pre)
+            #                         prep_query.add_postcondition(ir.function, new_post)
+            #                         yield from self.update_patch(pending[::], prep_query, state, new_acc)
 
-    def execute(self, state: State):
+    def execute(self, state: State, init=LegacyQuery()):
         queries = []
         func_map = dict((f.canonical_name, f) for f in state.functions)
-        root_query = LegacyQuery()
-        for f in state.functions:
-            collect(f, root_query)
         for cluster in state.clusters:
-            result_query = None
-            result_acc = None
-            for query in tqdm(self.update_patch(cluster[::], LegacyQuery(), state)):
-                # check if the query is ok
+            self.min_query = None
+            self.min_acc = 1000
+            for query, acc in tqdm(self.update_patch(cluster[::], init, state, 0)):
+                # verify patch
                 ok = True
                 for name in cluster:
                     ok = ok and verify(func_map[name], query)
+                print('****')
+                print(query)
+                print(ok)
+                print('****')
                 if not ok: continue
-                # if ok, we proceed
-                acc = 0
-                for name, new_pre in query.preconditions.items():
-                    old_pre = root_query.get_precondition(func_map[name])
-                    x = sexpdata.loads(old_pre.sexpr())
-                    x = self.build_graph(x)
-                    y = sexpdata.loads(new_pre.sexpr())
-                    y = self.build_graph(y)
-                    acc += nx.graph_edit_distance(
-                        x,
-                        y,
-                        timeout=2
-                    )
-                    acc += 20
-                for name, new_post in query.postconditions.items():
-                    old_post = root_query.get_postcondition(func_map[name])
-                    x = sexpdata.loads(old_post.sexpr())
-                    x = self.build_graph(x)
-                    y = sexpdata.loads(new_post.sexpr())
-                    y = self.build_graph(y)
-                    acc += nx.graph_edit_distance(
-                        x,
-                        y,
-                        timeout=2
-                    )
-                    acc += 20
-                if result_acc is None:
-                    result_acc = acc
-                    result_query = query
-                elif acc < result_acc:
-                    result_acc = acc
-                    result_query = query
-            assert result_query is not None
-            queries.append(result_query)
+                if acc < self.min_acc:
+                    self.min_acc = acc
+                    self.min_query = query
+            assert self.min_query is not None
+            queries.append(self.min_query)
         for query in queries:
             print(query)
 
@@ -222,4 +270,9 @@ class TestFunction(Task):
         for function in state.functions:
             print(f'> {Color.YELLOW}{function.canonical_name}{Color.OFF}')
             print(verify(function))
-            print(postcondition(function))
+            pre_ = precondition(function)
+            query = LegacyQuery()
+            query.add_precondition(function, pre_)
+            print(query)
+            if not verify(function, query):
+                raise ValueError('??')

@@ -47,7 +47,7 @@ library SafeMath {
     * @dev Multiplies two numbers, reverts on overflow.
     */
     /// ensures(true, r == a * b)
-    function mul(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true, r == a * b);require(a >= 0);require(b >= 0);
+    function mul(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true,  r == a * b);require(a >= 0);require(b >= 0);
         // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
         // benefit is lost if 'b' is also tested.
         // See: https://github.com/OpenZeppelin/openzeppelin-solidity/pull/522
@@ -65,7 +65,7 @@ library SafeMath {
     * @dev Integer division of two numbers truncating the quotient, reverts on division by zero.
     */
     /// ensures(true, r == a / b)
-    function div(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true, r == a / b);require(a >= 0);require(b >= 0);
+    function div(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true,  r == a / b);require(a >= 0);require(b >= 0);
         require(b > 0); // Solidity only automatically asserts when dividing by 0
         uint256 c = a / b;
         // assert(a == b * c + a % b); // There is no case in which this doesn't hold
@@ -77,7 +77,7 @@ library SafeMath {
     * @dev Subtracts two numbers, reverts on overflow (i.e. if subtrahend is greater than minuend).
     */
     /// ensures(a >= b, r == a - b)
-    function sub(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(a >= b, r == a - b);require(a >= 0);require(b >= 0);
+    function sub(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(a >= b,  r == a - b);require(a >= 0);require(b >= 0);
         require(b <= a);
         uint256 c = a - b;
 
@@ -88,7 +88,7 @@ library SafeMath {
     * @dev Adds two numbers, reverts on overflow.
     */
     /// ensures(true, r == a + b)
-    function add(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true, r == a + b);require(a >= 0);require(b >= 0);
+    function add(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true,  r == a + b);require(a >= 0);require(b >= 0);
         uint256 c = a + b;
         require(c >= a);
 
@@ -100,7 +100,7 @@ library SafeMath {
     * reverts when dividing by zero.
     */
     /// ensures(true, r == a % b)
-    function mod(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true, r == a % b);require(a >= 0);require(b >= 0);
+    function mod(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true,  r == a % b);require(a >= 0);require(b >= 0);
         require(b != 0);
         return a % b;
     }
@@ -160,7 +160,7 @@ contract NXMToken is IERC20 {mapping(address => uint256) old__balances;mapping(a
         _;
     }
     /// ensures(_founderAddress != address(0), true)
-    constructor(address _founderAddress, uint _initialSupply) public {(bool __v1, bool __v2)=(_founderAddress != address(0), true);require(_initialSupply >= 0);
+    constructor(address _founderAddress, uint _initialSupply) public {(bool __v1, bool __v2)=(_founderAddress != address(0),  true);require(_initialSupply >= 0);
         _mint(_founderAddress, _initialSupply);
     }
 
@@ -168,7 +168,7 @@ contract NXMToken is IERC20 {mapping(address => uint256) old__balances;mapping(a
     * @dev Total number of tokens in existence
     */
     /// ensures(true, r == _totalSupply)
-    function totalSupply() public view returns (uint256 r) {(bool __v1, bool __v2)=(true, r == _totalSupply);require(_totalSupply >= 0);
+    function totalSupply() public view returns (uint256 r) {(bool __v1, bool __v2)=(true,  r == _totalSupply);require(_totalSupply >= 0);
         return _totalSupply;
     }
 
@@ -178,7 +178,7 @@ contract NXMToken is IERC20 {mapping(address => uint256) old__balances;mapping(a
     * @return An uint256 representing the amount owned by the passed address.
     */
     /// ensures(true, r == _balances[owner])
-    function balanceOf(address owner) public view returns (uint256 r) {(bool __v1, bool __v2)=(true, r == _balances[owner]);
+    function balanceOf(address owner) public view returns (uint256 r) {(bool __v1, bool __v2)=(true,  r == _balances[owner]);
         return _balances[owner];
     }
 
@@ -196,7 +196,7 @@ contract NXMToken is IERC20 {mapping(address => uint256) old__balances;mapping(a
         public
         view
         returns (uint256 r)
-    {(bool __v1, bool __v2)=(true, r == _allowed[owner][spender]);
+    {(bool __v1, bool __v2)=(true,  r == _allowed[owner][spender]);
         return _allowed[owner][spender];
     }
 
@@ -210,7 +210,7 @@ contract NXMToken is IERC20 {mapping(address => uint256) old__balances;mapping(a
     * @param value The amount of tokens to be spent.
     */
     /// ensures(spender != address(0), _allowed[msg.sender][spender] == value)
-    function approve(address spender, uint256 value) public returns (bool) {(bool __v1, bool __v2)=(spender != address(0), _allowed[msg.sender][spender] == value);require(value >= 0);
+    function approve(address spender, uint256 value) public returns (bool r) {(bool __v1, bool __v2)=(spender != address(0),  _allowed[msg.sender][spender] == value);require(value >= 0);
         require(spender != address(0));
 
         _allowed[msg.sender][spender] = value;
@@ -233,8 +233,8 @@ contract NXMToken is IERC20 {mapping(address => uint256) old__balances;mapping(a
         uint256 addedValue
     )
         public
-        returns (bool)
-    {(bool __v1, bool __v2)=(spender != address(0), _allowed[msg.sender][spender] == old__allowed[msg.sender][spender] + addedValue);require(addedValue >= 0);
+        returns (bool r)
+    {(bool __v1, bool __v2)=(spender != address(0),  _allowed[msg.sender][spender] == old__allowed[msg.sender][spender] + addedValue);require(addedValue >= 0);
         require(spender != address(0));
 
         _allowed[msg.sender][spender] = (
@@ -258,8 +258,8 @@ contract NXMToken is IERC20 {mapping(address => uint256) old__balances;mapping(a
         uint256 subtractedValue
     )
         public
-        returns (bool)
-    {(bool __v1, bool __v2)=(spender != address(0) && _allowed[msg.sender][spender] >= subtractedValue, _allowed[msg.sender][spender] == old__allowed[msg.sender][spender] - subtractedValue);require(subtractedValue >= 0);
+        returns (bool r)
+    {(bool __v1, bool __v2)=(spender != address(0) && _allowed[msg.sender][spender] >= subtractedValue,  _allowed[msg.sender][spender] == old__allowed[msg.sender][spender] - subtractedValue);require(subtractedValue >= 0);
         require(spender != address(0));
 
         _allowed[msg.sender][spender] = (
@@ -273,7 +273,7 @@ contract NXMToken is IERC20 {mapping(address => uint256) old__balances;mapping(a
     * @param _member address to add to whitelist
     */
     /// ensures(msg.sender == operator, whiteListed[_member])
-    function addToWhiteList(address _member) public onlyOperator returns (bool) {(bool __v1, bool __v2)=(msg.sender == operator, whiteListed[_member]);
+    function addToWhiteList(address _member) public onlyOperator returns (bool r) {(bool __v1, bool __v2)=(msg.sender == operator,  whiteListed[_member]);
         whiteListed[_member] = true;
         emit WhiteListed(_member);
         return true;
@@ -284,7 +284,7 @@ contract NXMToken is IERC20 {mapping(address => uint256) old__balances;mapping(a
     * @param _member address to remove from whitelist
     */
     /// ensures(msg.sender == operator, !whiteListed[_member])
-    function removeFromWhiteList(address _member) public onlyOperator returns (bool) {(bool __v1, bool __v2)=(msg.sender == operator, !whiteListed[_member]);
+    function removeFromWhiteList(address _member) public onlyOperator returns (bool r) {(bool __v1, bool __v2)=(msg.sender == operator,  !whiteListed[_member]);
         whiteListed[_member] = false;
         emit BlackListed(_member);
         return true;
@@ -295,7 +295,7 @@ contract NXMToken is IERC20 {mapping(address => uint256) old__balances;mapping(a
     * @param _newOperator address of new operator
     */
     /// ensures(msg.sender == operator, operator == _newOperator)
-    function changeOperator(address _newOperator) public onlyOperator returns (bool) {(bool __v1, bool __v2)=(msg.sender == operator, operator == _newOperator);
+    function changeOperator(address _newOperator) public onlyOperator returns (bool r) {(bool __v1, bool __v2)=(msg.sender == operator,  operator == _newOperator);
         operator = _newOperator;
         return true;
     }
@@ -306,7 +306,7 @@ contract NXMToken is IERC20 {mapping(address => uint256) old__balances;mapping(a
     * @param amount The amount that will be burnt.
     */
     /// ensures(amount <= _balances[msg.sender] && _totalSupply >= amount, true)
-    function burn(uint256 amount) public returns (bool) {(bool __v1, bool __v2)=(amount <= _balances[msg.sender] && _totalSupply >= amount, true);require(amount >= 0);
+    function burn(uint256 amount) public returns (bool r) {(bool __v1, bool __v2)=(amount <= _balances[msg.sender] && _totalSupply >= amount,  true);require(amount >= 0);
         _burn(msg.sender, amount);
         return true;
     }
@@ -317,7 +317,7 @@ contract NXMToken is IERC20 {mapping(address => uint256) old__balances;mapping(a
     * @param value uint256 The amount of token to be burned
     */
     /// ensures(_totalSupply >= value && value <= _balances[from] && value <= _allowed[from][msg.sender], true)
-    function burnFrom(address from, uint256 value) public returns (bool) {(bool __v1, bool __v2)=(_totalSupply >= value && value <= _balances[from] && value <= _allowed[from][msg.sender], true);require(value >= 0);
+    function burnFrom(address from, uint256 value) public returns (bool r) {(bool __v1, bool __v2)=(_totalSupply >= value && value <= _balances[from] && value <= _allowed[from][msg.sender],  true);require(value >= 0);
         _burnFrom(from, value);
         return true;
     }
@@ -329,7 +329,7 @@ contract NXMToken is IERC20 {mapping(address => uint256) old__balances;mapping(a
     * @param amount The amount that will be created.
     */
     /// ensures(msg.sender == operator && account != address(0), true)
-    function mint(address account, uint256 amount) public onlyOperator {(bool __v1, bool __v2)=(msg.sender == operator && account != address(0), true);require(amount >= 0);
+    function mint(address account, uint256 amount) public onlyOperator {(bool __v1, bool __v2)=(msg.sender == operator && account != address(0),  true);require(amount >= 0);
         _mint(account, amount);
     }
 
@@ -338,8 +338,8 @@ contract NXMToken is IERC20 {mapping(address => uint256) old__balances;mapping(a
     * @param to The address to transfer to.
     * @param value The amount to be transferred.
     */
-    /// ensures(isLockedForMV[msg.sender] < now && value <= _balances[msg.sender] && msg.sender != to && _balances[msg.sender] >= value, true)
-    function transfer(address to, uint256 value) public canTransfer(to) returns (bool) {(bool __v1, bool __v2)=(isLockedForMV[msg.sender] < now && value <= _balances[msg.sender] && msg.sender != to && _balances[msg.sender] >= value, true);require(value >= 0);
+    /// ensures(isLockedForMV[msg.sender] < now && msg.sender != to && _balances[msg.sender] >= value, true)
+    function transfer(address to, uint256 value) public canTransfer(to) returns (bool r) {(bool __v1, bool __v2)=(isLockedForMV[msg.sender] < now && msg.sender != to && _balances[msg.sender] >= value,  true);require(value >= 0);
 
         require(isLockedForMV[msg.sender] < now); // if not voted under governance
         require(value <= _balances[msg.sender]);
@@ -353,7 +353,7 @@ contract NXMToken is IERC20 {mapping(address => uint256) old__balances;mapping(a
     * @param value The amount to be transferred.
     */
     /// ensures(msg.sender == operator && from != operator && value <= _balances[from] && value <= _allowed[from][msg.sender], true)
-    function operatorTransfer(address from, uint256 value) public onlyOperator returns (bool) {(bool __v1, bool __v2)=(msg.sender == operator && from != operator && value <= _balances[from] && value <= _allowed[from][msg.sender], true);require(value >= 0);
+    function operatorTransfer(address from, uint256 value) public onlyOperator returns (bool r) {(bool __v1, bool __v2)=(msg.sender == operator && from != operator && value <= _balances[from] && value <= _allowed[from][msg.sender],  true);require(value >= 0);
         require(value <= _balances[from]);
         _transferFrom(from, operator, value);
         return true;
@@ -373,8 +373,8 @@ contract NXMToken is IERC20 {mapping(address => uint256) old__balances;mapping(a
     )
         public
         canTransfer(to)
-        returns (bool)
-    {(bool __v1, bool __v2)=(whiteListed[to] && from != to && isLockedForMV[from] < now && value <= _balances[from] && value <= _allowed[from][msg.sender], true);require(value >= 0);
+        returns (bool r)
+    {(bool __v1, bool __v2)=(whiteListed[to] && from != to && isLockedForMV[from] < now && value <= _balances[from] && value <= _allowed[from][msg.sender],  true);require(value >= 0);
         require(isLockedForMV[from] < now); // if not voted under governance
         require(value <= _balances[from]);
         require(value <= _allowed[from][msg.sender]);
@@ -387,7 +387,7 @@ contract NXMToken is IERC20 {mapping(address => uint256) old__balances;mapping(a
      * @param _of user's address.
      */
     /// ensures(_days + now > isLockedForMV[_of], isLockedForMV[_of] == _days + now)
-    function lockForMemberVote(address _of, uint _days) public onlyOperator {(bool __v1, bool __v2)=(_days + now > isLockedForMV[_of], isLockedForMV[_of] == _days + now);require(_days >= 0);
+    function lockForMemberVote(address _of, uint _days) public onlyOperator {(bool __v1, bool __v2)=(_days + now > isLockedForMV[_of],  isLockedForMV[_of] == _days + now);require(_days >= 0);
         if (_days.add(now) > isLockedForMV[_of])
             isLockedForMV[_of] = _days.add(now);
     }
@@ -398,7 +398,7 @@ contract NXMToken is IERC20 {mapping(address => uint256) old__balances;mapping(a
     * @param value The amount to be transferred.
     */
     /// ensures(msg.sender != to && _balances[msg.sender] >= value, _balances[msg.sender] == old(_balances[msg.sender]) - value && _balances[to] == old(_balances[to]) + value)
-    function _transfer(address to, uint256 value) internal {(bool __v1, bool __v2)=(msg.sender != to && _balances[msg.sender] >= value, _balances[msg.sender] == old__balances[msg.sender] - value && _balances[to] == old__balances[to] + value);require(value >= 0);
+    function _transfer(address to, uint256 value) internal {(bool __v1, bool __v2)=(msg.sender != to && _balances[msg.sender] >= value,  _balances[msg.sender] == old__balances[msg.sender] - value && _balances[to] == old__balances[to] + value);require(value >= 0);
         _balances[msg.sender] = _balances[msg.sender].sub(value);
         _balances[to] = _balances[to].add(value);
         emit Transfer(msg.sender, to, value);
@@ -417,7 +417,7 @@ contract NXMToken is IERC20 {mapping(address => uint256) old__balances;mapping(a
         uint256 value
     )
         internal
-    {(bool __v1, bool __v2)=(from != to && value <= _balances[from] && value <= _allowed[from][msg.sender], _balances[from] == old__balances[from] - value && _balances[to] == old__balances[to] + value && _allowed[from][msg.sender] == old__allowed[from][msg.sender] - value);require(value >= 0);
+    {(bool __v1, bool __v2)=(from != to && value <= _balances[from] && value <= _allowed[from][msg.sender],  _balances[from] == old__balances[from] - value && _balances[to] == old__balances[to] + value && _allowed[from][msg.sender] == old__allowed[from][msg.sender] - value);require(value >= 0);
         _balances[from] = _balances[from].sub(value);
         _balances[to] = _balances[to].add(value);
         _allowed[from][msg.sender] = _allowed[from][msg.sender].sub(value);
@@ -432,7 +432,7 @@ contract NXMToken is IERC20 {mapping(address => uint256) old__balances;mapping(a
     * @param amount The amount that will be created.
     */
     /// ensures(account != address(0), _totalSupply == old(_totalSupply) + amount && _balances[account] == old(_balances[account]) + amount)
-    function _mint(address account, uint256 amount) internal {(bool __v1, bool __v2)=(account != address(0), _totalSupply == old__totalSupply + amount && _balances[account] == old__balances[account] + amount);require(amount >= 0);require(_totalSupply >= 0);
+    function _mint(address account, uint256 amount) internal {(bool __v1, bool __v2)=(account != address(0),  _totalSupply == old__totalSupply + amount && _balances[account] == old__balances[account] + amount);require(amount >= 0);require(_totalSupply >= 0);
         require(account != address(0));
         _totalSupply = _totalSupply.add(amount);
         _balances[account] = _balances[account].add(amount);
@@ -446,7 +446,7 @@ contract NXMToken is IERC20 {mapping(address => uint256) old__balances;mapping(a
     * @param amount The amount that will be burnt.
     */
     /// ensures(amount <= _balances[account] && _totalSupply >= amount, _balances[account] == old(_balances[account]) - amount && _totalSupply == old(_totalSupply) - amount)
-    function _burn(address account, uint256 amount) internal {(bool __v1, bool __v2)=(amount <= _balances[account] && _totalSupply >= amount, _balances[account] == old__balances[account] - amount && _totalSupply == old__totalSupply - amount);require(amount >= 0);require(_totalSupply >= 0);
+    function _burn(address account, uint256 amount) internal {(bool __v1, bool __v2)=(amount <= _balances[account] && _totalSupply >= amount,  _balances[account] == old__balances[account] - amount && _totalSupply == old__totalSupply - amount);require(amount >= 0);require(_totalSupply >= 0);
         require(amount <= _balances[account]);
 
         _totalSupply = _totalSupply.sub(amount);
@@ -462,7 +462,7 @@ contract NXMToken is IERC20 {mapping(address => uint256) old__balances;mapping(a
     * @param value The amount that will be burnt.
     */
     /// ensures(_totalSupply >= value && value <= _balances[account] && value <= _allowed[account][msg.sender], _allowed[account][msg.sender] == old(_allowed[account][msg.sender]) - value)
-    function _burnFrom(address account, uint256 value) internal {(bool __v1, bool __v2)=(_totalSupply >= value && value <= _balances[account] && value <= _allowed[account][msg.sender], _allowed[account][msg.sender] == old__allowed[account][msg.sender] - value);require(value >= 0);
+    function _burnFrom(address account, uint256 value) internal {(bool __v1, bool __v2)=(_totalSupply >= value && value <= _balances[account] && value <= _allowed[account][msg.sender],  _allowed[account][msg.sender] == old__allowed[account][msg.sender] - value);require(value >= 0);
         require(value <= _allowed[account][msg.sender]);
 
         // Should https://github.com/OpenZeppelin/zeppelin-solidity/issues/707 be accepted,

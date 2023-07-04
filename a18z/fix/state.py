@@ -7,6 +7,7 @@ class State:
         self._slither = Slither(file)
         self._functions = set()
         self._call_graph = nx.DiGraph()
+        self._root_query = LegacyQuery()
         self._clusters = []
 
     @property
@@ -24,6 +25,10 @@ class State:
     @property
     def call_graph(self):
         return self._call_graph
+
+    @property
+    def root_query(self):
+        return self._root_query
 
     def add_function(self, val):
         self._functions.add(val)

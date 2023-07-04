@@ -126,6 +126,7 @@ class LegacyCondition(LegacyIR):
         ir = self._ir
         assert isinstance(ir, Condition)
         rvar = vm.get_variable(ir.value)
+        vm.add_cloc()
         vm.add_constraint(rvar)
 
 class LegacyUnary(LegacyIR):

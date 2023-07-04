@@ -1,7 +1,7 @@
 import z3
 from ..legacy.utils import check_unsat
 
-QE2 = z3.TryFor(z3.Tactic('qe2'), 5000)
+QE2 = z3.TryFor(z3.Tactic('qe2'), 2000)
 
 def find_outcome(hypothesis, eliminated_vars):
     if not eliminated_vars:
