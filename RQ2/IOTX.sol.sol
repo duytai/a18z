@@ -23,7 +23,7 @@ library SafeMath {
    */
   /* CertiK Smart Labelling, for more details visit: https://certik.org */
   /// ensures(true, r == a * b)
-  function mul(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true, r == a * b);require(a >= 0);require(b >= 0);
+  function mul(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true,  r == a * b);require(a >= 0);require(b >= 0);
     if (a == 0) {
       return 0;
     }
@@ -45,7 +45,7 @@ library SafeMath {
    */
   /* CertiK Smart Labelling, for more details visit: https://certik.org */
   /// ensures(true, c == a / b)
-  function div(uint256 a, uint256 b) internal pure returns (uint256 c) {(bool __v1, bool __v2)=(true, c == a / b);require(a >= 0);require(b >= 0);
+  function div(uint256 a, uint256 b) internal pure returns (uint256 c) {(bool __v1, bool __v2)=(true,  c == a / b);require(a >= 0);require(b >= 0);
     // assert(b > 0); // Solidity automatically throws when dividing by 0
     // uint256 c = a / b;
     // assert(a == b * c + a % b); // There is no case in which this doesn't hold
@@ -64,7 +64,7 @@ library SafeMath {
    */
   /* CertiK Smart Labelling, for more details visit: https://certik.org */
   /// ensures(a >= b, c == a - b)
-  function sub(uint256 a, uint256 b) internal pure returns (uint256 c) {(bool __v1, bool __v2)=(a >= b, c == a - b);require(a >= 0);require(b >= 0);
+  function sub(uint256 a, uint256 b) internal pure returns (uint256 c) {(bool __v1, bool __v2)=(a >= b,  c == a - b);require(a >= 0);require(b >= 0);
     assert(b <= a);
     return a - b;
   }
@@ -81,7 +81,7 @@ library SafeMath {
    */
   /* CertiK Smart Labelling, for more details visit: https://certik.org */
   /// ensures(true, r == a + b)
-  function add(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true, r == a + b);require(a >= 0);require(b >= 0);
+  function add(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true,  r == a + b);require(a >= 0);require(b >= 0);
     uint c = a + b;
     assert(c >= a);
     return c;
@@ -109,7 +109,7 @@ contract Ownable {address old_owner;
    */
   /* CertiK Smart Labelling, for more details visit: https://certik.org */
   /// ensures(true, owner == msg.sender)
-  function Ownable() public {(bool __v1, bool __v2)=(true, owner == msg.sender);
+  function Ownable() public {(bool __v1, bool __v2)=(true,  owner == msg.sender);
     owner = msg.sender;
   }
 
@@ -132,7 +132,7 @@ contract Ownable {address old_owner;
    */
   /* CertiK Smart Labelling, for more details visit: https://certik.org */
   /// ensures(msg.sender == owner && newOwner != address(0), owner == newOwner)
-  function transferOwnership(address newOwner) public onlyOwner {(bool __v1, bool __v2)=(msg.sender == owner && newOwner != address(0), owner == newOwner);
+  function transferOwnership(address newOwner) public onlyOwner {(bool __v1, bool __v2)=(msg.sender == owner && newOwner != address(0),  owner == newOwner);
     require(newOwner != address(0));
     emit OwnershipTransferred(owner, newOwner);
     owner = newOwner;
@@ -171,7 +171,7 @@ contract Pausable is Ownable {bool old_paused;
    * @dev called by the owner to pause, triggers stopped state
    */
   /// ensures(msg.sender == owner && !paused, paused)
-  function pause() onlyOwner whenNotPaused public {(bool __v1, bool __v2)=(msg.sender == owner && !paused, paused);
+  function pause() onlyOwner whenNotPaused public {(bool __v1, bool __v2)=(msg.sender == owner && !paused,  paused);
     paused = true;
     emit Pause();
   }
@@ -180,7 +180,7 @@ contract Pausable is Ownable {bool old_paused;
    * @dev called by the owner to unpause, returns to normal state
    */
   /// ensures(msg.sender == owner && paused, !paused)
-  function unpause() onlyOwner whenPaused public {(bool __v1, bool __v2)=(msg.sender == owner && paused, !paused);
+  function unpause() onlyOwner whenPaused public {(bool __v1, bool __v2)=(msg.sender == owner && paused,  !paused);
     paused = false;
     emit Unpause();
   }
@@ -225,7 +225,7 @@ contract BasicToken is ERC20Basic {mapping(address => uint256) old_balances;uint
   * @dev total number of tokens in existence
   */
   /// ensures(true, r == totalSupply_)
-  function totalSupply() public view returns (uint256 r) {(bool __v1, bool __v2)=(true, r == totalSupply_);require(totalSupply_ >= 0);
+  function totalSupply() public view returns (uint256 r) {(bool __v1, bool __v2)=(true,  r == totalSupply_);require(totalSupply_ >= 0);
     return totalSupply_;
   }
 
@@ -254,7 +254,7 @@ contract BasicToken is ERC20Basic {mapping(address => uint256) old_balances;uint
    */
   /* CertiK Smart Labelling, for more details visit: https://certik.org */
   /// ensures(msg.sender != _to && _to != address(0) && _value <= balances[msg.sender], balances[msg.sender] == old(balances[msg.sender]) - _value && balances[_to] == old(balances[_to]) + _value)
-  function transfer(address _to, uint256 _value) public returns (bool) {(bool __v1, bool __v2)=(msg.sender != _to && _to != address(0) && _value <= balances[msg.sender], balances[msg.sender] == old_balances[msg.sender] - _value && balances[_to] == old_balances[_to] + _value);require(_value >= 0);
+  function transfer(address _to, uint256 _value) public returns (bool) {(bool __v1, bool __v2)=(msg.sender != _to && _to != address(0) && _value <= balances[msg.sender],  balances[msg.sender] == old_balances[msg.sender] - _value && balances[_to] == old_balances[_to] + _value);require(_value >= 0);
     require(_to != address(0));
     require(_value <= balances[msg.sender]);
 
@@ -275,7 +275,7 @@ contract BasicToken is ERC20Basic {mapping(address => uint256) old_balances;uint
    */
   /* CertiK Smart Labelling, for more details visit: https://certik.org */
   /// ensures(true, r == balances[_owner])
-  function balanceOf(address _owner) public view returns (uint256 r) {(bool __v1, bool __v2)=(true, r == balances[_owner]);
+  function balanceOf(address _owner) public view returns (uint256 r) {(bool __v1, bool __v2)=(true,  r == balances[_owner]);
     return balances[_owner];
   }
 
@@ -309,7 +309,7 @@ contract StandardToken is ERC20, BasicToken {mapping(address => mapping(address 
    */
   /* CertiK Smart Labelling, for more details visit: https://certik.org */
   /// ensures(_from != _to && _to != address(0) && _value <= balances[_from] && _value <= allowed[_from][msg.sender], balances[_from] == old(balances[_from]) - _value && balances[_to] == old(balances[_to]) + _value && allowed[_from][msg.sender] == old(allowed[_from][msg.sender]) - _value)
-  function transferFrom(address _from, address _to, uint256 _value) public returns (bool) {(bool __v1, bool __v2)=(_from != _to && _to != address(0) && _value <= balances[_from] && _value <= allowed[_from][msg.sender], balances[_from] == old_balances[_from] - _value && balances[_to] == old_balances[_to] + _value && allowed[_from][msg.sender] == old_allowed[_from][msg.sender] - _value);require(_value >= 0);
+  function transferFrom(address _from, address _to, uint256 _value) public returns (bool) {(bool __v1, bool __v2)=(_from != _to && _to != address(0) && _value <= balances[_from] && _value <= allowed[_from][msg.sender],  balances[_from] == old_balances[_from] - _value && balances[_to] == old_balances[_to] + _value && allowed[_from][msg.sender] == old_allowed[_from][msg.sender] - _value);require(_value >= 0);
     require(_to != address(0));
     require(_value <= balances[_from]);
     require(_value <= allowed[_from][msg.sender]);
@@ -341,7 +341,7 @@ contract StandardToken is ERC20, BasicToken {mapping(address => mapping(address 
    */
   /* CertiK Smart Labelling, for more details visit: https://certik.org */
   /// ensures(true, allowed[msg.sender][_spender] == _value)
-  function approve(address _spender, uint256 _value) public returns (bool) {(bool __v1, bool __v2)=(true, allowed[msg.sender][_spender] == _value);require(_value >= 0);
+  function approve(address _spender, uint256 _value) public returns (bool) {(bool __v1, bool __v2)=(true,  allowed[msg.sender][_spender] == _value);require(_value >= 0);
     allowed[msg.sender][_spender] = _value;
     emit Approval(msg.sender, _spender, _value);
     return true;
@@ -354,7 +354,7 @@ contract StandardToken is ERC20, BasicToken {mapping(address => mapping(address 
    * @return A uint256 specifying the amount of tokens still available for the spender.
    */
    /// ensures(true, r == allowed[_owner][_spender])
-  function allowance(address _owner, address _spender) public view returns (uint256 r) {(bool __v1, bool __v2)=(true, r == allowed[_owner][_spender]);
+  function allowance(address _owner, address _spender) public view returns (uint256 r) {(bool __v1, bool __v2)=(true,  r == allowed[_owner][_spender]);
     return allowed[_owner][_spender];
   }
 
@@ -375,7 +375,7 @@ contract StandardToken is ERC20, BasicToken {mapping(address => mapping(address 
    */
   /* CertiK Smart Labelling, for more details visit: https://certik.org */
   /// ensures(true, allowed[msg.sender][_spender] == old(allowed[msg.sender][_spender]) + _addedValue)
-  function increaseApproval(address _spender, uint _addedValue) public returns (bool) {(bool __v1, bool __v2)=(true, allowed[msg.sender][_spender] == old_allowed[msg.sender][_spender] + _addedValue);require(_addedValue >= 0);
+  function increaseApproval(address _spender, uint _addedValue) public returns (bool) {(bool __v1, bool __v2)=(true,  allowed[msg.sender][_spender] == old_allowed[msg.sender][_spender] + _addedValue);require(_addedValue >= 0);
     allowed[msg.sender][_spender] = allowed[msg.sender][_spender].add(_addedValue);
     emit Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
     return true;
@@ -405,7 +405,7 @@ contract StandardToken is ERC20, BasicToken {mapping(address => mapping(address 
    */
   /* CertiK Smart Labelling, for more details visit: https://certik.org */
   /// ensures(_subtractedValue <= allowed[msg.sender][_spender], allowed[msg.sender][_spender] == old(allowed[msg.sender][_spender]) - _subtractedValue)
-  function decreaseApproval(address _spender, uint _subtractedValue) public returns (bool) {(bool __v1, bool __v2)=(_subtractedValue <= allowed[msg.sender][_spender], allowed[msg.sender][_spender] == old_allowed[msg.sender][_spender] - _subtractedValue);require(_subtractedValue >= 0);
+  function decreaseApproval(address _spender, uint _subtractedValue) public returns (bool) {(bool __v1, bool __v2)=(_subtractedValue <= allowed[msg.sender][_spender],  allowed[msg.sender][_spender] == old_allowed[msg.sender][_spender] - _subtractedValue);require(_subtractedValue >= 0);
     uint oldValue = allowed[msg.sender][_spender];
     if (_subtractedValue > oldValue) {
       allowed[msg.sender][_spender] = 0;
@@ -429,7 +429,7 @@ contract IoTeXNetwork is StandardToken, Pausable {string old_name;string old_sym
         _;
     }
     /// ensures(true, totalSupply_ == tokenTotalAmount && balances[msg.sender] == tokenTotalAmount)
-    function IoTeXNetwork(uint tokenTotalAmount) {(bool __v1, bool __v2)=(true, totalSupply_ == tokenTotalAmount && balances[msg.sender] == tokenTotalAmount);require(tokenTotalAmount >= 0);
+    function IoTeXNetwork(uint tokenTotalAmount) {(bool __v1, bool __v2)=(true,  totalSupply_ == tokenTotalAmount && balances[msg.sender] == tokenTotalAmount);require(tokenTotalAmount >= 0);
         totalSupply_ = tokenTotalAmount;
         balances[msg.sender] = tokenTotalAmount;
         emit Transfer(address(0x0), msg.sender, tokenTotalAmount);
@@ -451,7 +451,7 @@ contract IoTeXNetwork is StandardToken, Pausable {string old_name;string old_sym
     /// ensures(!paused && _to != address(0x0) && _to != address(this) && msg.sender != _to && _value <= balances[msg.sender], true)
     function transfer(address _to, uint _value) whenNotPaused
         validDestination(_to)
-        returns (bool) {(bool __v1, bool __v2)=(!paused && _to != address(0x0) && _to != address(this) && msg.sender != _to && _value <= balances[msg.sender], true);require(_value >= 0);
+        returns (bool) {(bool __v1, bool __v2)=(!paused && _to != address(0x0) && _to != address(this) && msg.sender != _to && _value <= balances[msg.sender],  true);require(_value >= 0);
         return super.transfer(_to, _value);
     }
 
@@ -469,7 +469,7 @@ contract IoTeXNetwork is StandardToken, Pausable {string old_name;string old_sym
     /// ensures(!paused && _to != address(0x0) && _to != address(this) && _from != _to && _value <= balances[_from] && _value <= allowed[_from][msg.sender], true)
     function transferFrom(address _from, address _to, uint _value) whenNotPaused
         validDestination(_to)
-        returns (bool) {(bool __v1, bool __v2)=(!paused && _to != address(0x0) && _to != address(this) && _from != _to && _value <= balances[_from] && _value <= allowed[_from][msg.sender], true);require(_value >= 0);
+        returns (bool) {(bool __v1, bool __v2)=(!paused && _to != address(0x0) && _to != address(this) && _from != _to && _value <= balances[_from] && _value <= allowed[_from][msg.sender],  true);require(_value >= 0);
         return super.transferFrom(_from, _to, _value);
     }
 
@@ -483,7 +483,7 @@ contract IoTeXNetwork is StandardToken, Pausable {string old_name;string old_sym
     /* CertiK Smart Labelling, for more details visit: https://certik.org */
     /// ensures(!paused, true)
     function approve(address _spender, uint256 _value) public whenNotPaused
-      returns (bool) {(bool __v1, bool __v2)=(!paused, true);require(_value >= 0);
+      returns (bool) {(bool __v1, bool __v2)=(!paused,  true);require(_value >= 0);
       return super.approve(_spender, _value);
     }
 
@@ -499,7 +499,7 @@ contract IoTeXNetwork is StandardToken, Pausable {string old_name;string old_sym
     /* CertiK Smart Labelling, for more details visit: https://certik.org */
     /// ensures(!paused, true)
     function increaseApproval(address _spender, uint _addedValue) public whenNotPaused
-      returns (bool success) {(bool __v1, bool __v2)=(!paused, true);require(_addedValue >= 0);
+      returns (bool success) {(bool __v1, bool __v2)=(!paused,  true);require(_addedValue >= 0);
       return super.increaseApproval(_spender, _addedValue);
     }
 
@@ -515,7 +515,7 @@ contract IoTeXNetwork is StandardToken, Pausable {string old_name;string old_sym
     /* CertiK Smart Labelling, for more details visit: https://certik.org */
     /// ensures(!paused && _subtractedValue <= allowed[msg.sender][_spender], true)
     function decreaseApproval(address _spender, uint _subtractedValue) public whenNotPaused
-      returns (bool success) {(bool __v1, bool __v2)=(!paused && _subtractedValue <= allowed[msg.sender][_spender], true);require(_subtractedValue >= 0);
+      returns (bool success) {(bool __v1, bool __v2)=(!paused && _subtractedValue <= allowed[msg.sender][_spender],  true);require(_subtractedValue >= 0);
       return super.decreaseApproval(_spender, _subtractedValue);
     }
 }

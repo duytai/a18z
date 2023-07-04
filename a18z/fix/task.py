@@ -67,13 +67,12 @@ class RQ3(Task):
                     graph = nx.subgraph(state.call_graph, selected)
                     cluster = list(reversed(list(nx.topological_sort(graph))))
                     clusters.append(cluster)
-            print('....')
             print(query)
             print(clusters)
             state._clusters = clusters
             ff = FixFunction()
             ff.execute(state, query)
-            print('---> FINISH <---')
+            print('---> DONE <---')
 
 class BuildCluster(Task):
     def execute(self, state: State):
@@ -142,34 +141,34 @@ class FixFunction(Task):
                     post_query.add_postcondition(func, new_post)
                     yield from self.update_patch(pending[::], post_query, state, new_acc)
             # Internal function call
-            # for node in func.nodes:
-            #     for ir in node.irs:
-            #         if isinstance(ir, InternalCall):
-            #             if not ir.is_modifier_call:
-            #                 prep = prepcondition(ir, query)
-            #                 if prep is not None:
-            #                     new_acc = acc
-            #                     new_pre, new_post = prep
-            #                     # new precondition
-            #                     old_pre = state.root_query.get_precondition(func)
-            #                     x = sexpdata.loads(old_pre.sexpr())
-            #                     x = self.build_graph(x)
-            #                     y = sexpdata.loads(new_pre.sexpr())
-            #                     y = self.build_graph(y)
-            #                     new_acc += nx.graph_edit_distance(x, y, timeout=2) + 20
-            #                     # new postcondition
-            #                     old_post = state.root_query.get_postcondition(func)
-            #                     x = sexpdata.loads(old_post.sexpr())
-            #                     x = self.build_graph(x)
-            #                     y = sexpdata.loads(new_post.sexpr())
-            #                     y = self.build_graph(y)
-            #                     new_acc += nx.graph_edit_distance(x, y, timeout=2) + 20
-            #                     # update prep
-            #                     if new_acc < self.min_acc:
-            #                         prep_query = copy(query)
-            #                         prep_query.add_precondition(ir.function, new_pre)
-            #                         prep_query.add_postcondition(ir.function, new_post)
-            #                         yield from self.update_patch(pending[::], prep_query, state, new_acc)
+            for node in func.nodes:
+                for ir in node.irs:
+                    if isinstance(ir, InternalCall):
+                        if not ir.is_modifier_call:
+                            prep = prepcondition(ir, query)
+                            if prep is not None:
+                                new_acc = acc
+                                new_pre, new_post = prep
+                                # new precondition
+                                old_pre = state.root_query.get_precondition(func)
+                                x = sexpdata.loads(old_pre.sexpr())
+                                x = self.build_graph(x)
+                                y = sexpdata.loads(new_pre.sexpr())
+                                y = self.build_graph(y)
+                                new_acc += nx.graph_edit_distance(x, y, timeout=2) + 20
+                                # new postcondition
+                                old_post = state.root_query.get_postcondition(func)
+                                x = sexpdata.loads(old_post.sexpr())
+                                x = self.build_graph(x)
+                                y = sexpdata.loads(new_post.sexpr())
+                                y = self.build_graph(y)
+                                new_acc += nx.graph_edit_distance(x, y, timeout=2) + 20
+                                # update prep
+                                if new_acc < self.min_acc:
+                                    prep_query = copy(query)
+                                    prep_query.add_precondition(ir.function, new_pre)
+                                    prep_query.add_postcondition(ir.function, new_post)
+                                    yield from self.update_patch(pending[::], prep_query, state, new_acc)
 
     def execute(self, state: State, init=LegacyQuery()):
         queries = []
@@ -234,13 +233,7 @@ class EvaluateCallsite(Task):
                     if isinstance(ir, (InternalCall, LibraryCall)):
                         if not hasattr(ir, 'is_modifier_call') or not ir.is_modifier_call:
                             r = prepcondition(ir)
-                            if r:
-                                print(r)
-                                [(p, q)] = r
-                                query = LegacyQuery()
-                                query.add_precondition(ir.function, p)
-                                query.add_postcondition(ir.function, q)
-                                print(verify(ir.function))
+                            if r is not None:
                                 goods += 1
                             else:
                                 print(ir)

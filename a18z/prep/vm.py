@@ -32,7 +32,7 @@ class PrepVM(LegacyVM):
         if not self.rev and self.prep :
             # Find eliminated variables
             ir = self._internal_call
-            constraints = z3.And(self._constraints)
+            constraints = self.constraints
             postcondition = self._postcondition
 
             # Find all variables
