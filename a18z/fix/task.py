@@ -105,22 +105,17 @@ class FixFunction(Task):
         return G
 
     def update_patch(self, pending: List[str], query: LegacyQuery, state: State, acc: int):
-        print(f'LLEN: {len(pending)}')
         if not pending:
             yield query, acc
         else:
             func_map = dict((f.canonical_name, f) for f in state.functions)
             func = func_map[pending.pop(0)]
-            print(f'FUNC {func.canonical_name}')
             if verify(func, query):
-                print('NO-CHANGE')
                 yield from self.update_patch(pending[::], copy(query), state, acc)
                 return
             # Fix precondition
-            print('COMPUTE-PRE')
             new_pre = precondition(func, query=query)
             if new_pre is not None:
-                print('NEW-PRE')
                 new_acc = acc
                 old_pre = state.root_query.get_precondition(func)
                 x = sexpdata.loads(old_pre.sexpr())
@@ -129,15 +124,12 @@ class FixFunction(Task):
                 y = self.build_graph(y)
                 new_acc += nx.graph_edit_distance(x, y, timeout=2) + 20
                 if new_acc < self.min_acc:
-                    print('ADD-PRE')
                     pre_query = copy(query)
                     pre_query.add_precondition(func, new_pre)
                     yield from self.update_patch(pending[::], pre_query, state, new_acc)
             # Fix postcondition
-            print('COMPUTE-POST')
             new_post = postcondition(func, query=query)
             if new_post is not None:
-                print('NEW-POST')
                 new_acc = acc
                 old_post = state.root_query.get_postcondition(func)
                 x = sexpdata.loads(old_post.sexpr())
@@ -146,7 +138,6 @@ class FixFunction(Task):
                 y = self.build_graph(y)
                 new_acc += nx.graph_edit_distance(x, y, timeout=2) + 20
                 if new_acc < self.min_acc:
-                    print('ADD-POST')
                     post_query = copy(query)
                     post_query.add_postcondition(func, new_post)
                     yield from self.update_patch(pending[::], post_query, state, new_acc)
@@ -187,14 +178,9 @@ class FixFunction(Task):
             self.min_query = None
             self.min_acc = 1000
             for query, acc in tqdm(self.update_patch(cluster[::], init, state, 0)):
-                # verify patch
                 ok = True
                 for name in cluster:
                     ok = ok and verify(func_map[name], query)
-                print('****')
-                print(query)
-                print(ok)
-                print('****')
                 if not ok: continue
                 if acc < self.min_acc:
                     self.min_acc = acc
@@ -270,9 +256,9 @@ class TestFunction(Task):
         for function in state.functions:
             print(f'> {Color.YELLOW}{function.canonical_name}{Color.OFF}')
             print(verify(function))
-            pre_ = precondition(function)
+            post_ = postcondition(function)
             query = LegacyQuery()
-            query.add_precondition(function, pre_)
+            query.add_postcondition(function, post_)
             print(query)
             if not verify(function, query):
                 raise ValueError('??')

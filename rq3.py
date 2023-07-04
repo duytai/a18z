@@ -1,7 +1,7 @@
 from a18z import inject, rq3
 
-inject('RQ3/BAT.sol')
-rq3('RQ3/BAT.sol.sol')
+# inject('RQ3/BAT.sol')
+# rq3('RQ3/BAT.sol.sol')
 
 # inject('RQ3/BNB.sol')
 # rq3('RQ3/BNB.sol.sol')
