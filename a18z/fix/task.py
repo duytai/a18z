@@ -87,6 +87,7 @@ class BuildCluster(Task):
                 graph = nx.subgraph(state.call_graph, selected)
                 cluster = list(reversed(list(nx.topological_sort(graph))))
                 state.add_cluster(cluster)
+        print(state.clusters)
 
 class FixFunction(Task):
     min_query = None

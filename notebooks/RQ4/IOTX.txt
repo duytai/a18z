@@ -1,0 +1,18 @@
+[['SafeMath.sub(uint256,uint256)', 'SafeMath.add(uint256,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)']]
+> Pre of `SafeMath.sub(uint256,uint256)` is [33mb <= a[0m
+> Pre of `StandardToken.decreaseApproval(address,uint256)` is [33m_subtractedValue <= allowed[msg.sender][_spender][0m
+> Pre of `StandardToken.transferFrom(address,address,uint256)` is [33m0 <= _value[0m
+> Pre of `IoTeXNetwork.decreaseApproval(address,uint256)` is [33m_subtractedValue <= allowed[msg.sender][_spender][0m
+> Post of `BasicToken.transfer(address,uint256)` is [33mAnd(<null>,
+    _value <= old_balances[msg.sender],
+    Not(0 == _to),
+    0 <= _value,
+    Or(And(msg.sender == _to,
+           balances[_to] == old_balances[msg.sender]),
+       And(balances[msg.sender] ==
+           old_balances[msg.sender] + -1*_value,
+           balances[_to] == old_balances[_to] + _value,
+           Not(msg.sender == _to))))[0m
+> Post of `StandardToken.transferFrom(address,address,uint256)` is [33mTrue[0m
+> Query: 5
+> Duration: 33088

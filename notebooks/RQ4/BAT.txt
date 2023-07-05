@@ -1,0 +1,14 @@
+[['SafeMath.safeSubtract(uint256,uint256)', 'BAToken.refund()'], ['StandardToken.transfer(address,uint256)'], ['StandardToken.transferFrom(address,address,uint256)']]
+> Pre of `SafeMath.safeSubtract(uint256,uint256)` is [33mx >= y[0m
+> Pre of `BAToken.refund()` is [33mtotalSupply >= balances[msg.sender][0m
+> Pre of `StandardToken.transfer(address,uint256)` is [33mOr(0 == _value,
+   And(balances[msg.sender] >= _value,
+       Not(_value <= 0),
+       Not(msg.sender == _to)))[0m
+> Pre of `StandardToken.transferFrom(address,address,uint256)` is [33mOr(_value == 0,
+   And(balances[_from] >= _value,
+       allowed[_from][msg.sender] >= _value,
+       Not(_value <= 0),
+       Not(_to == _from)))[0m
+> Query: 3
+> Duration: 14323

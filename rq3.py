@@ -27,5 +27,5 @@ from a18z import inject, rq3
 # inject('RQ3/NXM.sol')
 # rq3('RQ3/NXM.sol.sol')
 
-inject('RQ3/SHIB.sol')
-rq3('RQ3/SHIB.sol.sol')
+# inject('RQ3/SHIB.sol')
+# rq3('RQ3/SHIB.sol.sol')
