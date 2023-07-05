@@ -1,5 +1,6 @@
 import sexpdata
 import networkx as nx
+import numpy as np
 import z3
 from tqdm import tqdm
 from copy import copy
@@ -173,14 +174,17 @@ class FixFunction(Task):
     def execute(self, state: State, init=LegacyQuery()):
         queries = []
         func_map = dict((f.canonical_name, f) for f in state.functions)
+        num_queries = 0
+        start = 0
         for cluster in state.clusters:
             self.min_query = None
             self.min_acc = 1000
-            for query, acc in tqdm(self.update_patch(cluster[::], init, state, 0)):
+            for query, acc in self.update_patch(cluster[::], init, state, 0):
                 ok = True
                 for name in cluster:
                     ok = ok and verify(func_map[name], query)
                 if not ok: continue
+                num_queries += 1
                 if acc < self.min_acc:
                     self.min_acc = acc
                     self.min_query = query
@@ -188,6 +192,8 @@ class FixFunction(Task):
             queries.append(self.min_query)
         for query in queries:
             print(query)
+        print(f'> Query: {num_queries}')
+        print(f'> Duration: {round((timer() - start) * 1000)}')
 
 class EvaluateInference(Task):
     def execute(self, state: State):

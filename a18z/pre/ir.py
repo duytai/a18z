@@ -41,7 +41,7 @@ class PreInternalCall(LegacyInternalCall):
         ir = self._ir
         assert isinstance(ir, (InternalCall, LibraryCall))
         if isinstance(ir, InternalCall) and ir.is_modifier_call:
-            print(f'#### {ir.function}')
+            #print(f'#### {ir.function}')
             return
         if ir.lvalue and ir.lvalue not in vm._variables:
             value = vm.fresh_variable(ir.lvalue)

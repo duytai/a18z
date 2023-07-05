@@ -1,0 +1,192 @@
+> Pre of `BNB.transfer(address,uint256)` is True
+[['SafeMath.safeAdd(uint256,uint256)', 'SafeMath.safeSub(uint256,uint256)', 'BNB.unfreeze(uint256)', 'BNB.freeze(uint256)', 'BNB.burn(uint256)', 'BNB.transferFrom(address,address,uint256)', 'BNB.transfer(address,uint256)']]
+> Pre of `BNB.transfer(address,uint256)` is Not(msg.sender == _to)
+> Query: 1
+> Duration: 17343
+---> DONE <---
+> Post of `BNB.transfer(address,uint256)` is False
+[['SafeMath.safeAdd(uint256,uint256)', 'SafeMath.safeSub(uint256,uint256)', 'BNB.unfreeze(uint256)', 'BNB.freeze(uint256)', 'BNB.burn(uint256)', 'BNB.transferFrom(address,address,uint256)', 'BNB.transfer(address,uint256)']]
+> Post of `BNB.transfer(address,uint256)` is And(_value <= old_balanceOf[msg.sender],
+    Not(0 >= _value),
+    Not(0 == _to),
+    Or(And(balanceOf[_to] == old_balanceOf[msg.sender],
+           msg.sender == _to),
+       And(balanceOf[msg.sender] ==
+           old_balanceOf[msg.sender] + -1*_value,
+           Not(msg.sender == _to),
+           balanceOf[_to] == old_balanceOf[_to] + _value)),
+    0 <= old_balanceOf[_to],
+    Not(msg.sender == _to))
+> Query: 1
+> Duration: 32228
+---> DONE <---
+> Pre of `SafeMath.safeAdd(uint256,uint256)` is True
+[]
+> Query: 0
+> Duration: 32692
+---> DONE <---
+> Post of `SafeMath.safeAdd(uint256,uint256)` is False
+[['SafeMath.safeAdd(uint256,uint256)', 'SafeMath.safeSub(uint256,uint256)', 'BNB.unfreeze(uint256)', 'BNB.freeze(uint256)', 'BNB.burn(uint256)', 'BNB.transferFrom(address,address,uint256)', 'BNB.transfer(address,uint256)']]
+> Post of `SafeMath.safeAdd(uint256,uint256)` is And(0 <= b, 0 <= a, r == a + b)
+> Query: 1
+> Duration: 34359
+---> DONE <---
+> Pre of `BNB.freeze(uint256)` is True
+[]
+> Query: 0
+> Duration: 34823
+---> DONE <---
+> Post of `BNB.freeze(uint256)` is False
+[['SafeMath.safeAdd(uint256,uint256)', 'SafeMath.safeSub(uint256,uint256)', 'BNB.unfreeze(uint256)', 'BNB.freeze(uint256)', 'BNB.burn(uint256)', 'BNB.transferFrom(address,address,uint256)', 'BNB.transfer(address,uint256)']]
+> Post of `BNB.freeze(uint256)` is And(success,
+    Not(0 >= _value),
+    _value <= old_balanceOf[msg.sender],
+    0 <= old_freezeOf[msg.sender],
+    freezeOf[msg.sender] ==
+    old_freezeOf[msg.sender] + _value,
+    balanceOf[msg.sender] ==
+    old_balanceOf[msg.sender] + -1*_value)
+> Query: 1
+> Duration: 47831
+---> DONE <---
+> Pre of `BNB.withdrawEther(uint256)` is True
+[]
+> Query: 0
+> Duration: 48488
+---> DONE <---
+> Post of `BNB.withdrawEther(uint256)` is False
+[['BNB.withdrawEther(uint256)']]
+> Post of `BNB.withdrawEther(uint256)` is And(msg.sender == owner, 0 <= amount)
+> Query: 1
+> Duration: 49264
+---> DONE <---
+> Pre of `BNB.burn(uint256)` is True
+[['SafeMath.safeAdd(uint256,uint256)', 'SafeMath.safeSub(uint256,uint256)', 'BNB.unfreeze(uint256)', 'BNB.freeze(uint256)', 'BNB.burn(uint256)', 'BNB.transferFrom(address,address,uint256)', 'BNB.transfer(address,uint256)']]
+> Pre of `BNB.burn(uint256)` is totalSupply >= _value
+> Query: 1
+> Duration: 62650
+---> DONE <---
+> Post of `BNB.burn(uint256)` is False
+[['SafeMath.safeAdd(uint256,uint256)', 'SafeMath.safeSub(uint256,uint256)', 'BNB.unfreeze(uint256)', 'BNB.freeze(uint256)', 'BNB.burn(uint256)', 'BNB.transferFrom(address,address,uint256)', 'BNB.transfer(address,uint256)']]
+> Post of `BNB.burn(uint256)` is And(success,
+    Not(0 >= _value),
+    _value <= old_balanceOf[msg.sender],
+    0 <= old_totalSupply,
+    old_totalSupply >= _value,
+    balanceOf[msg.sender] ==
+    old_balanceOf[msg.sender] + -1*_value,
+    totalSupply == old_totalSupply + -1*_value)
+> Query: 1
+> Duration: 78056
+---> DONE <---
+> Pre of `SafeMath.safeSub(uint256,uint256)` is True
+[['SafeMath.safeAdd(uint256,uint256)', 'SafeMath.safeSub(uint256,uint256)', 'BNB.unfreeze(uint256)', 'BNB.freeze(uint256)', 'BNB.burn(uint256)', 'BNB.transferFrom(address,address,uint256)', 'BNB.transfer(address,uint256)']]
+> Pre of `SafeMath.safeSub(uint256,uint256)` is b <= a
+> Query: 1
+> Duration: 80069
+---> DONE <---
+> Post of `SafeMath.safeSub(uint256,uint256)` is False
+[['SafeMath.safeAdd(uint256,uint256)', 'SafeMath.safeSub(uint256,uint256)', 'BNB.unfreeze(uint256)', 'BNB.freeze(uint256)', 'BNB.burn(uint256)', 'BNB.transferFrom(address,address,uint256)', 'BNB.transfer(address,uint256)']]
+> Post of `SafeMath.safeSub(uint256,uint256)` is And(r == a + -1*b, 0 <= b, 0 <= a, a >= b)
+> Query: 1
+> Duration: 82566
+---> DONE <---
+> Pre of `BNB.transferFrom(address,address,uint256)` is True
+[['SafeMath.safeAdd(uint256,uint256)', 'SafeMath.safeSub(uint256,uint256)', 'BNB.unfreeze(uint256)', 'BNB.freeze(uint256)', 'BNB.burn(uint256)', 'BNB.transferFrom(address,address,uint256)', 'BNB.transfer(address,uint256)']]
+> Pre of `BNB.transferFrom(address,address,uint256)` is Not(_from == _to)
+> Query: 1
+> Duration: 103773
+---> DONE <---
+> Post of `BNB.transferFrom(address,address,uint256)` is False
+[['SafeMath.safeAdd(uint256,uint256)', 'SafeMath.safeSub(uint256,uint256)', 'BNB.unfreeze(uint256)', 'BNB.freeze(uint256)', 'BNB.burn(uint256)', 'BNB.transferFrom(address,address,uint256)', 'BNB.transfer(address,uint256)']]
+> Post of `BNB.transferFrom(address,address,uint256)` is And(success,
+    0 <= _value,
+    _value <= old_balanceOf[_from],
+    Not(0 >= _value),
+    Not(0 == _to),
+    _value <= old_allowance[_from][msg.sender],
+    allowance[_from][msg.sender] ==
+    old_allowance[_from][msg.sender] + -1*_value,
+    Or(And(balanceOf[_from] ==
+           old_balanceOf[_from] + -1*_value,
+           balanceOf[_to] == old_balanceOf[_to] + _value,
+           Not(_to == _from)),
+       And(_from == _to,
+           balanceOf[_from] == old_balanceOf[_from])),
+    0 <= old_balanceOf[_to],
+    Not(_from == _to))
+> Query: 1
+> Duration: 126766
+---> DONE <---
+> Pre of `BNB.unfreeze(uint256)` is True
+[]
+> Query: 0
+> Duration: 127383
+---> DONE <---
+> Post of `BNB.unfreeze(uint256)` is False
+[['SafeMath.safeAdd(uint256,uint256)', 'SafeMath.safeSub(uint256,uint256)', 'BNB.unfreeze(uint256)', 'BNB.freeze(uint256)', 'BNB.burn(uint256)', 'BNB.transferFrom(address,address,uint256)', 'BNB.transfer(address,uint256)']]
+> Post of `BNB.unfreeze(uint256)` is And(success,
+    Not(0 >= _value),
+    _value <= old_freezeOf[msg.sender],
+    0 <= old_balanceOf[msg.sender],
+    freezeOf[msg.sender] ==
+    old_freezeOf[msg.sender] + -1*_value,
+    balanceOf[msg.sender] ==
+    old_balanceOf[msg.sender] + _value)
+> Query: 1
+> Duration: 141201
+---> DONE <---
+> Pre of `SafeMath.safeDiv(uint256,uint256)` is True
+[['SafeMath.safeDiv(uint256,uint256)']]
+> Pre of `SafeMath.safeDiv(uint256,uint256)` is And(Not(b <= 0), a == b*(a/b) + a%b)
+> Query: 1
+> Duration: 142052
+---> DONE <---
+> Post of `SafeMath.safeDiv(uint256,uint256)` is False
+[['SafeMath.safeDiv(uint256,uint256)']]
+> Post of `SafeMath.safeDiv(uint256,uint256)` is And(0 <= a, r == a/b, Not(b <= 0))
+> Query: 1
+> Duration: 142981
+---> DONE <---
+> Pre of `BNB.approve(address,uint256)` is True
+[]
+> Query: 0
+> Duration: 143466
+---> DONE <---
+> Post of `BNB.approve(address,uint256)` is False
+[['BNB.approve(address,uint256)']]
+> Post of `BNB.approve(address,uint256)` is And(success,
+    allowance[msg.sender][_spender] == _value,
+    Not(0 >= _value))
+> Query: 1
+> Duration: 146086
+---> DONE <---
+> Pre of `SafeMath.safeMul(uint256,uint256)` is True
+[]
+> Query: 0
+> Duration: 146671
+---> DONE <---
+> Post of `SafeMath.safeMul(uint256,uint256)` is False
+[['SafeMath.safeMul(uint256,uint256)']]
+> Post of `SafeMath.safeMul(uint256,uint256)` is And(0 <= b, 0 <= a, r == a*b)
+> Query: 1
+> Duration: 147467
+---> DONE <---
+> Pre of `BNB.BNB(uint256,string,uint8,string)` is True
+[]
+> Query: 0
+> Duration: 147951
+---> DONE <---
+> Post of `BNB.BNB(uint256,string,uint8,string)` is False
+[['BNB.BNB(uint256,string,uint8,string)']]
+> Post of `BNB.BNB(uint256,string,uint8,string)` is And(owner == msg.sender,
+    decimals == decimalUnits,
+    totalSupply == initialSupply,
+    balanceOf[msg.sender] == initialSupply,
+    0 <= decimalUnits,
+    0 <= initialSupply,
+    name == tokenName,
+    symbol == tokenSymbol)
+> Query: 1
+> Duration: 150624
+---> DONE <---

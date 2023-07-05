@@ -1,0 +1,281 @@
+> Pre of `BasicToken.transfer(address,uint256)` is [33mTrue[0m
+[['SafeMath.sub(uint256,uint256)', 'SafeMath.add(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BurnableToken.burn(uint256)', 'BasicToken.transfer(address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'MintableToken.mint(address,uint256)', 'MANAToken.burn(uint256)', 'PausableToken.transfer(address,uint256)']]
+> Pre of `BasicToken.transfer(address,uint256)` is [33mAnd(balances[msg.sender] >= _value,
+    Or(Not(msg.sender == _to),
+       balances[_to] == balances[msg.sender] + -1*_value))[0m
+> Query: 1
+> Duration: 8244
+---> DONE <---
+> Post of `BasicToken.transfer(address,uint256)` is [33mFalse[0m
+[['SafeMath.sub(uint256,uint256)', 'SafeMath.add(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BurnableToken.burn(uint256)', 'BasicToken.transfer(address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'MintableToken.mint(address,uint256)', 'MANAToken.burn(uint256)', 'PausableToken.transfer(address,uint256)']]
+> Post of `BasicToken.transfer(address,uint256)` is [33mAnd(<null>,
+    0 <= _value,
+    old_balances[msg.sender] >= _value,
+    Not(msg.sender == _to),
+    Or(And(balances[msg.sender] ==
+           old_balances[msg.sender] + -1*_value,
+           Not(msg.sender == _to),
+           balances[_to] == old_balances[_to] + _value),
+       And(balances[_to] == old_balances[msg.sender],
+           msg.sender == _to)))[0m
+> Query: 1
+> Duration: 14119
+---> DONE <---
+> Pre of `Pausable.pause()` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 14823
+---> DONE <---
+> Post of `Pausable.pause()` is [33mFalse[0m
+[['Pausable.pause()']]
+> Post of `Pausable.pause()` is [33mAnd(<null>, paused, msg.sender == owner, Not(old_paused))[0m
+> Query: 1
+> Duration: 15573
+---> DONE <---
+> Pre of `BurnableToken.burn(uint256)` is [33mTrue[0m
+[['SafeMath.sub(uint256,uint256)', 'SafeMath.add(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BurnableToken.burn(uint256)', 'BasicToken.transfer(address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'MintableToken.mint(address,uint256)', 'MANAToken.burn(uint256)', 'PausableToken.transfer(address,uint256)']]
+> Pre of `BurnableToken.burn(uint256)` is [33mAnd(balances[msg.sender] >= _value, totalSupply >= _value)[0m
+> Query: 1
+> Duration: 21711
+---> DONE <---
+> Post of `BurnableToken.burn(uint256)` is [33mFalse[0m
+[['SafeMath.sub(uint256,uint256)', 'SafeMath.add(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BurnableToken.burn(uint256)', 'BasicToken.transfer(address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'MintableToken.mint(address,uint256)', 'MANAToken.burn(uint256)', 'PausableToken.transfer(address,uint256)']]
+> Post of `BurnableToken.burn(uint256)` is [33mAnd(Not(_value <= 0),
+    0 <= old_totalSupply,
+    old_totalSupply >= _value,
+    old_balances[msg.sender] >= _value,
+    balances[msg.sender] ==
+    old_balances[msg.sender] + -1*_value,
+    totalSupply == old_totalSupply + -1*_value)[0m
+> Query: 1
+> Duration: 28346
+---> DONE <---
+> Pre of `SafeMath.sub(uint256,uint256)` is [33mTrue[0m
+[['SafeMath.sub(uint256,uint256)', 'SafeMath.add(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BurnableToken.burn(uint256)', 'BasicToken.transfer(address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'MintableToken.mint(address,uint256)', 'MANAToken.burn(uint256)', 'PausableToken.transfer(address,uint256)']]
+> Pre of `SafeMath.sub(uint256,uint256)` is [33mb <= a[0m
+> Query: 1
+> Duration: 30414
+---> DONE <---
+> Post of `SafeMath.sub(uint256,uint256)` is [33mFalse[0m
+[['SafeMath.sub(uint256,uint256)', 'SafeMath.add(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BurnableToken.burn(uint256)', 'BasicToken.transfer(address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'MintableToken.mint(address,uint256)', 'MANAToken.burn(uint256)', 'PausableToken.transfer(address,uint256)']]
+> Post of `SafeMath.sub(uint256,uint256)` is [33mAnd(r == a + -1*b, 0 <= b, 0 <= a, a >= b)[0m
+> Query: 1
+> Duration: 32952
+---> DONE <---
+> Pre of `Ownable.Ownable()` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 33604
+---> DONE <---
+> Post of `Ownable.Ownable()` is [33mFalse[0m
+[['Ownable.Ownable()']]
+> Post of `Ownable.Ownable()` is [33mowner == msg.sender[0m
+> Query: 1
+> Duration: 34358
+---> DONE <---
+> Pre of `Pausable.unpause()` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 35033
+---> DONE <---
+> Post of `Pausable.unpause()` is [33mFalse[0m
+[['Pausable.unpause()']]
+> Post of `Pausable.unpause()` is [33mAnd(<null>, old_paused, msg.sender == owner, Not(paused))[0m
+> Query: 1
+> Duration: 35793
+---> DONE <---
+> Pre of `MANAToken.burn(uint256)` is [33mTrue[0m
+[['SafeMath.sub(uint256,uint256)', 'SafeMath.add(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BurnableToken.burn(uint256)', 'BasicToken.transfer(address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'MintableToken.mint(address,uint256)', 'MANAToken.burn(uint256)', 'PausableToken.transfer(address,uint256)']]
+> Pre of `MANAToken.burn(uint256)` is [33mAnd(balances[msg.sender] >= _value,
+    totalSupply >= _value,
+    Not(_value <= 0))[0m
+> Query: 1
+> Duration: 42095
+---> DONE <---
+> Post of `MANAToken.burn(uint256)` is [33mFalse[0m
+[['SafeMath.sub(uint256,uint256)', 'SafeMath.add(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BurnableToken.burn(uint256)', 'BasicToken.transfer(address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'MintableToken.mint(address,uint256)', 'MANAToken.burn(uint256)', 'PausableToken.transfer(address,uint256)']]
+> Post of `MANAToken.burn(uint256)` is [33mAnd(totalSupply == old_totalSupply + -1*_value,
+    balances[msg.sender] ==
+    old_balances[msg.sender] + -1*_value,
+    0 <= _value,
+    old_totalSupply >= _value,
+    old_balances[msg.sender] >= _value,
+    Not(_value <= 0))[0m
+> Query: 1
+> Duration: 49187
+---> DONE <---
+> Pre of `SafeMath.add(uint256,uint256)` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 49889
+---> DONE <---
+> Post of `SafeMath.add(uint256,uint256)` is [33mFalse[0m
+[['SafeMath.sub(uint256,uint256)', 'SafeMath.add(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BurnableToken.burn(uint256)', 'BasicToken.transfer(address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'MintableToken.mint(address,uint256)', 'MANAToken.burn(uint256)', 'PausableToken.transfer(address,uint256)']]
+> Post of `SafeMath.add(uint256,uint256)` is [33mAnd(0 <= b, 0 <= a, r == a + b)[0m
+> Query: 1
+> Duration: 52241
+---> DONE <---
+> Pre of `BasicToken.balanceOf(address)` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 52947
+---> DONE <---
+> Post of `BasicToken.balanceOf(address)` is [33mFalse[0m
+[['BasicToken.balanceOf(address)']]
+> Post of `BasicToken.balanceOf(address)` is [33mbalance == balances[_owner][0m
+> Query: 1
+> Duration: 53782
+---> DONE <---
+> Pre of `Ownable.transferOwnership(address)` is [33mTrue[0m
+[['Ownable.transferOwnership(address)']]
+> Pre of `Ownable.transferOwnership(address)` is [33mOr(Not(0 == newOwner), And(0 == newOwner, owner == 0))[0m
+> Query: 1
+> Duration: 56734
+---> DONE <---
+> Post of `Ownable.transferOwnership(address)` is [33mFalse[0m
+[['Ownable.transferOwnership(address)']]
+> Post of `Ownable.transferOwnership(address)` is [33mAnd(owner == newOwner,
+    Not(0 == newOwner),
+    msg.sender == old_owner)[0m
+> Query: 1
+> Duration: 59672
+---> DONE <---
+> Pre of `MintableToken.mint(address,uint256)` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 60329
+---> DONE <---
+> Post of `MintableToken.mint(address,uint256)` is [33mFalse[0m
+[['SafeMath.sub(uint256,uint256)', 'SafeMath.add(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BurnableToken.burn(uint256)', 'BasicToken.transfer(address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'MintableToken.mint(address,uint256)', 'MANAToken.burn(uint256)', 'PausableToken.transfer(address,uint256)']]
+> Post of `MintableToken.mint(address,uint256)` is [33mAnd(<null>,
+    0 <= old_totalSupply,
+    0 <= _amount,
+    msg.sender == owner,
+    totalSupply == old_totalSupply + _amount,
+    balances[_to] == old_balances[_to] + _amount,
+    Not(mintingFinished))[0m
+> Query: 1
+> Duration: 64534
+---> DONE <---
+> Pre of `StandardToken.transferFrom(address,address,uint256)` is [33mTrue[0m
+[['SafeMath.sub(uint256,uint256)', 'SafeMath.add(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BurnableToken.burn(uint256)', 'BasicToken.transfer(address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'MintableToken.mint(address,uint256)', 'MANAToken.burn(uint256)', 'PausableToken.transfer(address,uint256)']]
+> Pre of `StandardToken.transferFrom(address,address,uint256)` is [33mAnd(Or(And(_to == _from, balances[_to] >= 0),
+       And(balances[_from] >= _value, Not(_to == _from))),
+    allowed[_from][msg.sender] >= _value,
+    Or(_value == 0, Not(_to == _from)))[0m
+> Query: 1
+> Duration: 70941
+---> DONE <---
+> Post of `StandardToken.transferFrom(address,address,uint256)` is [33mFalse[0m
+[['SafeMath.sub(uint256,uint256)', 'SafeMath.add(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BurnableToken.burn(uint256)', 'BasicToken.transfer(address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'MintableToken.mint(address,uint256)', 'MANAToken.burn(uint256)', 'PausableToken.transfer(address,uint256)']]
+> Post of `StandardToken.transferFrom(address,address,uint256)` is [33mAnd(<null>,
+    0 <= _value,
+    _value <= old_allowed[_from][msg.sender],
+    _value <= old_balances[_from],
+    Not(_from == _to),
+    allowed[_from][msg.sender] ==
+    old_allowed[_from][msg.sender] + -1*_value,
+    Or(And(_to == _from, balances[_to] == old_balances[_to]),
+       And(balances[_to] == old_balances[_to] + _value,
+           balances[_from] ==
+           old_balances[_from] + -1*_value,
+           Not(_to == _from))))[0m
+> Query: 1
+> Duration: 77899
+---> DONE <---
+> Pre of `MintableToken.finishMinting()` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 78515
+---> DONE <---
+> Post of `MintableToken.finishMinting()` is [33mFalse[0m
+[['MintableToken.finishMinting()']]
+> Post of `MintableToken.finishMinting()` is [33mAnd(<null>, mintingFinished, msg.sender == owner)[0m
+> Query: 1
+> Duration: 79300
+---> DONE <---
+> Pre of `SafeMath.mul(uint256,uint256)` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 79922
+---> DONE <---
+> Post of `SafeMath.mul(uint256,uint256)` is [33mFalse[0m
+[['SafeMath.mul(uint256,uint256)']]
+> Post of `SafeMath.mul(uint256,uint256)` is [33mAnd(0 <= b, 0 <= a, r == a*b)[0m
+> Query: 1
+> Duration: 80811
+---> DONE <---
+> Pre of `StandardToken.approve(address,uint256)` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 81389
+---> DONE <---
+> Post of `StandardToken.approve(address,uint256)` is [33mFalse[0m
+[['StandardToken.approve(address,uint256)']]
+> Post of `StandardToken.approve(address,uint256)` is [33mAnd(<null>,
+    allowed[msg.sender][_spender] == _value,
+    0 <= _value,
+    Or(0 == _value, 0 == old_allowed[msg.sender][_spender]))[0m
+> Query: 1
+> Duration: 84117
+---> DONE <---
+> Pre of `PausableToken.transfer(address,uint256)` is [33mTrue[0m
+[['SafeMath.sub(uint256,uint256)', 'SafeMath.add(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BurnableToken.burn(uint256)', 'BasicToken.transfer(address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'MintableToken.mint(address,uint256)', 'MANAToken.burn(uint256)', 'PausableToken.transfer(address,uint256)']]
+> Pre of `PausableToken.transfer(address,uint256)` is [33mAnd(balances[msg.sender] >= _value, Not(msg.sender == _to))[0m
+> Query: 1
+> Duration: 90153
+---> DONE <---
+> Post of `PausableToken.transfer(address,uint256)` is [33mFalse[0m
+[['SafeMath.sub(uint256,uint256)', 'SafeMath.add(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BurnableToken.burn(uint256)', 'BasicToken.transfer(address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'MintableToken.mint(address,uint256)', 'MANAToken.burn(uint256)', 'PausableToken.transfer(address,uint256)']]
+> Post of `PausableToken.transfer(address,uint256)` is [33mAnd(balances[_to] == old_balances[_to] + _value,
+    balances[msg.sender] ==
+    old_balances[msg.sender] + -1*_value,
+    old_balances[msg.sender] >= _value,
+    0 <= _value,
+    Not(paused),
+    Not(msg.sender == _to))[0m
+> Query: 1
+> Duration: 97899
+---> DONE <---
+> Pre of `SafeMath.div(uint256,uint256)` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 98854
+---> DONE <---
+> Post of `SafeMath.div(uint256,uint256)` is [33mFalse[0m
+[['SafeMath.div(uint256,uint256)']]
+> Post of `SafeMath.div(uint256,uint256)` is [33mAnd(0 <= b, 0 <= a, r == a/b)[0m
+> Query: 1
+> Duration: 99833
+---> DONE <---
+> Pre of `StandardToken.allowance(address,address)` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 100702
+---> DONE <---
+> Post of `StandardToken.allowance(address,address)` is [33mFalse[0m
+[['StandardToken.allowance(address,address)']]
+> Post of `StandardToken.allowance(address,address)` is [33mremaining == allowed[_owner][_spender][0m
+> Query: 1
+> Duration: 101564
+---> DONE <---
+> Pre of `PausableToken.transferFrom(address,address,uint256)` is [33mTrue[0m
+[['SafeMath.sub(uint256,uint256)', 'SafeMath.add(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BurnableToken.burn(uint256)', 'BasicToken.transfer(address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'MintableToken.mint(address,uint256)', 'MANAToken.burn(uint256)', 'PausableToken.transfer(address,uint256)']]
+> Pre of `PausableToken.transferFrom(address,address,uint256)` is [33mAnd(_value <= balances[_from],
+    _value <= allowed[_from][msg.sender],
+    Not(_from == _to))[0m
+> Query: 1
+> Duration: 107606
+---> DONE <---
+> Post of `PausableToken.transferFrom(address,address,uint256)` is [33mFalse[0m
+[['SafeMath.sub(uint256,uint256)', 'SafeMath.add(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BurnableToken.burn(uint256)', 'BasicToken.transfer(address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'MintableToken.mint(address,uint256)', 'MANAToken.burn(uint256)', 'PausableToken.transfer(address,uint256)']]
+> Post of `PausableToken.transferFrom(address,address,uint256)` is [33mAnd(balances[_to] == old_balances[_to] + _value,
+    balances[_from] == old_balances[_from] + -1*_value,
+    _value <= old_allowed[_from][msg.sender],
+    0 <= _value,
+    _value <= old_balances[_from],
+    Not(paused),
+    Not(_from == _to))[0m
+> Query: 1
+> Duration: 114913
+---> DONE <---

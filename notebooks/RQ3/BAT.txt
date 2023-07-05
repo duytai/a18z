@@ -1,0 +1,215 @@
+> Pre of `BAToken.createTokens()` is True
+[]
+> Query: 0
+> Duration: 3264
+---> DONE <---
+> Post of `BAToken.createTokens()` is False
+[['SafeMath.safeAdd(uint256,uint256)', 'SafeMath.safeMult(uint256,uint256)', 'BAToken.createTokens()']]
+> Post of `BAToken.createTokens()` is And(block.number <= fundingEndBlock,
+    fundingStartBlock <= block.number,
+    0 <= old_totalSupply,
+    0 <= tokenExchangeRate,
+    0 <= tokenCreationCap,
+    0 <= fundingStartBlock,
+    msg.value*tokenExchangeRate + old_totalSupply <=
+    tokenCreationCap,
+    Not(msg.value <= 0),
+    totalSupply <= tokenCreationCap,
+    totalSupply ==
+    old_totalSupply + msg.value*tokenExchangeRate,
+    balances[msg.sender] ==
+    old_balances[msg.sender] + msg.value*tokenExchangeRate,
+    Not(isFinalized))
+> Query: 1
+> Duration: 13951
+---> DONE <---
+> Pre of `StandardToken.transferFrom(address,address,uint256)` is True
+[['StandardToken.transferFrom(address,address,uint256)']]
+> Pre of `StandardToken.transferFrom(address,address,uint256)` is Or(_value == 0,
+   And(balances[_from] >= _value,
+       allowed[_from][msg.sender] >= _value,
+       Not(_value <= 0),
+       Not(_to == _from)))
+> Query: 1
+> Duration: 19510
+---> DONE <---
+> Post of `StandardToken.transferFrom(address,address,uint256)` is False
+[['StandardToken.transferFrom(address,address,uint256)']]
+> Post of `StandardToken.transferFrom(address,address,uint256)` is And(success,
+    allowed[_from][msg.sender] ==
+    old_allowed[_from][msg.sender] + -1*_value,
+    Not(_value <= 0),
+    old_allowed[_from][msg.sender] >= _value,
+    old_balances[_from] >= _value,
+    Or(And(balances[_from] == old_balances[_to],
+           _to == _from),
+       And(balances[_to] == old_balances[_to] + _value,
+           Not(_to == _from),
+           balances[_from] ==
+           old_balances[_from] + -1*_value)),
+    Not(_to == _from))
+> Query: 1
+> Duration: 25186
+---> DONE <---
+> Pre of `SafeMath.safeAdd(uint256,uint256)` is True
+[]
+> Query: 0
+> Duration: 25663
+---> DONE <---
+> Post of `SafeMath.safeAdd(uint256,uint256)` is False
+[['SafeMath.safeAdd(uint256,uint256)', 'SafeMath.safeMult(uint256,uint256)', 'BAToken.createTokens()']]
+> Post of `SafeMath.safeAdd(uint256,uint256)` is And(0 <= y, 0 <= x, r == x + y)
+> Query: 1
+> Duration: 26689
+---> DONE <---
+> Pre of `StandardToken.allowance(address,address)` is True
+[]
+> Query: 0
+> Duration: 27146
+---> DONE <---
+> Post of `StandardToken.allowance(address,address)` is False
+[['StandardToken.allowance(address,address)']]
+> Post of `StandardToken.allowance(address,address)` is remaining == allowed[_owner][_spender]
+> Query: 1
+> Duration: 27711
+---> DONE <---
+> Pre of `StandardToken.transfer(address,uint256)` is True
+[['StandardToken.transfer(address,uint256)']]
+> Pre of `StandardToken.transfer(address,uint256)` is Or(And(balances[msg.sender] >= _value,
+       Not(_value <= 0),
+       Not(msg.sender == _to)),
+   0 == _value)
+> Query: 1
+> Duration: 31816
+---> DONE <---
+> Post of `StandardToken.transfer(address,uint256)` is False
+[['StandardToken.transfer(address,uint256)']]
+> Post of `StandardToken.transfer(address,uint256)` is And(Or(And(success,
+           Not(_value <= 0),
+           old_balances[msg.sender] >= _value,
+           Or(And(balances[msg.sender] ==
+                  old_balances[msg.sender],
+                  msg.sender == _to),
+              And(balances[msg.sender] ==
+                  old_balances[msg.sender] + -1*_value,
+                  Not(_to == msg.sender),
+                  balances[_to] ==
+                  old_balances[_to] + _value))),
+       And(_value <= 0,
+           balances[msg.sender] >= _value,
+           0 <= _value,
+           Not(success))),
+    Not(msg.sender == _to))
+> Query: 1
+> Duration: 37031
+---> DONE <---
+> Pre of `BAToken.refund()` is True
+[['SafeMath.safeSubtract(uint256,uint256)', 'BAToken.refund()']]
+> Pre of `BAToken.refund()` is totalSupply >= balances[msg.sender]
+> Query: 1
+> Duration: 47070
+---> DONE <---
+> Post of `BAToken.refund()` is False
+[['SafeMath.safeSubtract(uint256,uint256)', 'BAToken.refund()']]
+> Post of `BAToken.refund()` is And(balances[msg.sender] == 0,
+    Not(msg.sender == batFundDeposit),
+    Not(old_totalSupply >= tokenCreationMin),
+    Not(block.number <= fundingEndBlock),
+    0 <= old_totalSupply,
+    0 <= fundingEndBlock,
+    Not(old_totalSupply <= old_balances[msg.sender]),
+    Not(old_balances[msg.sender] <= 0),
+    totalSupply ==
+    old_totalSupply + -1*old_balances[msg.sender],
+    Not(isFinalized),
+    0 <= tokenExchangeRate)
+> Query: 1
+> Duration: 57104
+---> DONE <---
+> Pre of `StandardToken.approve(address,uint256)` is True
+[]
+> Query: 0
+> Duration: 57573
+---> DONE <---
+> Post of `StandardToken.approve(address,uint256)` is False
+[['StandardToken.approve(address,uint256)']]
+> Post of `StandardToken.approve(address,uint256)` is And(success,
+    allowed[msg.sender][_spender] == _value,
+    0 <= _value)
+> Query: 1
+> Duration: 59535
+---> DONE <---
+> Pre of `BAToken.finalize()` is True
+[]
+> Query: 0
+> Duration: 60038
+---> DONE <---
+> Post of `BAToken.finalize()` is False
+[['BAToken.finalize()']]
+> Post of `BAToken.finalize()` is And(isFinalized,
+    tokenCreationMin <= totalSupply,
+    msg.sender == ethFundDeposit,
+    0 <= totalSupply,
+    0 <= tokenCreationMin,
+    0 <= tokenCreationCap,
+    0 <= fundingEndBlock,
+    Or(totalSupply == tokenCreationCap,
+       Not(block.number <= fundingEndBlock)),
+    Not(old_isFinalized))
+> Query: 1
+> Duration: 60659
+---> DONE <---
+> Pre of `SafeMath.safeMult(uint256,uint256)` is True
+[]
+> Query: 0
+> Duration: 61118
+---> DONE <---
+> Post of `SafeMath.safeMult(uint256,uint256)` is False
+[['SafeMath.safeAdd(uint256,uint256)', 'SafeMath.safeMult(uint256,uint256)', 'BAToken.createTokens()']]
+> Post of `SafeMath.safeMult(uint256,uint256)` is And(0 <= y, 0 <= x, r == x*y)
+> Query: 1
+> Duration: 62089
+---> DONE <---
+> Pre of `StandardToken.balanceOf(address)` is True
+[]
+> Query: 0
+> Duration: 62540
+---> DONE <---
+> Post of `StandardToken.balanceOf(address)` is False
+[['StandardToken.balanceOf(address)']]
+> Post of `StandardToken.balanceOf(address)` is balance == balances[_owner]
+> Query: 1
+> Duration: 63083
+---> DONE <---
+> Pre of `BAToken.BAToken(address,address,uint256,uint256)` is True
+[]
+> Query: 0
+> Duration: 63565
+---> DONE <---
+> Post of `BAToken.BAToken(address,address,uint256,uint256)` is False
+[['BAToken.BAToken(address,address,uint256,uint256)']]
+> Post of `BAToken.BAToken(address,address,uint256,uint256)` is And(balances[batFundDeposit] == batFund,
+    totalSupply == batFund,
+    fundingEndBlock == _fundingEndBlock,
+    fundingStartBlock == _fundingStartBlock,
+    batFundDeposit == _batFundDeposit,
+    ethFundDeposit == _ethFundDeposit,
+    0 <= batFund,
+    0 <= _fundingEndBlock,
+    0 <= _fundingStartBlock,
+    Not(isFinalized))
+> Query: 1
+> Duration: 66273
+---> DONE <---
+> Pre of `SafeMath.safeSubtract(uint256,uint256)` is True
+[['SafeMath.safeSubtract(uint256,uint256)', 'BAToken.refund()']]
+> Pre of `SafeMath.safeSubtract(uint256,uint256)` is x >= y
+> Query: 1
+> Duration: 67196
+---> DONE <---
+> Post of `SafeMath.safeSubtract(uint256,uint256)` is False
+[['SafeMath.safeSubtract(uint256,uint256)', 'BAToken.refund()']]
+> Post of `SafeMath.safeSubtract(uint256,uint256)` is And(0 <= y, 0 <= x, x >= y, r == x + -1*y)
+> Query: 1
+> Duration: 68223
+---> DONE <---
