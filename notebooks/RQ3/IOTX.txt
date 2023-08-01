@@ -1,33 +1,137 @@
-> Pre of `StandardToken.transferFrom(address,address,uint256)` is [33mTrue[0m
+> Pre of `SafeMath.sub(uint256,uint256)` is [33mTrue[0m
 [['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
-> Pre of `StandardToken.transferFrom(address,address,uint256)` is [33mOr(Not(_from == _to),
-   balances[_from] + -1*_value == balances[_to])[0m
+> Pre of `SafeMath.sub(uint256,uint256)` is [33mb <= a[0m
 > Query: 1
-> Duration: 9030
+> Duration: 5685
 ---> DONE <---
-> Post of `StandardToken.transferFrom(address,address,uint256)` is [33mFalse[0m
+> Post of `SafeMath.sub(uint256,uint256)` is [33mFalse[0m
 [['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
-> Post of `StandardToken.transferFrom(address,address,uint256)` is [33mAnd(<null>,
-    _value <= old_allowed[_from][msg.sender],
-    _value <= old_balances[_from],
-    Not(0 == _to),
-    0 <= _value,
-    Not(_from == _to),
-    allowed[_from][msg.sender] ==
-    old_allowed[_from][msg.sender] + -1*_value,
-    Or(And(balances[_from] ==
-           old_balances[_from] + -1*_value,
-           balances[_to] == old_balances[_to] + _value,
-           Not(_to == _from)),
-       And(_from == _to,
-           balances[_from] == old_balances[_from])))[0m
+> Post of `SafeMath.sub(uint256,uint256)` is [33mAnd(c == a + -1*b, 0 <= b, 0 <= a, a >= b)[0m
 > Query: 1
-> Duration: 16495
+> Duration: 8319
+---> DONE <---
+> Pre of `IoTeXNetwork.decreaseApproval(address,uint256)` is [33mTrue[0m
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
+> Pre of `IoTeXNetwork.decreaseApproval(address,uint256)` is [33m_subtractedValue <= allowed[msg.sender][_spender][0m
+> Query: 1
+> Duration: 10768
+---> DONE <---
+> Post of `IoTeXNetwork.decreaseApproval(address,uint256)` is [33mFalse[0m
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
+> Post of `IoTeXNetwork.decreaseApproval(address,uint256)` is [33mAnd(allowed[msg.sender][_spender] ==
+    old_allowed[msg.sender][_spender] + -1*_subtractedValue,
+    0 <= _subtractedValue,
+    _subtractedValue <= old_allowed[msg.sender][_spender],
+    Not(paused))[0m
+> Query: 1
+> Duration: 14237
+---> DONE <---
+> Pre of `StandardToken.increaseApproval(address,uint256)` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 15021
+---> DONE <---
+> Post of `StandardToken.increaseApproval(address,uint256)` is [33mFalse[0m
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
+> Post of `StandardToken.increaseApproval(address,uint256)` is [33mAnd(<null>,
+    0 <= _addedValue,
+    allowed[msg.sender][_spender] ==
+    old_allowed[msg.sender][_spender] + _addedValue)[0m
+> Query: 1
+> Duration: 19537
+---> DONE <---
+> Pre of `IoTeXNetwork.transfer(address,uint256)` is [33mTrue[0m
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
+> Pre of `IoTeXNetwork.transfer(address,uint256)` is [33mAnd(_value <= balances[msg.sender],
+    Not(0 == _to),
+    Not(msg.sender == _to))[0m
+> Query: 1
+> Duration: 25668
+---> DONE <---
+> Post of `IoTeXNetwork.transfer(address,uint256)` is [33mFalse[0m
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
+> Post of `IoTeXNetwork.transfer(address,uint256)` is [33mAnd(balances[_to] == old_balances[_to] + _value,
+    balances[msg.sender] ==
+    old_balances[msg.sender] + -1*_value,
+    _value <= old_balances[msg.sender],
+    0 <= _value,
+    Not(_to == this),
+    Not(0 == _to),
+    Not(paused),
+    Not(msg.sender == _to))[0m
+> Query: 1
+> Duration: 33017
+---> DONE <---
+> Pre of `SafeMath.add(uint256,uint256)` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 33817
+---> DONE <---
+> Post of `SafeMath.add(uint256,uint256)` is [33mFalse[0m
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
+> Post of `SafeMath.add(uint256,uint256)` is [33mAnd(0 <= b, 0 <= a, r == a + b)[0m
+> Query: 1
+> Duration: 36360
+---> DONE <---
+> Pre of `BasicToken.totalSupply()` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 37080
+---> DONE <---
+> Post of `BasicToken.totalSupply()` is [33mFalse[0m
+[['BasicToken.totalSupply()']]
+> Post of `BasicToken.totalSupply()` is [33mAnd(r == totalSupply_, 0 <= totalSupply_)[0m
+> Query: 1
+> Duration: 38062
+---> DONE <---
+> Pre of `StandardToken.allowance(address,address)` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 38879
+---> DONE <---
+> Post of `StandardToken.allowance(address,address)` is [33mFalse[0m
+[['StandardToken.allowance(address,address)']]
+> Post of `StandardToken.allowance(address,address)` is [33mr == allowed[_owner][_spender][0m
+> Query: 1
+> Duration: 39662
+---> DONE <---
+> Pre of `SafeMath.div(uint256,uint256)` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 40401
+---> DONE <---
+> Post of `SafeMath.div(uint256,uint256)` is [33mFalse[0m
+[['SafeMath.div(uint256,uint256)']]
+> Post of `SafeMath.div(uint256,uint256)` is [33mAnd(c == a/b, 0 <= b, 0 <= a)[0m
+> Query: 1
+> Duration: 41312
+---> DONE <---
+> Pre of `Pausable.pause()` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 42004
+---> DONE <---
+> Post of `Pausable.pause()` is [33mFalse[0m
+[['Pausable.pause()']]
+> Post of `Pausable.pause()` is [33mAnd(paused, msg.sender == owner, Not(old_paused))[0m
+> Query: 1
+> Duration: 42853
+---> DONE <---
+> Pre of `Ownable.Ownable()` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 43638
+---> DONE <---
+> Post of `Ownable.Ownable()` is [33mFalse[0m
+[['Ownable.Ownable()']]
+> Post of `Ownable.Ownable()` is [33mowner == msg.sender[0m
+> Query: 1
+> Duration: 44642
 ---> DONE <---
 > Pre of `IoTeXNetwork.approve(address,uint256)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 17367
+> Duration: 45599
 ---> DONE <---
 > Post of `IoTeXNetwork.approve(address,uint256)` is [33mFalse[0m
 [['StandardToken.approve(address,uint256)', 'IoTeXNetwork.approve(address,uint256)']]
@@ -35,29 +139,71 @@
     0 <= _value,
     Not(paused))[0m
 > Query: 1
-> Duration: 18681
+> Duration: 47040
 ---> DONE <---
-> Pre of `Pausable.pause()` is [33mTrue[0m
+> Pre of `StandardToken.approve(address,uint256)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 19523
+> Duration: 47727
 ---> DONE <---
-> Post of `Pausable.pause()` is [33mFalse[0m
-[['Pausable.pause()']]
-> Post of `Pausable.pause()` is [33mAnd(paused, msg.sender == owner, Not(old_paused))[0m
+> Post of `StandardToken.approve(address,uint256)` is [33mFalse[0m
+[['StandardToken.approve(address,uint256)', 'IoTeXNetwork.approve(address,uint256)']]
+> Post of `StandardToken.approve(address,uint256)` is [33mAnd(<null>,
+    allowed[msg.sender][_spender] == _value,
+    0 <= _value)[0m
 > Query: 1
-> Duration: 20475
+> Duration: 48690
 ---> DONE <---
-> Pre of `BasicToken.balanceOf(address)` is [33mTrue[0m
+> Pre of `Ownable.transferOwnership(address)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 21323
+> Duration: 49321
 ---> DONE <---
-> Post of `BasicToken.balanceOf(address)` is [33mFalse[0m
-[['BasicToken.balanceOf(address)']]
-> Post of `BasicToken.balanceOf(address)` is [33mr == balances[_owner][0m
+> Post of `Ownable.transferOwnership(address)` is [33mFalse[0m
+[['Ownable.transferOwnership(address)']]
+> Post of `Ownable.transferOwnership(address)` is [33mAnd(owner == newOwner,
+    Not(0 == newOwner),
+    msg.sender == old_owner)[0m
 > Query: 1
-> Duration: 22396
+> Duration: 50038
+---> DONE <---
+> Pre of `IoTeXNetwork.IoTeXNetwork(uint256)` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 50663
+---> DONE <---
+> Post of `IoTeXNetwork.IoTeXNetwork(uint256)` is [33mFalse[0m
+[['IoTeXNetwork.IoTeXNetwork(uint256)']]
+> Post of `IoTeXNetwork.IoTeXNetwork(uint256)` is [33mAnd(balances[msg.sender] == tokenTotalAmount,
+    totalSupply_ == tokenTotalAmount,
+    0 <= tokenTotalAmount)[0m
+> Query: 1
+> Duration: 51640
+---> DONE <---
+> Pre of `Pausable.unpause()` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 52265
+---> DONE <---
+> Post of `Pausable.unpause()` is [33mFalse[0m
+[['Pausable.unpause()']]
+> Post of `Pausable.unpause()` is [33mAnd(old_paused, msg.sender == owner, Not(paused))[0m
+> Query: 1
+> Duration: 52974
+---> DONE <---
+> Pre of `IoTeXNetwork.increaseApproval(address,uint256)` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 53601
+---> DONE <---
+> Post of `IoTeXNetwork.increaseApproval(address,uint256)` is [33mFalse[0m
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
+> Post of `IoTeXNetwork.increaseApproval(address,uint256)` is [33mAnd(allowed[msg.sender][_spender] ==
+    old_allowed[msg.sender][_spender] + _addedValue,
+    0 <= _addedValue,
+    Not(paused))[0m
+> Query: 1
+> Duration: 55802
 ---> DONE <---
 > Pre of `IoTeXNetwork.transferFrom(address,address,uint256)` is [33mTrue[0m
 [['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
@@ -66,7 +212,7 @@
     Not(_from == _to),
     Not(0 == _to))[0m
 > Query: 1
-> Duration: 29030
+> Duration: 62286
 ---> DONE <---
 > Post of `IoTeXNetwork.transferFrom(address,address,uint256)` is [33mFalse[0m
 [['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
@@ -82,62 +228,14 @@
     Not(paused),
     Not(_from == _to))[0m
 > Query: 1
-> Duration: 36562
----> DONE <---
-> Pre of `StandardToken.increaseApproval(address,uint256)` is [33mTrue[0m
-[]
-> Query: 0
-> Duration: 37335
----> DONE <---
-> Post of `StandardToken.increaseApproval(address,uint256)` is [33mFalse[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
-> Post of `StandardToken.increaseApproval(address,uint256)` is [33mAnd(<null>,
-    0 <= _addedValue,
-    allowed[msg.sender][_spender] ==
-    old_allowed[msg.sender][_spender] + _addedValue)[0m
-> Query: 1
-> Duration: 41703
----> DONE <---
-> Pre of `SafeMath.sub(uint256,uint256)` is [33mTrue[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
-> Pre of `SafeMath.sub(uint256,uint256)` is [33mb <= a[0m
-> Query: 1
-> Duration: 43932
----> DONE <---
-> Post of `SafeMath.sub(uint256,uint256)` is [33mFalse[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
-> Post of `SafeMath.sub(uint256,uint256)` is [33mAnd(c == a + -1*b, 0 <= b, 0 <= a, a >= b)[0m
-> Query: 1
-> Duration: 46733
----> DONE <---
-> Pre of `IoTeXNetwork.transfer(address,uint256)` is [33mTrue[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
-> Pre of `IoTeXNetwork.transfer(address,uint256)` is [33mAnd(_value <= balances[msg.sender],
-    Not(0 == _to),
-    Not(msg.sender == _to))[0m
-> Query: 1
-> Duration: 52885
----> DONE <---
-> Post of `IoTeXNetwork.transfer(address,uint256)` is [33mFalse[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
-> Post of `IoTeXNetwork.transfer(address,uint256)` is [33mAnd(balances[_to] == old_balances[_to] + _value,
-    balances[msg.sender] ==
-    old_balances[msg.sender] + -1*_value,
-    _value <= old_balances[msg.sender],
-    0 <= _value,
-    Not(_to == this),
-    Not(0 == _to),
-    Not(paused),
-    Not(msg.sender == _to))[0m
-> Query: 1
-> Duration: 60426
+> Duration: 70068
 ---> DONE <---
 > Pre of `BasicToken.transfer(address,uint256)` is [33mTrue[0m
 [['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
-> Pre of `BasicToken.transfer(address,uint256)` is [33mOr(balances[msg.sender] + -1*_value == balances[_to],
-   Not(msg.sender == _to))[0m
+> Pre of `BasicToken.transfer(address,uint256)` is [33mOr(Not(msg.sender == _to),
+   balances[msg.sender] + -1*_value == balances[_to])[0m
 > Query: 1
-> Duration: 66772
+> Duration: 76307
 ---> DONE <---
 > Post of `BasicToken.transfer(address,uint256)` is [33mFalse[0m
 [['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
@@ -153,14 +251,53 @@
        And(balances[_to] == old_balances[msg.sender],
            msg.sender == _to)))[0m
 > Query: 1
-> Duration: 73626
+> Duration: 83296
+---> DONE <---
+> Pre of `StandardToken.transferFrom(address,address,uint256)` is [33mTrue[0m
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
+> Pre of `StandardToken.transferFrom(address,address,uint256)` is [33mOr(Not(_from == _to),
+   balances[_from] + -1*_value == balances[_to])[0m
+> Query: 1
+> Duration: 90165
+---> DONE <---
+> Post of `StandardToken.transferFrom(address,address,uint256)` is [33mFalse[0m
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
+> Post of `StandardToken.transferFrom(address,address,uint256)` is [33mAnd(<null>,
+    _value <= old_allowed[_from][msg.sender],
+    _value <= old_balances[_from],
+    Not(0 == _to),
+    0 <= _value,
+    Not(_from == _to),
+    allowed[_from][msg.sender] ==
+    old_allowed[_from][msg.sender] + -1*_value,
+    Or(And(balances[_to] == old_balances[_from],
+           _from == _to),
+       And(balances[_from] ==
+           old_balances[_from] + -1*_value,
+           Not(_from == _to),
+           balances[_to] == old_balances[_to] + _value)))[0m
+> Query: 1
+> Duration: 97467
+---> DONE <---
+> Pre of `SafeMath.mul(uint256,uint256)` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 98187
+---> DONE <---
+> Post of `SafeMath.mul(uint256,uint256)` is [33mFalse[0m
+[['SafeMath.mul(uint256,uint256)']]
+> Post of `SafeMath.mul(uint256,uint256)` is [33mAnd(Or(And(0 == r, 0 == a),
+       And(0 <= a, r == a*b, Not(0 == a))),
+    0 <= b)[0m
+> Query: 1
+> Duration: 99273
 ---> DONE <---
 > Pre of `StandardToken.decreaseApproval(address,uint256)` is [33mTrue[0m
 [['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
 > Pre of `StandardToken.decreaseApproval(address,uint256)` is [33mAnd(allowed[msg.sender][_spender] >= _subtractedValue,
     _subtractedValue <= allowed[msg.sender][_spender])[0m
 > Query: 1
-> Duration: 79734
+> Duration: 103346
 ---> DONE <---
 > Post of `StandardToken.decreaseApproval(address,uint256)` is [33mFalse[0m
 [['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
@@ -170,153 +307,16 @@
     allowed[msg.sender][_spender] ==
     old_allowed[msg.sender][_spender] + -1*_subtractedValue)[0m
 > Query: 1
-> Duration: 85736
+> Duration: 108040
 ---> DONE <---
-> Pre of `IoTeXNetwork.decreaseApproval(address,uint256)` is [33mTrue[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
-> Pre of `IoTeXNetwork.decreaseApproval(address,uint256)` is [33m_subtractedValue <= allowed[msg.sender][_spender][0m
-> Query: 1
-> Duration: 89128
----> DONE <---
-> Post of `IoTeXNetwork.decreaseApproval(address,uint256)` is [33mFalse[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
-> Post of `IoTeXNetwork.decreaseApproval(address,uint256)` is [33mAnd(allowed[msg.sender][_spender] ==
-    old_allowed[msg.sender][_spender] + -1*_subtractedValue,
-    0 <= _subtractedValue,
-    _subtractedValue <= old_allowed[msg.sender][_spender],
-    Not(paused))[0m
-> Query: 1
-> Duration: 93002
----> DONE <---
-> Pre of `Pausable.unpause()` is [33mTrue[0m
+> Pre of `BasicToken.balanceOf(address)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 93698
+> Duration: 108653
 ---> DONE <---
-> Post of `Pausable.unpause()` is [33mFalse[0m
-[['Pausable.unpause()']]
-> Post of `Pausable.unpause()` is [33mAnd(old_paused, msg.sender == owner, Not(paused))[0m
+> Post of `BasicToken.balanceOf(address)` is [33mFalse[0m
+[['BasicToken.balanceOf(address)']]
+> Post of `BasicToken.balanceOf(address)` is [33mr == balances[_owner][0m
 > Query: 1
-> Duration: 94481
----> DONE <---
-> Pre of `IoTeXNetwork.IoTeXNetwork(uint256)` is [33mTrue[0m
-[]
-> Query: 0
-> Duration: 95210
----> DONE <---
-> Post of `IoTeXNetwork.IoTeXNetwork(uint256)` is [33mFalse[0m
-[['IoTeXNetwork.IoTeXNetwork(uint256)']]
-> Post of `IoTeXNetwork.IoTeXNetwork(uint256)` is [33mAnd(balances[msg.sender] == tokenTotalAmount,
-    totalSupply_ == tokenTotalAmount,
-    0 <= tokenTotalAmount)[0m
-> Query: 1
-> Duration: 97727
----> DONE <---
-> Pre of `StandardToken.allowance(address,address)` is [33mTrue[0m
-[]
-> Query: 0
-> Duration: 98394
----> DONE <---
-> Post of `StandardToken.allowance(address,address)` is [33mFalse[0m
-[['StandardToken.allowance(address,address)']]
-> Post of `StandardToken.allowance(address,address)` is [33mr == allowed[_owner][_spender][0m
-> Query: 1
-> Duration: 99186
----> DONE <---
-> Pre of `SafeMath.div(uint256,uint256)` is [33mTrue[0m
-[]
-> Query: 0
-> Duration: 99860
----> DONE <---
-> Post of `SafeMath.div(uint256,uint256)` is [33mFalse[0m
-[['SafeMath.div(uint256,uint256)']]
-> Post of `SafeMath.div(uint256,uint256)` is [33mAnd(c == a/b, 0 <= b, 0 <= a)[0m
-> Query: 1
-> Duration: 100714
----> DONE <---
-> Pre of `SafeMath.mul(uint256,uint256)` is [33mTrue[0m
-[]
-> Query: 0
-> Duration: 101414
----> DONE <---
-> Post of `SafeMath.mul(uint256,uint256)` is [33mFalse[0m
-[['SafeMath.mul(uint256,uint256)']]
-> Post of `SafeMath.mul(uint256,uint256)` is [33mAnd(Or(And(0 == r, 0 == a),
-       And(0 <= a, r == a*b, Not(0 == a))),
-    0 <= b)[0m
-> Query: 1
-> Duration: 102404
----> DONE <---
-> Pre of `Ownable.transferOwnership(address)` is [33mTrue[0m
-[]
-> Query: 0
-> Duration: 103088
----> DONE <---
-> Post of `Ownable.transferOwnership(address)` is [33mFalse[0m
-[['Ownable.transferOwnership(address)']]
-> Post of `Ownable.transferOwnership(address)` is [33mAnd(owner == newOwner,
-    Not(0 == newOwner),
-    msg.sender == old_owner)[0m
-> Query: 1
-> Duration: 103937
----> DONE <---
-> Pre of `BasicToken.totalSupply()` is [33mTrue[0m
-[]
-> Query: 0
-> Duration: 104680
----> DONE <---
-> Post of `BasicToken.totalSupply()` is [33mFalse[0m
-[['BasicToken.totalSupply()']]
-> Post of `BasicToken.totalSupply()` is [33mAnd(r == totalSupply_, 0 <= totalSupply_)[0m
-> Query: 1
-> Duration: 105447
----> DONE <---
-> Pre of `Ownable.Ownable()` is [33mTrue[0m
-[]
-> Query: 0
-> Duration: 106161
----> DONE <---
-> Post of `Ownable.Ownable()` is [33mFalse[0m
-[['Ownable.Ownable()']]
-> Post of `Ownable.Ownable()` is [33mowner == msg.sender[0m
-> Query: 1
-> Duration: 106951
----> DONE <---
-> Pre of `StandardToken.approve(address,uint256)` is [33mTrue[0m
-[]
-> Query: 0
-> Duration: 107629
----> DONE <---
-> Post of `StandardToken.approve(address,uint256)` is [33mFalse[0m
-[['StandardToken.approve(address,uint256)', 'IoTeXNetwork.approve(address,uint256)']]
-> Post of `StandardToken.approve(address,uint256)` is [33mAnd(<null>,
-    allowed[msg.sender][_spender] == _value,
-    0 <= _value)[0m
-> Query: 1
-> Duration: 109639
----> DONE <---
-> Pre of `IoTeXNetwork.increaseApproval(address,uint256)` is [33mTrue[0m
-[]
-> Query: 0
-> Duration: 110315
----> DONE <---
-> Post of `IoTeXNetwork.increaseApproval(address,uint256)` is [33mFalse[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
-> Post of `IoTeXNetwork.increaseApproval(address,uint256)` is [33mAnd(allowed[msg.sender][_spender] ==
-    old_allowed[msg.sender][_spender] + _addedValue,
-    0 <= _addedValue,
-    Not(paused))[0m
-> Query: 1
-> Duration: 112592
----> DONE <---
-> Pre of `SafeMath.add(uint256,uint256)` is [33mTrue[0m
-[]
-> Query: 0
-> Duration: 113261
----> DONE <---
-> Post of `SafeMath.add(uint256,uint256)` is [33mFalse[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'IoTeXNetwork.transferFrom(address,address,uint256)', 'IoTeXNetwork.transfer(address,uint256)', 'IoTeXNetwork.decreaseApproval(address,uint256)', 'IoTeXNetwork.increaseApproval(address,uint256)']]
-> Post of `SafeMath.add(uint256,uint256)` is [33mAnd(0 <= b, 0 <= a, r == a + b)[0m
-> Query: 1
-> Duration: 115500
+> Duration: 109419
 ---> DONE <---

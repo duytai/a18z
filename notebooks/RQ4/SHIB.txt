@@ -1,13 +1,12 @@
-[['SafeMath.sub(uint256,uint256)', 'SafeMath.add(uint256,uint256)', 'ERC20._burn(address,uint256)', 'ERC20._mint(address,uint256)', 'ERC20._approve(address,address,uint256)', 'ERC20._transfer(address,address,uint256)', 'TokenMintERC20Token.burn(uint256)', 'TokenMintERC20Token.constructor(string,string,uint8,uint256,address,address)', 'ERC20._burnFrom(address,uint256)', 'ERC20.decreaseAllowance(address,uint256)', 'ERC20.increaseAllowance(address,uint256)', 'ERC20.transferFrom(address,address,uint256)', 'ERC20.approve(address,uint256)', 'ERC20.transfer(address,uint256)']]
 > Post of `ERC20._transfer(address,address,uint256)` is [33mAnd(Not(0 == recipient),
     Not(0 == sender),
     0 <= amount,
-    Or(And(_balances[sender] ==
+    Or(And(_balances[recipient] == old__balances[sender],
+           sender == recipient),
+       And(_balances[sender] ==
            old__balances[sender] + -1*amount,
            Not(sender == recipient),
            _balances[recipient] ==
-           old__balances[recipient] + amount),
-       And(_balances[recipient] == old__balances[sender],
-           sender == recipient)))[0m
+           old__balances[recipient] + amount)))[0m
 > Query: 3
-> Duration: 10023
+> Duration: 8926

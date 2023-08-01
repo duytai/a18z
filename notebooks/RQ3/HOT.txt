@@ -1,37 +1,18 @@
-> Pre of `HoloToken.burn(uint256)` is [33mTrue[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.transfer(address,uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.decreaseApproval(address,uint256)']]
-> Pre of `HoloToken.burn(uint256)` is [33mtotalSupply >= _amount[0m
-> Query: 1
-> Duration: 6034
----> DONE <---
-> Post of `HoloToken.burn(uint256)` is [33mFalse[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.transfer(address,uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.decreaseApproval(address,uint256)']]
-> Post of `HoloToken.burn(uint256)` is [33mAnd(Not(_amount <= 0),
-    old_balances[destroyer] >= _amount,
-    0 <= old_totalSupply,
-    old_totalSupply >= _amount,
-    msg.sender == destroyer,
-    balances[destroyer] ==
-    old_balances[destroyer] + -1*_amount,
-    totalSupply == old_totalSupply + -1*_amount)[0m
-> Query: 1
-> Duration: 10625
----> DONE <---
 > Pre of `HoloToken.balanceOf(address)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 11313
+> Duration: 3413
 ---> DONE <---
 > Post of `HoloToken.balanceOf(address)` is [33mFalse[0m
 [['HoloToken.balanceOf(address)']]
 > Post of `HoloToken.balanceOf(address)` is [33mbalance == balances[_owner][0m
 > Query: 1
-> Duration: 12035
+> Duration: 4603
 ---> DONE <---
 > Pre of `SafeMath.mul(uint256,uint256)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 12645
+> Duration: 5527
 ---> DONE <---
 > Post of `SafeMath.mul(uint256,uint256)` is [33mFalse[0m
 [['SafeMath.mul(uint256,uint256)']]
@@ -39,56 +20,56 @@
        And(0 <= a, r == a*b, Not(0 == a))),
     0 <= b)[0m
 > Query: 1
-> Duration: 13656
+> Duration: 6856
 ---> DONE <---
 > Pre of `HoloToken.allowance(address,address)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 14360
+> Duration: 8026
 ---> DONE <---
 > Post of `HoloToken.allowance(address,address)` is [33mFalse[0m
 [['HoloToken.allowance(address,address)']]
 > Post of `HoloToken.allowance(address,address)` is [33mr == allowed[_owner][_spender][0m
 > Query: 1
-> Duration: 15124
+> Duration: 9340
 ---> DONE <---
 > Pre of `Ownable.Ownable()` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 15745
+> Duration: 10454
 ---> DONE <---
 > Post of `Ownable.Ownable()` is [33mFalse[0m
 [['Ownable.Ownable()']]
 > Post of `Ownable.Ownable()` is [33mowner == msg.sender[0m
 > Query: 1
-> Duration: 16489
+> Duration: 11442
 ---> DONE <---
 > Pre of `SafeMath.add(uint256,uint256)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 17116
+> Duration: 12430
 ---> DONE <---
 > Post of `SafeMath.add(uint256,uint256)` is [33mFalse[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.transfer(address,uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.decreaseApproval(address,uint256)']]
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.decreaseApproval(address,uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.transfer(address,uint256)']]
 > Post of `SafeMath.add(uint256,uint256)` is [33mAnd(0 <= b, 0 <= a, r == a + b)[0m
 > Query: 1
-> Duration: 19256
+> Duration: 15118
 ---> DONE <---
 > Pre of `HoloToken.setMinter(address)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 19913
+> Duration: 15650
 ---> DONE <---
 > Post of `HoloToken.setMinter(address)` is [33mFalse[0m
 [['HoloToken.setMinter(address)']]
 > Post of `HoloToken.setMinter(address)` is [33mAnd(minter == _minter, msg.sender == owner)[0m
 > Query: 1
-> Duration: 20679
+> Duration: 16257
 ---> DONE <---
 > Pre of `HoloToken.approve(address,uint256)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 21305
+> Duration: 16786
 ---> DONE <---
 > Post of `HoloToken.approve(address,uint256)` is [33mFalse[0m
 [['HoloToken.approve(address,uint256)']]
@@ -97,106 +78,92 @@
     0 <= _value,
     mintingFinished)[0m
 > Query: 1
-> Duration: 24101
+> Duration: 17434
 ---> DONE <---
 > Pre of `HoloToken.transfer(address,uint256)` is [33mTrue[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.transfer(address,uint256)', 'HoloToken.decreaseApproval(address,uint256)']]
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.decreaseApproval(address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.transfer(address,uint256)']]
 > Pre of `HoloToken.transfer(address,uint256)` is [33mOr(Not(msg.sender == _to),
-   balances[msg.sender] + -1*_value == balances[_to])[0m
+   balances[_to] == balances[msg.sender] + -1*_value)[0m
 > Query: 1
-> Duration: 30125
+> Duration: 23190
 ---> DONE <---
 > Post of `HoloToken.transfer(address,uint256)` is [33mFalse[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.transfer(address,uint256)', 'HoloToken.decreaseApproval(address,uint256)']]
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.decreaseApproval(address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.transfer(address,uint256)']]
 > Post of `HoloToken.transfer(address,uint256)` is [33mAnd(<null>,
     _value <= old_balances[msg.sender],
     Not(0 == _to),
     0 <= _value,
     mintingFinished,
     Not(msg.sender == _to),
-    Or(And(balances[_to] == old_balances[msg.sender],
-           msg.sender == _to),
+    Or(And(msg.sender == _to,
+           balances[msg.sender] == old_balances[msg.sender]),
        And(balances[msg.sender] ==
            old_balances[msg.sender] + -1*_value,
-           Not(msg.sender == _to),
-           balances[_to] == old_balances[_to] + _value)))[0m
+           balances[_to] == old_balances[_to] + _value,
+           Not(_to == msg.sender))))[0m
 > Query: 1
-> Duration: 36680
----> DONE <---
-> Pre of `HoloToken.increaseApproval(address,uint256)` is [33mTrue[0m
-[]
-> Query: 0
-> Duration: 37290
----> DONE <---
-> Post of `HoloToken.increaseApproval(address,uint256)` is [33mFalse[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.transfer(address,uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.decreaseApproval(address,uint256)']]
-> Post of `HoloToken.increaseApproval(address,uint256)` is [33mAnd(<null>,
-    0 <= _addedValue,
-    allowed[msg.sender][_spender] ==
-    old_allowed[msg.sender][_spender] + _addedValue)[0m
-> Query: 1
-> Duration: 41353
+> Duration: 29631
 ---> DONE <---
 > Pre of `HoloToken.setDestroyer(address)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 41975
+> Duration: 30174
 ---> DONE <---
 > Post of `HoloToken.setDestroyer(address)` is [33mFalse[0m
 [['HoloToken.setDestroyer(address)']]
 > Post of `HoloToken.setDestroyer(address)` is [33mAnd(destroyer == _destroyer, msg.sender == owner)[0m
 > Query: 1
-> Duration: 42732
+> Duration: 30862
+---> DONE <---
+> Pre of `HoloToken.finishMinting()` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 31488
+---> DONE <---
+> Post of `HoloToken.finishMinting()` is [33mFalse[0m
+[['HoloToken.finishMinting()']]
+> Post of `HoloToken.finishMinting()` is [33mAnd(<null>, mintingFinished, msg.sender == minter)[0m
+> Query: 1
+> Duration: 32124
 ---> DONE <---
 > Pre of `SafeMath.sub(uint256,uint256)` is [33mTrue[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.transfer(address,uint256)', 'HoloToken.decreaseApproval(address,uint256)']]
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.decreaseApproval(address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.transfer(address,uint256)']]
 > Pre of `SafeMath.sub(uint256,uint256)` is [33mb <= a[0m
 > Query: 1
-> Duration: 44620
+> Duration: 33694
 ---> DONE <---
 > Post of `SafeMath.sub(uint256,uint256)` is [33mFalse[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.transfer(address,uint256)', 'HoloToken.decreaseApproval(address,uint256)']]
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.decreaseApproval(address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.transfer(address,uint256)']]
 > Post of `SafeMath.sub(uint256,uint256)` is [33mAnd(r == a + -1*b, 0 <= b, 0 <= a, a >= b)[0m
 > Query: 1
-> Duration: 47007
+> Duration: 35706
 ---> DONE <---
 > Pre of `HoloToken.decreaseApproval(address,uint256)` is [33mTrue[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.transfer(address,uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.decreaseApproval(address,uint256)']]
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.decreaseApproval(address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.transfer(address,uint256)']]
 > Pre of `HoloToken.decreaseApproval(address,uint256)` is [33mAnd(allowed[msg.sender][_spender] >= _subtractedValue,
     _subtractedValue <= allowed[msg.sender][_spender])[0m
 > Query: 1
-> Duration: 52734
+> Duration: 39548
 ---> DONE <---
 > Post of `HoloToken.decreaseApproval(address,uint256)` is [33mFalse[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.transfer(address,uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.decreaseApproval(address,uint256)']]
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.decreaseApproval(address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.transfer(address,uint256)']]
 > Post of `HoloToken.decreaseApproval(address,uint256)` is [33mAnd(<null>,
     0 <= _subtractedValue,
     _subtractedValue <= old_allowed[msg.sender][_spender],
     allowed[msg.sender][_spender] ==
     old_allowed[msg.sender][_spender] + -1*_subtractedValue)[0m
 > Query: 1
-> Duration: 58512
----> DONE <---
-> Pre of `HoloToken.finishMinting()` is [33mTrue[0m
-[]
-> Query: 0
-> Duration: 59109
----> DONE <---
-> Post of `HoloToken.finishMinting()` is [33mFalse[0m
-[['HoloToken.finishMinting()']]
-> Post of `HoloToken.finishMinting()` is [33mAnd(<null>, mintingFinished, msg.sender == minter)[0m
-> Query: 1
-> Duration: 59877
+> Duration: 43742
 ---> DONE <---
 > Pre of `HoloToken.transferFrom(address,address,uint256)` is [33mTrue[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.transfer(address,uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.decreaseApproval(address,uint256)']]
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.decreaseApproval(address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.transfer(address,uint256)']]
 > Pre of `HoloToken.transferFrom(address,address,uint256)` is [33mOr(Not(_from == _to),
-   balances[_to] == balances[_from] + -1*_value)[0m
+   balances[_from] + -1*_value == balances[_to])[0m
 > Query: 1
-> Duration: 66567
+> Duration: 50016
 ---> DONE <---
 > Post of `HoloToken.transferFrom(address,address,uint256)` is [33mFalse[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.transfer(address,uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.decreaseApproval(address,uint256)']]
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.decreaseApproval(address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.transfer(address,uint256)']]
 > Post of `HoloToken.transferFrom(address,address,uint256)` is [33mAnd(<null>,
     _value <= old_allowed[_from][msg.sender],
     _value <= old_balances[_from],
@@ -213,23 +180,23 @@
            Not(_from == _to),
            balances[_to] == old_balances[_to] + _value)))[0m
 > Query: 1
-> Duration: 73226
+> Duration: 56658
 ---> DONE <---
 > Pre of `SafeMath.div(uint256,uint256)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 74110
+> Duration: 57219
 ---> DONE <---
 > Post of `SafeMath.div(uint256,uint256)` is [33mFalse[0m
 [['SafeMath.div(uint256,uint256)']]
-> Post of `SafeMath.div(uint256,uint256)` is [33mAnd(0 <= b, 0 <= a, r == a/b)[0m
+> Post of `SafeMath.div(uint256,uint256)` is [33mAnd(0 <= a, r == a/b, 0 <= b)[0m
 > Query: 1
-> Duration: 74934
+> Duration: 57883
 ---> DONE <---
 > Pre of `Ownable.transferOwnership(address)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 75608
+> Duration: 58439
 ---> DONE <---
 > Post of `Ownable.transferOwnership(address)` is [33mFalse[0m
 [['Ownable.transferOwnership(address)']]
@@ -237,15 +204,29 @@
     Not(0 == newOwner),
     msg.sender == old_owner)[0m
 > Query: 1
-> Duration: 76319
+> Duration: 59086
+---> DONE <---
+> Pre of `HoloToken.increaseApproval(address,uint256)` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 59643
+---> DONE <---
+> Post of `HoloToken.increaseApproval(address,uint256)` is [33mFalse[0m
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.decreaseApproval(address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.transfer(address,uint256)']]
+> Post of `HoloToken.increaseApproval(address,uint256)` is [33mAnd(<null>,
+    0 <= _addedValue,
+    allowed[msg.sender][_spender] ==
+    old_allowed[msg.sender][_spender] + _addedValue)[0m
+> Query: 1
+> Duration: 63543
 ---> DONE <---
 > Pre of `HoloToken.mint(address,uint256)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 76945
+> Duration: 64085
 ---> DONE <---
 > Post of `HoloToken.mint(address,uint256)` is [33mFalse[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.transfer(address,uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.decreaseApproval(address,uint256)']]
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.decreaseApproval(address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.transfer(address,uint256)']]
 > Post of `HoloToken.mint(address,uint256)` is [33mAnd(<null>,
     Not(_amount <= 0),
     0 <= old_totalSupply,
@@ -254,5 +235,24 @@
     balances[_to] == old_balances[_to] + _amount,
     Not(mintingFinished))[0m
 > Query: 1
-> Duration: 81274
+> Duration: 68198
+---> DONE <---
+> Pre of `HoloToken.burn(uint256)` is [33mTrue[0m
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.decreaseApproval(address,uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.transfer(address,uint256)']]
+> Pre of `HoloToken.burn(uint256)` is [33mtotalSupply >= _amount[0m
+> Query: 1
+> Duration: 71966
+---> DONE <---
+> Post of `HoloToken.burn(uint256)` is [33mFalse[0m
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'HoloToken.increaseApproval(address,uint256)', 'HoloToken.mint(address,uint256)', 'HoloToken.decreaseApproval(address,uint256)', 'HoloToken.transferFrom(address,address,uint256)', 'HoloToken.burn(uint256)', 'HoloToken.transfer(address,uint256)']]
+> Post of `HoloToken.burn(uint256)` is [33mAnd(Not(_amount <= 0),
+    old_balances[destroyer] >= _amount,
+    0 <= old_totalSupply,
+    old_totalSupply >= _amount,
+    msg.sender == destroyer,
+    balances[destroyer] ==
+    old_balances[destroyer] + -1*_amount,
+    totalSupply == old_totalSupply + -1*_amount)[0m
+> Query: 1
+> Duration: 76038
 ---> DONE <---

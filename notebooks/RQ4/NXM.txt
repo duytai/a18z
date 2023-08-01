@@ -1,9 +1,7 @@
-[['SafeMath.sub(uint256,uint256)', 'SafeMath.add(uint256,uint256)', 'NXMToken._burn(address,uint256)', 'NXMToken._transferFrom(address,address,uint256)', 'NXMToken._transfer(address,uint256)', 'NXMToken._mint(address,uint256)', 'NXMToken._burnFrom(address,uint256)', 'NXMToken.lockForMemberVote(address,uint256)', 'NXMToken.transferFrom(address,address,uint256)', 'NXMToken.operatorTransfer(address,uint256)', 'NXMToken.transfer(address,uint256)', 'NXMToken.mint(address,uint256)', 'NXMToken.burnFrom(address,uint256)', 'NXMToken.burn(uint256)', 'NXMToken.decreaseAllowance(address,uint256)', 'NXMToken.increaseAllowance(address,uint256)', 'NXMToken.constructor(address,uint256)']]
 > Post of `NXMToken._transferFrom(address,address,uint256)` is [33mAnd(0 <= value,
     _allowed[from][msg.sender] ==
     old__allowed[from][msg.sender] + -1*value,
-    Or(And(from == to,
-           _balances[from] == old__balances[from]),
+    Or(And(from == to, _balances[to] == old__balances[from]),
        And(_balances[from] == old__balances[from] + -1*value,
            _balances[to] == old__balances[to] + value,
            Not(from == to))))[0m
@@ -19,4 +17,4 @@
        _days + now <= isLockedForMV[_of]),
     0 <= _days)[0m
 > Query: 8
-> Duration: 43914
+> Duration: 45848

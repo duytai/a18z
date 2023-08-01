@@ -64,6 +64,7 @@ def rq2(file):
     chain = FixChain()
     tasks = [
         EnumerateFunction(),
+        BuildCallGraph(),
         EvaluateCallsite()
     ]
     for task in tasks:

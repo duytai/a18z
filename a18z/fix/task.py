@@ -122,7 +122,7 @@ class FixFunction(Task):
                 x = self.build_graph(x)
                 y = sexpdata.loads(new_pre.sexpr())
                 y = self.build_graph(y)
-                new_acc += nx.graph_edit_distance(x, y, timeout=2) + 20
+                new_acc += nx.graph_edit_distance(x, y, timeout=2, node_match = lambda x, y: x == y) + 20
                 if new_acc < self.min_acc:
                     pre_query = copy(query)
                     pre_query.add_precondition(func, new_pre)
@@ -136,7 +136,7 @@ class FixFunction(Task):
                 x = self.build_graph(x)
                 y = sexpdata.loads(new_post.sexpr())
                 y = self.build_graph(y)
-                new_acc += nx.graph_edit_distance(x, y, timeout=2) + 20
+                new_acc += nx.graph_edit_distance(x, y, timeout=2, node_match = lambda x, y: x == y) + 20
                 if new_acc < self.min_acc:
                     post_query = copy(query)
                     post_query.add_postcondition(func, new_post)
@@ -156,14 +156,14 @@ class FixFunction(Task):
                                 x = self.build_graph(x)
                                 y = sexpdata.loads(new_pre.sexpr())
                                 y = self.build_graph(y)
-                                new_acc += nx.graph_edit_distance(x, y, timeout=2) + 20
+                                new_acc += nx.graph_edit_distance(x, y, timeout=2, node_match = lambda x, y: x == y) + 20
                                 # new postcondition
                                 old_post = state.root_query.get_postcondition(func)
                                 x = sexpdata.loads(old_post.sexpr())
                                 x = self.build_graph(x)
                                 y = sexpdata.loads(new_post.sexpr())
                                 y = self.build_graph(y)
-                                new_acc += nx.graph_edit_distance(x, y, timeout=2) + 20
+                                new_acc += nx.graph_edit_distance(x, y, timeout=2, node_match = lambda x, y: x == y) + 20
                                 # update prep
                                 if new_acc < self.min_acc:
                                     prep_query = copy(query)
@@ -266,6 +266,12 @@ class EvaluateCallsite(Task):
         start = timer()
         p_value = 0
         goods = 0
+        n_pre_strongers = 0 
+        n_pre_weakers = 0
+        n_pre_identicals = 0
+        n_post_strongers = 0 
+        n_post_weakers = 0
+        n_post_identicals = 0
         for function in state.functions:
             print(f'> {function.canonical_name}')
             for node in function.nodes:
@@ -274,6 +280,35 @@ class EvaluateCallsite(Task):
                         if not hasattr(ir, 'is_modifier_call') or not ir.is_modifier_call:
                             r = prepcondition(ir)
                             if r is not None:
+                                print(ir.function)
+                                pre_old = state.root_query.get_precondition(ir.function)
+                                post_old = state.root_query.get_postcondition(ir.function)
+                                pre_new, post_new = r
+                                ###
+                                pre_weaker = check_unsat(z3.Not(z3.Implies(pre_old, pre_new)))
+                                pre_stronger = check_unsat(z3.Not(z3.Implies(pre_new, pre_old)))
+                                if pre_weaker and pre_stronger:
+                                    n_pre_identicals += 1
+                                elif pre_stronger:
+                                    n_pre_strongers += 1
+                                elif pre_weaker:
+                                    n_pre_weakers += 1
+                                ###
+                                post_weaker = check_unsat(z3.Not(z3.Implies(post_old, post_new)))
+                                post_stronger = check_unsat(z3.Not(z3.Implies(post_new, post_old)))
+                                if post_weaker and post_stronger:
+                                    n_post_identicals += 1
+                                elif post_stronger:
+                                    n_post_strongers += 1
+                                elif post_weaker:
+                                    n_post_weakers += 1
+                                else:
+                                    print(pre_new)
+                                    print(pre_old)
+                                    print('---')
+                                    print(post_old)
+                                    print(post_new)
+                                    raise ValueError('??')
                                 goods += 1
                             else:
                                 print(ir)
@@ -282,6 +317,8 @@ class EvaluateCallsite(Task):
         print(f'#internal: {p_value}')
         print(f'#success: {goods}')
         print(f'#d: {end - start}')
+        print(f'#pre: {n_pre_weakers}/{n_pre_strongers}/{n_pre_identicals}')
+        print(f'#post: {n_post_weakers}/{n_post_strongers}/{n_post_identicals}')
 
 
 class TestFunction(Task):

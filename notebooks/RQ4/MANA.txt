@@ -1,25 +1,24 @@
-[['Ownable.transferOwnership(address)'], ['SafeMath.sub(uint256,uint256)', 'SafeMath.add(uint256,uint256)', 'BurnableToken.burn(uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'MANAToken.burn(uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'MintableToken.mint(address,uint256)', 'PausableToken.transfer(address,uint256)']]
 > Post of `Ownable.transferOwnership(address)` is [33mOr(And(owner == newOwner, Not(0 == newOwner)),
    0 == newOwner)[0m
 > Pre of `SafeMath.sub(uint256,uint256)` is [33mb <= a[0m
-> Pre of `BurnableToken.burn(uint256)` is [33mAnd(_value <= balances[msg.sender], _value <= totalSupply)[0m
 > Pre of `StandardToken.transferFrom(address,address,uint256)` is [33mAnd(Or(And(_to == _from, 0 <= balances[_to]),
        And(_value <= balances[_from], Not(_to == _from))),
     _value <= allowed[_from][msg.sender],
     Or(Not(_to == _from), 0 == _value))[0m
+> Pre of `BurnableToken.burn(uint256)` is [33mAnd(_value <= balances[msg.sender], _value <= totalSupply)[0m
 > Pre of `BasicToken.transfer(address,uint256)` is [33mAnd(_value <= balances[msg.sender],
     Or(Not(msg.sender == _to),
        balances[_to] == balances[msg.sender] + -1*_value))[0m
-> Pre of `MANAToken.burn(uint256)` is [33mAnd(_value <= balances[msg.sender], _value <= totalSupply)[0m
-> Pre of `PausableToken.transferFrom(address,address,uint256)` is [33mOr(And(0 <= balances[_to],
-       0 <= allowed[_from][msg.sender],
-       _to == _from,
-       0 == _value),
-   And(_value <= allowed[_from][msg.sender],
+> Pre of `PausableToken.transferFrom(address,address,uint256)` is [33mOr(And(_value <= allowed[_from][msg.sender],
        _value <= balances[_from],
-       Not(_to == _from)))[0m
+       Not(_to == _from)),
+   And(0 <= allowed[_from][msg.sender],
+       _to == _from,
+       0 == _value,
+       0 <= balances[_to]))[0m
+> Pre of `MANAToken.burn(uint256)` is [33mAnd(_value <= balances[msg.sender], _value <= totalSupply)[0m
 > Pre of `PausableToken.transfer(address,uint256)` is [33mAnd(Or(Not(msg.sender == _to),
        balances[_to] == balances[msg.sender] + -1*_value),
     _value <= balances[msg.sender])[0m
 > Query: 3
-> Duration: 11869
+> Duration: 11066

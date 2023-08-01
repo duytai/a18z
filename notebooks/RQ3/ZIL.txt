@@ -1,7 +1,94 @@
+> Pre of `ZilliqaToken.transfer(address,uint256)` is [33mTrue[0m
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
+> Pre of `ZilliqaToken.transfer(address,uint256)` is [33mAnd(_value <= balances[msg.sender],
+    Not(msg.sender == _to),
+    Not(pausedPublic),
+    Not(0 == _to))[0m
+> Query: 1
+> Duration: 11764
+---> DONE <---
+> Post of `ZilliqaToken.transfer(address,uint256)` is [33mFalse[0m
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
+> Post of `ZilliqaToken.transfer(address,uint256)` is [33mAnd(0 <= _value,
+    _value <= balances[msg.sender],
+    Not(0 == _to),
+    Not(msg.sender == _to),
+    Not(_to == this),
+    Not(pausedPublic))[0m
+> Query: 1
+> Duration: 21041
+---> DONE <---
+> Pre of `PausableToken.decreaseApproval(address,uint256)` is [33mTrue[0m
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
+> Pre of `PausableToken.decreaseApproval(address,uint256)` is [33m_subtractedValue <= allowed[msg.sender][_spender][0m
+> Query: 1
+> Duration: 24398
+---> DONE <---
+> Post of `PausableToken.decreaseApproval(address,uint256)` is [33mFalse[0m
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
+> Post of `PausableToken.decreaseApproval(address,uint256)` is [33mAnd(allowed[msg.sender][_spender] ==
+    old_allowed[msg.sender][_spender] + -1*_subtractedValue,
+    0 <= _subtractedValue,
+    _subtractedValue <= old_allowed[msg.sender][_spender],
+    Not(pausedPublic))[0m
+> Query: 1
+> Duration: 30681
+---> DONE <---
+> Pre of `SafeMath.sub(uint256,uint256)` is [33mTrue[0m
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
+> Pre of `SafeMath.sub(uint256,uint256)` is [33mb <= a[0m
+> Query: 1
+> Duration: 33917
+---> DONE <---
+> Post of `SafeMath.sub(uint256,uint256)` is [33mFalse[0m
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
+> Post of `SafeMath.sub(uint256,uint256)` is [33mAnd(r == a + -1*b, 0 <= b, 0 <= a, a >= b)[0m
+> Query: 1
+> Duration: 37671
+---> DONE <---
+> Pre of `ZilliqaToken.transferFrom(address,address,uint256)` is [33mTrue[0m
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
+> Pre of `ZilliqaToken.transferFrom(address,address,uint256)` is [33mAnd(_value <= balances[_from],
+    _value <= allowed[_from][msg.sender],
+    Not(pausedPublic),
+    Not(0 == _to),
+    Not(_from == _to))[0m
+> Query: 1
+> Duration: 45935
+---> DONE <---
+> Post of `ZilliqaToken.transferFrom(address,address,uint256)` is [33mFalse[0m
+[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
+> Post of `ZilliqaToken.transferFrom(address,address,uint256)` is [33mAnd(r,
+    0 <= _value,
+    _value <= allowed[_from][msg.sender],
+    _value <= balances[_from],
+    Not(0 == _to),
+    Not(_from == _to),
+    Not(_to == this),
+    Not(pausedPublic))[0m
+> Query: 1
+> Duration: 56822
+---> DONE <---
+> Pre of `Pausable.pause(bool,bool)` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 58115
+---> DONE <---
+> Post of `Pausable.pause(bool,bool)` is [33mFalse[0m
+[['Pausable.pause(bool,bool)']]
+> Post of `Pausable.pause(bool,bool)` is [33mAnd(msg.sender == owner,
+    Or(pausedOwnerAdmin, Not(newPausedOwnerAdmin)),
+    Or(Not(pausedPublic), newPausedPublic),
+    Or(pausedPublic, Not(newPausedOwnerAdmin)),
+    Or(pausedPublic, Not(newPausedPublic)),
+    Or(newPausedOwnerAdmin, Not(pausedOwnerAdmin)))[0m
+> Query: 1
+> Duration: 61714
+---> DONE <---
 > Pre of `StandardToken.approve(address,uint256)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 4345
+> Duration: 63032
 ---> DONE <---
 > Post of `StandardToken.approve(address,uint256)` is [33mFalse[0m
 [['StandardToken.approve(address,uint256)', 'PausableToken.approve(address,uint256)']]
@@ -9,35 +96,35 @@
     allowed[msg.sender][_spender] == _value,
     0 <= _value)[0m
 > Query: 1
-> Duration: 6817
+> Duration: 64500
 ---> DONE <---
 > Pre of `Ownable.Ownable()` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 7788
+> Duration: 65552
 ---> DONE <---
 > Post of `Ownable.Ownable()` is [33mFalse[0m
 [['Ownable.Ownable()']]
 > Post of `Ownable.Ownable()` is [33mowner == msg.sender[0m
 > Query: 1
-> Duration: 8888
+> Duration: 66710
 ---> DONE <---
 > Pre of `SafeMath.add(uint256,uint256)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 9781
+> Duration: 67913
 ---> DONE <---
 > Post of `SafeMath.add(uint256,uint256)` is [33mFalse[0m
 [['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
 > Post of `SafeMath.add(uint256,uint256)` is [33mAnd(0 <= b, 0 <= a, r == a + b)[0m
 > Query: 1
-> Duration: 12918
+> Duration: 73762
 ---> DONE <---
 > Pre of `ZilliqaToken.burn(uint256)` is [33mTrue[0m
 [['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
 > Pre of `ZilliqaToken.burn(uint256)` is [33mAnd(balances[msg.sender] >= _value, totalSupply >= _value)[0m
 > Query: 1
-> Duration: 17520
+> Duration: 79622
 ---> DONE <---
 > Post of `ZilliqaToken.burn(uint256)` is [33mFalse[0m
 [['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
@@ -50,7 +137,7 @@
     balances[msg.sender] ==
     old_balances[msg.sender] + -1*_value)[0m
 > Query: 1
-> Duration: 23361
+> Duration: 85124
 ---> DONE <---
 > Pre of `PausableToken.transfer(address,uint256)` is [33mTrue[0m
 [['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
@@ -58,7 +145,7 @@
     Not(0 == _to),
     Not(msg.sender == _to))[0m
 > Query: 1
-> Duration: 30046
+> Duration: 91611
 ---> DONE <---
 > Post of `PausableToken.transfer(address,uint256)` is [33mFalse[0m
 [['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
@@ -66,28 +153,28 @@
     balances[msg.sender] ==
     old_balances[msg.sender] + -1*_value,
     _value <= old_balances[msg.sender],
-    0 <= _value,
     Not(0 == _to),
+    0 <= _value,
     Not(pausedPublic),
     Not(msg.sender == _to))[0m
 > Query: 1
-> Duration: 38008
+> Duration: 99233
 ---> DONE <---
 > Pre of `StandardToken.allowance(address,address)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 38797
+> Duration: 100007
 ---> DONE <---
 > Post of `StandardToken.allowance(address,address)` is [33mFalse[0m
 [['StandardToken.allowance(address,address)']]
 > Post of `StandardToken.allowance(address,address)` is [33mr == allowed[_owner][_spender][0m
 > Query: 1
-> Duration: 39686
+> Duration: 100858
 ---> DONE <---
 > Pre of `Ownable.transferOwnership(address)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 40532
+> Duration: 101654
 ---> DONE <---
 > Post of `Ownable.transferOwnership(address)` is [33mFalse[0m
 [['Ownable.transferOwnership(address)']]
@@ -95,14 +182,14 @@
     Not(0 == newOwner),
     msg.sender == old_owner)[0m
 > Query: 1
-> Duration: 41453
+> Duration: 102772
 ---> DONE <---
 > Pre of `BasicToken.transfer(address,uint256)` is [33mTrue[0m
 [['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
 > Pre of `BasicToken.transfer(address,uint256)` is [33mOr(Not(msg.sender == _to),
-   balances[msg.sender] + -1*_value == balances[_to])[0m
+   balances[_to] == balances[msg.sender] + -1*_value)[0m
 > Query: 1
-> Duration: 47877
+> Duration: 109301
 ---> DONE <---
 > Post of `BasicToken.transfer(address,uint256)` is [33mFalse[0m
 [['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
@@ -111,14 +198,14 @@
     Not(0 == _to),
     0 <= _value,
     Not(msg.sender == _to),
-    Or(And(balances[msg.sender] ==
+    Or(And(msg.sender == _to,
+           balances[_to] == old_balances[msg.sender]),
+       And(balances[msg.sender] ==
            old_balances[msg.sender] + -1*_value,
-           Not(msg.sender == _to),
-           balances[_to] == old_balances[_to] + _value),
-       And(balances[_to] == old_balances[msg.sender],
-           msg.sender == _to)))[0m
+           balances[_to] == old_balances[_to] + _value,
+           Not(msg.sender == _to))))[0m
 > Query: 1
-> Duration: 55058
+> Duration: 116429
 ---> DONE <---
 > Pre of `ZilliqaToken.burnFrom(address,uint256)` is [33mTrue[0m
 [['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
@@ -131,7 +218,7 @@
     balances[msg.sender] >= _value,
     totalSupply >= _value)[0m
 > Query: 1
-> Duration: 62594
+> Duration: 124103
 ---> DONE <---
 > Post of `ZilliqaToken.burnFrom(address,uint256)` is [33mFalse[0m
 [['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
@@ -148,7 +235,7 @@
     Not(pausedPublic),
     Not(_from == msg.sender))[0m
 > Query: 1
-> Duration: 71566
+> Duration: 132101
 ---> DONE <---
 > Pre of `PausableToken.transferFrom(address,address,uint256)` is [33mTrue[0m
 [['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
@@ -157,12 +244,11 @@
     Not(_from == _to),
     Not(0 == _to))[0m
 > Query: 1
-> Duration: 78719
+> Duration: 138795
 ---> DONE <---
 > Post of `PausableToken.transferFrom(address,address,uint256)` is [33mFalse[0m
 [['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
-> Post of `PausableToken.transferFrom(address,address,uint256)` is [33mAnd(r,
-    allowed[_from][msg.sender] ==
+> Post of `PausableToken.transferFrom(address,address,uint256)` is [33mAnd(allowed[_from][msg.sender] ==
     old_allowed[_from][msg.sender] + -1*_value,
     balances[_to] == old_balances[_to] + _value,
     balances[_from] == old_balances[_from] + -1*_value,
@@ -170,15 +256,16 @@
     0 <= _value,
     _value <= old_balances[_from],
     Not(0 == _to),
+    r,
     Not(pausedPublic),
     Not(_from == _to))[0m
 > Query: 1
-> Duration: 87172
+> Duration: 146778
 ---> DONE <---
 > Pre of `StandardToken.increaseApproval(address,uint256)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 88094
+> Duration: 147700
 ---> DONE <---
 > Post of `StandardToken.increaseApproval(address,uint256)` is [33mFalse[0m
 [['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
@@ -187,23 +274,23 @@
     allowed[msg.sender][_spender] ==
     old_allowed[msg.sender][_spender] + _addedValue)[0m
 > Query: 1
-> Duration: 93137
+> Duration: 153145
 ---> DONE <---
 > Pre of `ZilliqaToken.emergencyERC20Drain(ERC20,uint256)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 94023
+> Duration: 154168
 ---> DONE <---
 > Post of `ZilliqaToken.emergencyERC20Drain(ERC20,uint256)` is [33mFalse[0m
 [['ZilliqaToken.emergencyERC20Drain(ERC20,uint256)']]
 > Post of `ZilliqaToken.emergencyERC20Drain(ERC20,uint256)` is [33mAnd(0 <= amount, msg.sender == owner)[0m
 > Query: 1
-> Duration: 95012
+> Duration: 155251
 ---> DONE <---
 > Pre of `PausableToken.approve(address,uint256)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 95886
+> Duration: 156107
 ---> DONE <---
 > Post of `PausableToken.approve(address,uint256)` is [33mFalse[0m
 [['StandardToken.approve(address,uint256)', 'PausableToken.approve(address,uint256)']]
@@ -211,14 +298,14 @@
     0 <= _value,
     Not(pausedPublic))[0m
 > Query: 1
-> Duration: 97119
+> Duration: 157204
 ---> DONE <---
 > Pre of `StandardToken.transferFrom(address,address,uint256)` is [33mTrue[0m
 [['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
 > Pre of `StandardToken.transferFrom(address,address,uint256)` is [33mOr(Not(_from == _to),
-   balances[_to] == balances[_from] + -1*_value)[0m
+   balances[_from] + -1*_value == balances[_to])[0m
 > Query: 1
-> Duration: 104147
+> Duration: 164278
 ---> DONE <---
 > Post of `StandardToken.transferFrom(address,address,uint256)` is [33mFalse[0m
 [['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
@@ -230,21 +317,21 @@
     Not(_from == _to),
     allowed[_from][msg.sender] ==
     old_allowed[_from][msg.sender] + -1*_value,
-    Or(And(balances[_from] ==
+    Or(And(balances[_to] == old_balances[_from],
+           _from == _to),
+       And(balances[_from] ==
            old_balances[_from] + -1*_value,
            Not(_from == _to),
-           balances[_to] == old_balances[_to] + _value),
-       And(balances[_to] == old_balances[_from],
-           _from == _to)))[0m
+           balances[_to] == old_balances[_to] + _value)))[0m
 > Query: 1
-> Duration: 112170
+> Duration: 172786
 ---> DONE <---
 > Pre of `StandardToken.decreaseApproval(address,uint256)` is [33mTrue[0m
 [['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
 > Pre of `StandardToken.decreaseApproval(address,uint256)` is [33mAnd(allowed[msg.sender][_spender] >= _subtractedValue,
     _subtractedValue <= allowed[msg.sender][_spender])[0m
 > Query: 1
-> Duration: 119286
+> Duration: 178144
 ---> DONE <---
 > Post of `StandardToken.decreaseApproval(address,uint256)` is [33mFalse[0m
 [['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
@@ -254,12 +341,12 @@
     allowed[msg.sender][_spender] ==
     old_allowed[msg.sender][_spender] + -1*_subtractedValue)[0m
 > Query: 1
-> Duration: 126134
+> Duration: 185359
 ---> DONE <---
 > Pre of `SafeMath.mul(uint256,uint256)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 127086
+> Duration: 186688
 ---> DONE <---
 > Post of `SafeMath.mul(uint256,uint256)` is [33mFalse[0m
 [['SafeMath.mul(uint256,uint256)']]
@@ -267,23 +354,23 @@
        And(0 <= a, r == a*b, Not(0 == a))),
     0 <= b)[0m
 > Query: 1
-> Duration: 128378
+> Duration: 188679
 ---> DONE <---
 > Pre of `BasicToken.balanceOf(address)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 129456
+> Duration: 190123
 ---> DONE <---
 > Post of `BasicToken.balanceOf(address)` is [33mFalse[0m
 [['BasicToken.balanceOf(address)']]
 > Post of `BasicToken.balanceOf(address)` is [33mbalance == balances[_owner][0m
 > Query: 1
-> Duration: 130589
+> Duration: 191709
 ---> DONE <---
 > Pre of `ZilliqaToken.ZilliqaToken(address,uint256)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 131511
+> Duration: 193122
 ---> DONE <---
 > Post of `ZilliqaToken.ZilliqaToken(address,uint256)` is [33mFalse[0m
 [['ZilliqaToken.ZilliqaToken(address,uint256)']]
@@ -292,23 +379,23 @@
     admin == _admin,
     0 <= _totalTokenAmount)[0m
 > Query: 1
-> Duration: 134667
+> Duration: 196594
 ---> DONE <---
 > Pre of `ZilliqaToken.changeAdmin(address)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 135644
+> Duration: 197853
 ---> DONE <---
 > Post of `ZilliqaToken.changeAdmin(address)` is [33mFalse[0m
 [['ZilliqaToken.changeAdmin(address)']]
 > Post of `ZilliqaToken.changeAdmin(address)` is [33madmin == newAdmin[0m
 > Query: 1
-> Duration: 136708
+> Duration: 199724
 ---> DONE <---
 > Pre of `PausableToken.increaseApproval(address,uint256)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 137751
+> Duration: 201137
 ---> DONE <---
 > Post of `PausableToken.increaseApproval(address,uint256)` is [33mFalse[0m
 [['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
@@ -317,103 +404,16 @@
     0 <= _addedValue,
     Not(pausedPublic))[0m
 > Query: 1
-> Duration: 141049
+> Duration: 206522
 ---> DONE <---
 > Pre of `SafeMath.div(uint256,uint256)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 142097
+> Duration: 207355
 ---> DONE <---
 > Post of `SafeMath.div(uint256,uint256)` is [33mFalse[0m
 [['SafeMath.div(uint256,uint256)']]
 > Post of `SafeMath.div(uint256,uint256)` is [33mAnd(0 <= b, 0 <= a, r == a/b)[0m
 > Query: 1
-> Duration: 143227
----> DONE <---
-> Pre of `ZilliqaToken.transfer(address,uint256)` is [33mTrue[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
-> Pre of `ZilliqaToken.transfer(address,uint256)` is [33mAnd(_value <= balances[msg.sender],
-    Not(msg.sender == _to),
-    Not(pausedPublic),
-    Not(0 == _to))[0m
-> Query: 1
-> Duration: 150040
----> DONE <---
-> Post of `ZilliqaToken.transfer(address,uint256)` is [33mFalse[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
-> Post of `ZilliqaToken.transfer(address,uint256)` is [33mAnd(0 <= _value,
-    _value <= balances[msg.sender],
-    Not(0 == _to),
-    Not(msg.sender == _to),
-    Not(_to == this),
-    Not(pausedPublic))[0m
-> Query: 1
-> Duration: 158547
----> DONE <---
-> Pre of `PausableToken.decreaseApproval(address,uint256)` is [33mTrue[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
-> Pre of `PausableToken.decreaseApproval(address,uint256)` is [33m_subtractedValue <= allowed[msg.sender][_spender][0m
-> Query: 1
-> Duration: 162324
----> DONE <---
-> Post of `PausableToken.decreaseApproval(address,uint256)` is [33mFalse[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
-> Post of `PausableToken.decreaseApproval(address,uint256)` is [33mAnd(allowed[msg.sender][_spender] ==
-    old_allowed[msg.sender][_spender] + -1*_subtractedValue,
-    0 <= _subtractedValue,
-    _subtractedValue <= old_allowed[msg.sender][_spender],
-    Not(pausedPublic))[0m
-> Query: 1
-> Duration: 167250
----> DONE <---
-> Pre of `SafeMath.sub(uint256,uint256)` is [33mTrue[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
-> Pre of `SafeMath.sub(uint256,uint256)` is [33mb <= a[0m
-> Query: 1
-> Duration: 170817
----> DONE <---
-> Post of `SafeMath.sub(uint256,uint256)` is [33mFalse[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
-> Post of `SafeMath.sub(uint256,uint256)` is [33mAnd(r == a + -1*b, 0 <= b, 0 <= a, a >= b)[0m
-> Query: 1
-> Duration: 174956
----> DONE <---
-> Pre of `ZilliqaToken.transferFrom(address,address,uint256)` is [33mTrue[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
-> Pre of `ZilliqaToken.transferFrom(address,address,uint256)` is [33mAnd(_value <= balances[_from],
-    _value <= allowed[_from][msg.sender],
-    Not(pausedPublic),
-    Not(0 == _to),
-    Not(_from == _to))[0m
-> Query: 1
-> Duration: 182327
----> DONE <---
-> Post of `ZilliqaToken.transferFrom(address,address,uint256)` is [33mFalse[0m
-[['SafeMath.add(uint256,uint256)', 'SafeMath.sub(uint256,uint256)', 'StandardToken.transferFrom(address,address,uint256)', 'PausableToken.transferFrom(address,address,uint256)', 'BasicToken.transfer(address,uint256)', 'ZilliqaToken.burn(uint256)', 'ZilliqaToken.transferFrom(address,address,uint256)', 'PausableToken.transfer(address,uint256)', 'StandardToken.decreaseApproval(address,uint256)', 'StandardToken.increaseApproval(address,uint256)', 'ZilliqaToken.burnFrom(address,uint256)', 'ZilliqaToken.transfer(address,uint256)', 'PausableToken.decreaseApproval(address,uint256)', 'PausableToken.increaseApproval(address,uint256)']]
-> Post of `ZilliqaToken.transferFrom(address,address,uint256)` is [33mAnd(0 <= _value,
-    _value <= allowed[_from][msg.sender],
-    _value <= balances[_from],
-    Not(0 == _to),
-    Not(_from == _to),
-    Not(_to == this),
-    r,
-    Not(pausedPublic))[0m
-> Query: 1
-> Duration: 190744
----> DONE <---
-> Pre of `Pausable.pause(bool,bool)` is [33mTrue[0m
-[]
-> Query: 0
-> Duration: 191667
----> DONE <---
-> Post of `Pausable.pause(bool,bool)` is [33mFalse[0m
-[['Pausable.pause(bool,bool)']]
-> Post of `Pausable.pause(bool,bool)` is [33mAnd(msg.sender == owner,
-    Or(pausedOwnerAdmin, Not(newPausedOwnerAdmin)),
-    Or(pausedPublic, Not(newPausedOwnerAdmin)),
-    Or(Not(pausedPublic), newPausedPublic),
-    Or(newPausedOwnerAdmin, Not(pausedOwnerAdmin)),
-    Or(pausedPublic, Not(newPausedPublic)))[0m
-> Query: 1
-> Duration: 192756
+> Duration: 208278
 ---> DONE <---

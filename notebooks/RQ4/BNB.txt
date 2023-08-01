@@ -1,8 +1,7 @@
-[['SafeMath.safeDiv(uint256,uint256)'], ['SafeMath.safeAdd(uint256,uint256)', 'SafeMath.safeSub(uint256,uint256)', 'BNB.unfreeze(uint256)', 'BNB.freeze(uint256)', 'BNB.burn(uint256)', 'BNB.transferFrom(address,address,uint256)', 'BNB.transfer(address,uint256)']]
 > Pre of `SafeMath.safeDiv(uint256,uint256)` is [33mAnd(Not(b <= 0), a == b*(a/b) + a%b)[0m
 > Pre of `SafeMath.safeSub(uint256,uint256)` is [33mb <= a[0m
 > Pre of `BNB.burn(uint256)` is [33m_value <= totalSupply[0m
 > Pre of `BNB.transferFrom(address,address,uint256)` is [33mNot(_from == _to)[0m
 > Pre of `BNB.transfer(address,uint256)` is [33mNot(msg.sender == _to)[0m
 > Query: 2
-> Duration: 39512
+> Duration: 36681

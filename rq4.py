@@ -1,7 +1,7 @@
 from a18z import inject, fix
 
-inject('RQ4/BAT.sol')
-fix('RQ4/BAT.sol.sol')
+# inject('RQ4/BAT.sol')
+# fix('RQ4/BAT.sol.sol')
 
 # inject('RQ4/BNB.sol')
 # fix('RQ4/BNB.sol.sol')
@@ -24,8 +24,8 @@ fix('RQ4/BAT.sol.sol')
 # inject('RQ4/ZIL.sol')
 # fix('RQ4/ZIL.sol.sol')
 
-# inject('RQ4/NXM.sol')
-# fix('RQ4/NXM.sol.sol')
+inject('RQ4/NXM.sol')
+fix('RQ4/NXM.sol.sol')
 
 # inject('RQ4/SHIB.sol')
 # fix('RQ4/SHIB.sol.sol')

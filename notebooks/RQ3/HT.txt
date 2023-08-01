@@ -1,182 +1,112 @@
-> Pre of `Token.transfer(address,uint256)` is True
+> Pre of `RegularToken.allowance(address,address)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 1990
+> Duration: 2534
 ---> DONE <---
-> Post of `Token.transfer(address,uint256)` is False
-[['Token.transfer(address,uint256)']]
-> Post of `Token.transfer(address,uint256)` is 0 <= _value
-> Query: 1
-> Duration: 2600
----> DONE <---
-> Pre of `HBToken.HBToken()` is True
-[]
-> Query: 0
-> Duration: 2964
----> DONE <---
-> Post of `HBToken.HBToken()` is False
-[['HBToken.HBToken()']]
-> Post of `HBToken.HBToken()` is And(balances[msg.sender] == totalSupply, 0 <= totalSupply)
-> Query: 1
-> Duration: 3436
----> DONE <---
-> Pre of `UnboundedRegularToken.transferFrom(address,address,uint256)` is True
-[['UnboundedRegularToken.transferFrom(address,address,uint256)']]
-> Pre of `UnboundedRegularToken.transferFrom(address,address,uint256)` is Or(And(_value == 0,
-       Or(Not(allowed[_from][msg.sender] >= 0),
-          Not(balances[_from] >= 0))),
-   And(balances[_from] >= 0,
-       _value == 0,
-       MAX_UINT <= allowed[_from][msg.sender]),
-   And(Or(And(balances[_from] >= 0,
-              allowed[_from][msg.sender] >= 0,
-              _value == 0),
-          And(balances[_from] >= _value,
-              allowed[_from][msg.sender] >= _value,
-              Not(_from == _to))),
-       Not(MAX_UINT <= allowed[_from][msg.sender])))
-> Query: 1
-> Duration: 11091
----> DONE <---
-> Post of `UnboundedRegularToken.transferFrom(address,address,uint256)` is False
-[['UnboundedRegularToken.transferFrom(address,address,uint256)']]
-> Post of `UnboundedRegularToken.transferFrom(address,address,uint256)` is And(<null>,
-    allowed[_from][msg.sender] ==
-    old_allowed[_from][msg.sender] + -1*_value,
-    _value >= 0,
-    old_balances[_from] >= _value,
-    0 <= MAX_UINT,
-    Not(_from == _to),
-    old_allowed[_from][msg.sender] >= _value,
-    Not(MAX_UINT <= old_allowed[_from][msg.sender]),
-    Or(And(_to == _from, balances[_to] == old_balances[_to]),
-       And(balances[_to] == old_balances[_to] + _value,
-           balances[_from] ==
-           old_balances[_from] + -1*_value,
-           Not(_to == _from))))
-> Query: 1
-> Duration: 18613
----> DONE <---
-> Pre of `RegularToken.allowance(address,address)` is True
-[]
-> Query: 0
-> Duration: 18974
----> DONE <---
-> Post of `RegularToken.allowance(address,address)` is False
+> Post of `RegularToken.allowance(address,address)` is [33mFalse[0m
 [['RegularToken.allowance(address,address)']]
-> Post of `RegularToken.allowance(address,address)` is r == allowed[_owner][_spender]
+> Post of `RegularToken.allowance(address,address)` is [33mr == allowed[_owner][_spender][0m
 > Query: 1
-> Duration: 19424
+> Duration: 3155
 ---> DONE <---
-> Pre of `Token.approve(address,uint256)` is True
+> Pre of `Token.approve(address,uint256)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 19789
+> Duration: 3700
 ---> DONE <---
-> Post of `Token.approve(address,uint256)` is False
+> Post of `Token.approve(address,uint256)` is [33mFalse[0m
 [['Token.approve(address,uint256)']]
-> Post of `Token.approve(address,uint256)` is 0 <= _value
+> Post of `Token.approve(address,uint256)` is [33m0 <= _value[0m
 > Query: 1
-> Duration: 20222
+> Duration: 4291
 ---> DONE <---
-> Pre of `Token.balanceOf(address)` is True
+> Pre of `Token.balanceOf(address)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 20591
+> Duration: 4790
 ---> DONE <---
-> Post of `Token.balanceOf(address)` is False
+> Post of `Token.balanceOf(address)` is [33mFalse[0m
 [['Token.balanceOf(address)']]
-> Post of `Token.balanceOf(address)` is True
+> Post of `Token.balanceOf(address)` is [33mTrue[0m
 > Query: 1
-> Duration: 21020
+> Duration: 5240
 ---> DONE <---
-> Pre of `RegularToken.approve(address,uint256)` is True
+> Pre of `RegularToken.approve(address,uint256)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 21388
+> Duration: 5619
 ---> DONE <---
-> Post of `RegularToken.approve(address,uint256)` is False
+> Post of `RegularToken.approve(address,uint256)` is [33mFalse[0m
 [['RegularToken.approve(address,uint256)']]
-> Post of `RegularToken.approve(address,uint256)` is And(<null>,
+> Post of `RegularToken.approve(address,uint256)` is [33mAnd(<null>,
     allowed[msg.sender][_spender] == _value,
-    0 <= _value)
+    0 <= _value)[0m
 > Query: 1
-> Duration: 22924
+> Duration: 6127
 ---> DONE <---
-> Pre of `Token.totalSupply()` is True
+> Pre of `Token.totalSupply()` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 23289
+> Duration: 6564
 ---> DONE <---
-> Post of `Token.totalSupply()` is False
+> Post of `Token.totalSupply()` is [33mFalse[0m
 [['Token.totalSupply()']]
-> Post of `Token.totalSupply()` is True
+> Post of `Token.totalSupply()` is [33mTrue[0m
 > Query: 1
-> Duration: 23723
+> Duration: 7006
 ---> DONE <---
-> Pre of `RegularToken.transfer(address,uint256)` is True
+> Pre of `RegularToken.transfer(address,uint256)` is [33mTrue[0m
 [['RegularToken.transfer(address,uint256)']]
-> Pre of `RegularToken.transfer(address,uint256)` is Or(And(0 == _value, Not(balances[msg.sender] >= 0)),
-   And(Or(Not(msg.sender == _to),
-          balances[msg.sender] + -1*_value == balances[_to]),
-       balances[msg.sender] >= _value))
+> Pre of `RegularToken.transfer(address,uint256)` is [33mOr(And(Or(balances[msg.sender] + -1*_value == balances[_to],
+          Not(msg.sender == _to)),
+       balances[msg.sender] >= _value),
+   And(0 == _value, Not(balances[msg.sender] >= 0)))[0m
 > Query: 1
-> Duration: 28768
+> Duration: 12144
 ---> DONE <---
-> Post of `RegularToken.transfer(address,uint256)` is False
+> Post of `RegularToken.transfer(address,uint256)` is [33mFalse[0m
 [['RegularToken.transfer(address,uint256)']]
-> Post of `RegularToken.transfer(address,uint256)` is And(<null>,
+> Post of `RegularToken.transfer(address,uint256)` is [33mAnd(<null>,
     _value >= 0,
     old_balances[msg.sender] >= _value,
     Not(msg.sender == _to),
-    Or(And(balances[msg.sender] ==
+    Or(And(balances[_to] == old_balances[msg.sender],
+           msg.sender == _to),
+       And(balances[msg.sender] ==
            old_balances[msg.sender] + -1*_value,
            Not(msg.sender == _to),
-           balances[_to] == old_balances[_to] + _value),
-       And(balances[_to] == old_balances[msg.sender],
-           msg.sender == _to)))
+           balances[_to] == old_balances[_to] + _value)))[0m
 > Query: 1
-> Duration: 33824
+> Duration: 17488
 ---> DONE <---
-> Pre of `Token.transferFrom(address,address,uint256)` is True
+> Pre of `Token.transferFrom(address,address,uint256)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 34385
+> Duration: 17849
 ---> DONE <---
-> Post of `Token.transferFrom(address,address,uint256)` is False
+> Post of `Token.transferFrom(address,address,uint256)` is [33mFalse[0m
 [['Token.transferFrom(address,address,uint256)']]
-> Post of `Token.transferFrom(address,address,uint256)` is 0 <= _value
+> Post of `Token.transferFrom(address,address,uint256)` is [33m0 <= _value[0m
 > Query: 1
-> Duration: 34854
+> Duration: 18284
 ---> DONE <---
-> Pre of `RegularToken.balanceOf(address)` is True
-[]
-> Query: 0
-> Duration: 35308
----> DONE <---
-> Post of `RegularToken.balanceOf(address)` is False
-[['RegularToken.balanceOf(address)']]
-> Post of `RegularToken.balanceOf(address)` is r == balances[_owner]
-> Query: 1
-> Duration: 35790
----> DONE <---
-> Pre of `RegularToken.transferFrom(address,address,uint256)` is True
+> Pre of `RegularToken.transferFrom(address,address,uint256)` is [33mTrue[0m
 [['RegularToken.transferFrom(address,address,uint256)']]
-> Pre of `RegularToken.transferFrom(address,address,uint256)` is Or(And(_value == 0,
-       Or(Not(allowed[_from][msg.sender] >= 0),
-          Not(balances[_from] >= 0))),
+> Pre of `RegularToken.transferFrom(address,address,uint256)` is [33mOr(And(balances[_from] >= _value,
+       allowed[_from][msg.sender] >= _value,
+       Not(_from == _to)),
    And(balances[_from] >= 0,
        allowed[_from][msg.sender] >= 0,
        _value == 0),
-   And(balances[_from] >= _value,
-       allowed[_from][msg.sender] >= _value,
-       Not(_from == _to)))
+   And(_value == 0,
+       Or(Not(allowed[_from][msg.sender] >= 0),
+          Not(balances[_from] >= 0))))[0m
 > Query: 1
-> Duration: 41458
+> Duration: 23805
 ---> DONE <---
-> Post of `RegularToken.transferFrom(address,address,uint256)` is False
+> Post of `RegularToken.transferFrom(address,address,uint256)` is [33mFalse[0m
 [['RegularToken.transferFrom(address,address,uint256)']]
-> Post of `RegularToken.transferFrom(address,address,uint256)` is And(<null>,
+> Post of `RegularToken.transferFrom(address,address,uint256)` is [33mAnd(<null>,
     allowed[_from][msg.sender] ==
     old_allowed[_from][msg.sender] + -1*_value,
     _value >= 0,
@@ -188,18 +118,89 @@
            balances[_from] ==
            old_balances[_from] + -1*_value),
        And(balances[_from] == old_balances[_to],
-           _to == _from)))
+           _to == _from)))[0m
 > Query: 1
-> Duration: 47054
+> Duration: 29235
 ---> DONE <---
-> Pre of `Token.allowance(address,address)` is True
+> Pre of `RegularToken.balanceOf(address)` is [33mTrue[0m
 []
 > Query: 0
-> Duration: 47647
+> Duration: 29595
 ---> DONE <---
-> Post of `Token.allowance(address,address)` is False
-[['Token.allowance(address,address)']]
-> Post of `Token.allowance(address,address)` is True
+> Post of `RegularToken.balanceOf(address)` is [33mFalse[0m
+[['RegularToken.balanceOf(address)']]
+> Post of `RegularToken.balanceOf(address)` is [33mr == balances[_owner][0m
 > Query: 1
-> Duration: 48254
+> Duration: 30045
+---> DONE <---
+> Pre of `UnboundedRegularToken.transferFrom(address,address,uint256)` is [33mTrue[0m
+[['UnboundedRegularToken.transferFrom(address,address,uint256)']]
+> Pre of `UnboundedRegularToken.transferFrom(address,address,uint256)` is [33mOr(And(Or(And(balances[_from] >= 0,
+              allowed[_from][msg.sender] >= 0,
+              0 == _value),
+          And(balances[_from] >= _value,
+              allowed[_from][msg.sender] >= _value,
+              Not(_from == _to))),
+       Not(MAX_UINT <= allowed[_from][msg.sender])),
+   And(MAX_UINT <= allowed[_from][msg.sender],
+       balances[_from] >= 0,
+       _value == 0),
+   And(_value == 0,
+       Or(Not(allowed[_from][msg.sender] >= 0),
+          Not(balances[_from] >= 0))))[0m
+> Query: 1
+> Duration: 37914
+---> DONE <---
+> Post of `UnboundedRegularToken.transferFrom(address,address,uint256)` is [33mFalse[0m
+[['UnboundedRegularToken.transferFrom(address,address,uint256)']]
+> Post of `UnboundedRegularToken.transferFrom(address,address,uint256)` is [33mAnd(<null>,
+    allowed[_from][msg.sender] ==
+    old_allowed[_from][msg.sender] + -1*_value,
+    _value >= 0,
+    old_balances[_from] >= _value,
+    0 <= MAX_UINT,
+    Not(_from == _to),
+    old_allowed[_from][msg.sender] >= _value,
+    Or(And(balances[_to] == old_balances[_to] + _value,
+           Not(_to == _from),
+           balances[_from] ==
+           old_balances[_from] + -1*_value),
+       And(balances[_from] == old_balances[_to],
+           _to == _from)),
+    Not(MAX_UINT <= old_allowed[_from][msg.sender]))[0m
+> Query: 1
+> Duration: 45663
+---> DONE <---
+> Pre of `Token.allowance(address,address)` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 46076
+---> DONE <---
+> Post of `Token.allowance(address,address)` is [33mFalse[0m
+[['Token.allowance(address,address)']]
+> Post of `Token.allowance(address,address)` is [33mTrue[0m
+> Query: 1
+> Duration: 46564
+---> DONE <---
+> Pre of `Token.transfer(address,uint256)` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 47024
+---> DONE <---
+> Post of `Token.transfer(address,uint256)` is [33mFalse[0m
+[['Token.transfer(address,uint256)']]
+> Post of `Token.transfer(address,uint256)` is [33m0 <= _value[0m
+> Query: 1
+> Duration: 47496
+---> DONE <---
+> Pre of `HBToken.HBToken()` is [33mTrue[0m
+[]
+> Query: 0
+> Duration: 47881
+---> DONE <---
+> Post of `HBToken.HBToken()` is [33mFalse[0m
+[['HBToken.HBToken()']]
+> Post of `HBToken.HBToken()` is [33mAnd(balances[msg.sender] == totalSupply, 0 <= totalSupply)[0m
+> Query: 1
+> Duration: 48404
 ---> DONE <---
