@@ -52,6 +52,7 @@ def rq1(file):
     chain = FixChain()
     tasks = [
         EnumerateFunction(),
+        BuildCallGraph(),
         EvaluateInference(),
     ]
     for task in tasks:

@@ -11,13 +11,16 @@ from slither.slithir.operations import (
     Transfer,
     Send,
     TypeConversion,
-    LibraryCall
+    LibraryCall,
+    NewContract,
+    Unpack
 )
 from slither.core.expressions.assignment_operation import AssignmentOperation
 from slither.slithir.operations.high_level_call import HighLevelCall
 from slither.core.expressions.unary_operation import UnaryOperationType
 from slither.slithir.operations.return_operation import Return
 from slither.slithir.variables.reference import ReferenceVariable
+from slither.slithir.variables.state_variable import StateVariable
 from slither.core.declarations.solidity_variables import SolidityFunction
 from a18z.legacy.query import LegacyQuery
 
@@ -83,6 +86,12 @@ class LegacyBinary(LegacyIR):
                 tmp = vm.substitute(base)
                 rvar = z3.substitute(rvar, (base, tmp))
                 vm.add_constraint(base == rvar)
+                return
+            elif isinstance(ir.lvalue, StateVariable):
+                lvar = vm.get_variable(ir.lvalue)
+                tmp = vm.substitute(lvar)
+                result = z3.substitute(result, (lvar, tmp))
+                vm.add_constraint(lvar == result)
                 return
             else: raise ValueError(ir.expression)
         vm.set_variable(ir.lvalue, result)
@@ -247,3 +256,17 @@ class LegacyTypeConversion(LegacyIR):
         assert isinstance(ir, TypeConversion)
         rvar = vm.get_variable(ir.variable)
         vm.set_variable(ir.lvalue, rvar)
+
+class LegacyNewContract(LegacyIR):
+    def execute(self, vm: LegacyVM, query: LegacyQuery):
+        ir = self._ir
+        assert isinstance(ir, NewContract)
+        vm.set_variable(ir.lvalue, z3.IntVal(hash(ir)))
+
+class LegacyUnpack(LegacyIR):
+    def execute(self, vm: LegacyVM, query: LegacyQuery):
+        ir = self._ir
+        assert isinstance(ir, Unpack)
+        print(ir.lvalue)
+        print(ir.tuple)
+        raise ValueError('??')

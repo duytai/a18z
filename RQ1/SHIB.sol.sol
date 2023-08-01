@@ -113,7 +113,7 @@ library SafeMath {
      * - Addition cannot overflow.
      */
     /// ensures(true, r == a + b)
-    function add(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true, r == a + b);require(a >= 0);require(b >= 0);
+    function add(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true,  r == a + b);require(a >= 0);require(b >= 0);
         uint256 c = a + b;
         require(c >= a, "SafeMath: addition overflow");
 
@@ -130,7 +130,7 @@ library SafeMath {
      * - Subtraction cannot overflow.
      */
     /// ensures(a >= b, r == a - b)
-    function sub(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(a >= b, r == a - b);require(a >= 0);require(b >= 0);
+    function sub(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(a >= b,  r == a - b);require(a >= 0);require(b >= 0);
         require(b <= a, "SafeMath: subtraction overflow");
         uint256 c = a - b;
 
@@ -147,7 +147,7 @@ library SafeMath {
      * - Multiplication cannot overflow.
      */
     /// ensures(true, r == a * b)
-    function mul(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true, r == a * b);require(a >= 0);require(b >= 0);
+    function mul(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true,  r == a * b);require(a >= 0);require(b >= 0);
         // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
         // benefit is lost if 'b' is also tested.
         // See: https://github.com/OpenZeppelin/openzeppelin-solidity/pull/522
@@ -173,7 +173,7 @@ library SafeMath {
      * - The divisor cannot be zero.
      */
     /// ensures(true, r == a / b)
-    function div(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true, r == a / b);require(a >= 0);require(b >= 0);
+    function div(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true,  r == a / b);require(a >= 0);require(b >= 0);
         // Solidity only automatically asserts when dividing by 0
         require(b > 0, "SafeMath: division by zero");
         uint256 c = a / b;
@@ -194,7 +194,7 @@ library SafeMath {
      * - The divisor cannot be zero.
      */
     /// ensures(true, r == a % b)
-    function mod(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true, r == a % b);require(a >= 0);require(b >= 0);
+    function mod(uint256 a, uint256 b) internal pure returns (uint256 r) {(bool __v1, bool __v2)=(true,  r == a % b);require(a >= 0);require(b >= 0);
         require(b != 0, "SafeMath: modulo by zero");
         return a % b;
     }
@@ -242,7 +242,7 @@ contract ERC20 is IERC20 {mapping(address => uint256) old__balances;mapping(addr
      * @dev See `IERC20.totalSupply`.
      */
     /// ensures(true, r == _totalSupply)
-    function totalSupply() public view returns (uint256 r) {(bool __v1, bool __v2)=(true, r == _totalSupply);require(_totalSupply >= 0);
+    function totalSupply() public view returns (uint256 r) {(bool __v1, bool __v2)=(true,  r == _totalSupply);require(_totalSupply >= 0);
         return _totalSupply;
     }
 
@@ -250,7 +250,7 @@ contract ERC20 is IERC20 {mapping(address => uint256) old__balances;mapping(addr
      * @dev See `IERC20.balanceOf`.
      */
     /// ensures(true, r == _balances[account])
-    function balanceOf(address account) public view returns (uint256 r) {(bool __v1, bool __v2)=(true, r == _balances[account]);
+    function balanceOf(address account) public view returns (uint256 r) {(bool __v1, bool __v2)=(true,  r == _balances[account]);
         return _balances[account];
     }
 
@@ -263,7 +263,7 @@ contract ERC20 is IERC20 {mapping(address => uint256) old__balances;mapping(addr
      * - the caller must have a balance of at least `amount`.
      */
     /// ensures(msg.sender != recipient && msg.sender != address(0) && recipient != address(0) && _balances[msg.sender] >= amount, true)
-    function transfer(address recipient, uint256 amount) public returns (bool) {(bool __v1, bool __v2)=(msg.sender != recipient && msg.sender != address(0) && recipient != address(0) && _balances[msg.sender] >= amount, true);require(amount >= 0);
+    function transfer(address recipient, uint256 amount) public returns (bool) {(bool __v1, bool __v2)=(msg.sender != recipient && msg.sender != address(0) && recipient != address(0) && _balances[msg.sender] >= amount,  true);require(amount >= 0);
         _transfer(msg.sender, recipient, amount);
         return true;
     }
@@ -272,7 +272,7 @@ contract ERC20 is IERC20 {mapping(address => uint256) old__balances;mapping(addr
      * @dev See `IERC20.allowance`.
      */
     /// ensures(true, r == _allowances[owner][spender])
-    function allowance(address owner, address spender) public view returns (uint256 r) {(bool __v1, bool __v2)=(true, r == _allowances[owner][spender]);
+    function allowance(address owner, address spender) public view returns (uint256 r) {(bool __v1, bool __v2)=(true,  r == _allowances[owner][spender]);
         return _allowances[owner][spender];
     }
 
@@ -284,7 +284,7 @@ contract ERC20 is IERC20 {mapping(address => uint256) old__balances;mapping(addr
      * - `spender` cannot be the zero address.
      */
     /// ensures(msg.sender != address(0) && spender != address(0), true)
-    function approve(address spender, uint256 value) public returns (bool) {(bool __v1, bool __v2)=(msg.sender != address(0) && spender != address(0), true);require(value >= 0);
+    function approve(address spender, uint256 value) public returns (bool) {(bool __v1, bool __v2)=(msg.sender != address(0) && spender != address(0),  true);require(value >= 0);
         _approve(msg.sender, spender, value);
         return true;
     }
@@ -302,7 +302,7 @@ contract ERC20 is IERC20 {mapping(address => uint256) old__balances;mapping(addr
      * `amount`.
      */
     /// ensures(sender != address(0) && recipient != address(0) && msg.sender != address(0) && sender != recipient && _balances[sender] >= amount && _allowances[sender][msg.sender] >= amount, true)
-    function transferFrom(address sender, address recipient, uint256 amount) public returns (bool) {(bool __v1, bool __v2)=(sender != address(0) && recipient != address(0) && msg.sender != address(0) && sender != recipient && _balances[sender] >= amount && _allowances[sender][msg.sender] >= amount, true);require(amount >= 0);
+    function transferFrom(address sender, address recipient, uint256 amount) public returns (bool) {(bool __v1, bool __v2)=(sender != address(0) && recipient != address(0) && msg.sender != address(0) && sender != recipient && _balances[sender] >= amount && _allowances[sender][msg.sender] >= amount,  true);require(amount >= 0);
         _transfer(sender, recipient, amount);
         _approve(sender, msg.sender, _allowances[sender][msg.sender].sub(amount));
         return true;
@@ -321,7 +321,7 @@ contract ERC20 is IERC20 {mapping(address => uint256) old__balances;mapping(addr
      * - `spender` cannot be the zero address.
      */
     /// ensures(msg.sender != address(0) && spender != address(0), true)
-    function increaseAllowance(address spender, uint256 addedValue) public returns (bool) {(bool __v1, bool __v2)=(msg.sender != address(0) && spender != address(0), true);require(addedValue >= 0);
+    function increaseAllowance(address spender, uint256 addedValue) public returns (bool) {(bool __v1, bool __v2)=(msg.sender != address(0) && spender != address(0),  true);require(addedValue >= 0);
         _approve(msg.sender, spender, _allowances[msg.sender][spender].add(addedValue));
         return true;
     }
@@ -341,7 +341,7 @@ contract ERC20 is IERC20 {mapping(address => uint256) old__balances;mapping(addr
      * `subtractedValue`.
      */
     /// ensures(_allowances[msg.sender][spender] >= subtractedValue && msg.sender != address(0) && spender != address(0), true)
-    function decreaseAllowance(address spender, uint256 subtractedValue) public returns (bool) {(bool __v1, bool __v2)=(_allowances[msg.sender][spender] >= subtractedValue && msg.sender != address(0) && spender != address(0), true);require(subtractedValue >= 0);
+    function decreaseAllowance(address spender, uint256 subtractedValue) public returns (bool) {(bool __v1, bool __v2)=(_allowances[msg.sender][spender] >= subtractedValue && msg.sender != address(0) && spender != address(0),  true);require(subtractedValue >= 0);
         _approve(msg.sender, spender, _allowances[msg.sender][spender].sub(subtractedValue));
         return true;
     }
@@ -361,7 +361,7 @@ contract ERC20 is IERC20 {mapping(address => uint256) old__balances;mapping(addr
      * - `sender` must have a balance of at least `amount`.
      */
     /// ensures(sender != recipient && sender != address(0) && recipient != address(0) && _balances[sender] >= amount, _balances[sender] == old(_balances[sender]) - amount && _balances[recipient] == old(_balances[recipient]) + amount)
-    function _transfer(address sender, address recipient, uint256 amount) internal {(bool __v1, bool __v2)=(sender != recipient && sender != address(0) && recipient != address(0) && _balances[sender] >= amount, _balances[sender] == old__balances[sender] - amount && _balances[recipient] == old__balances[recipient] + amount);require(amount >= 0);
+    function _transfer(address sender, address recipient, uint256 amount) internal {(bool __v1, bool __v2)=(sender != recipient && sender != address(0) && recipient != address(0) && _balances[sender] >= amount,  _balances[sender] == old__balances[sender] - amount && _balances[recipient] == old__balances[recipient] + amount);require(amount >= 0);
         require(sender != address(0), "ERC20: transfer from the zero address");
         require(recipient != address(0), "ERC20: transfer to the zero address");
 
@@ -380,7 +380,7 @@ contract ERC20 is IERC20 {mapping(address => uint256) old__balances;mapping(addr
      * - `to` cannot be the zero address.
      */
     /// ensures(account != address(0), _totalSupply == old(_totalSupply) + amount && _balances[account] == old(_balances[account]) + amount)
-    function _mint(address account, uint256 amount) internal {(bool __v1, bool __v2)=(account != address(0), _totalSupply == old__totalSupply + amount && _balances[account] == old__balances[account] + amount);require(amount >= 0);require(_totalSupply >= 0);
+    function _mint(address account, uint256 amount) internal {(bool __v1, bool __v2)=(account != address(0),  _totalSupply == old__totalSupply + amount && _balances[account] == old__balances[account] + amount);require(amount >= 0);require(_totalSupply >= 0);
         require(account != address(0), "ERC20: mint to the zero address");
 
         _totalSupply = _totalSupply.add(amount);
@@ -400,7 +400,7 @@ contract ERC20 is IERC20 {mapping(address => uint256) old__balances;mapping(addr
      * - `account` must have at least `amount` tokens.
      */
     /// ensures(account != address(0) && _totalSupply >= value && _balances[account] >= value, _totalSupply == old(_totalSupply) - value && _balances[account] == old(_balances[account]) - value)
-    function _burn(address account, uint256 value) internal {(bool __v1, bool __v2)=(account != address(0) && _totalSupply >= value && _balances[account] >= value, _totalSupply == old__totalSupply - value && _balances[account] == old__balances[account] - value);require(value >= 0);require(_totalSupply >= 0);
+    function _burn(address account, uint256 value) internal {(bool __v1, bool __v2)=(account != address(0) && _totalSupply >= value && _balances[account] >= value,  _totalSupply == old__totalSupply - value && _balances[account] == old__balances[account] - value);require(value >= 0);require(_totalSupply >= 0);
         require(account != address(0), "ERC20: burn from the zero address");
 
         _totalSupply = _totalSupply.sub(value);
@@ -422,7 +422,7 @@ contract ERC20 is IERC20 {mapping(address => uint256) old__balances;mapping(addr
      * - `spender` cannot be the zero address.
      */
     /// ensures(owner != address(0) && spender != address(0), _allowances[owner][spender] == value)
-    function _approve(address owner, address spender, uint256 value) internal {(bool __v1, bool __v2)=(owner != address(0) && spender != address(0), _allowances[owner][spender] == value);require(value >= 0);
+    function _approve(address owner, address spender, uint256 value) internal {(bool __v1, bool __v2)=(owner != address(0) && spender != address(0),  _allowances[owner][spender] == value);require(value >= 0);
         require(owner != address(0), "ERC20: approve from the zero address");
         require(spender != address(0), "ERC20: approve to the zero address");
 
@@ -437,7 +437,7 @@ contract ERC20 is IERC20 {mapping(address => uint256) old__balances;mapping(addr
      * See `_burn` and `_approve`.
      */
     /// ensures(account != address(0) && msg.sender != address(0) && _totalSupply >= amount && _balances[account] >= amount && _allowances[account][msg.sender] >= amount, true)
-    function _burnFrom(address account, uint256 amount) internal {(bool __v1, bool __v2)=(account != address(0) && msg.sender != address(0) && _totalSupply >= amount && _balances[account] >= amount && _allowances[account][msg.sender] >= amount, true);require(amount >= 0);
+    function _burnFrom(address account, uint256 amount) internal {(bool __v1, bool __v2)=(account != address(0) && msg.sender != address(0) && _totalSupply >= amount && _balances[account] >= amount && _allowances[account][msg.sender] >= amount,  true);require(amount >= 0);
         _burn(account, amount);
         _approve(account, msg.sender, _allowances[account][msg.sender].sub(amount));
     }
@@ -471,7 +471,7 @@ contract TokenMintERC20Token is ERC20 {string old__name;string old__symbol;uint8
      * @param tokenOwnerAddress address that gets 100% of token supply
      */
     /// ensures(tokenOwnerAddress != address(0), true)
-    constructor(string memory name, string memory symbol, uint8 decimals, uint256 totalSupply, address payable feeReceiver, address tokenOwnerAddress) public payable {(bool __v1, bool __v2)=(tokenOwnerAddress != address(0), true);require(decimals >= 0);require(totalSupply >= 0);
+    constructor(string memory name, string memory symbol, uint8 decimals, uint256 totalSupply, address payable feeReceiver, address tokenOwnerAddress) public payable {(bool __v1, bool __v2)=(tokenOwnerAddress != address(0),  true);require(decimals >= 0);require(totalSupply >= 0);
       _name = name;
       _symbol = symbol;
       _decimals = decimals;
@@ -488,7 +488,7 @@ contract TokenMintERC20Token is ERC20 {string old__name;string old__symbol;uint8
      * @param value The amount of lowest token units to be burned.
      */
     /// ensures(msg.sender != address(0) && _totalSupply >= value && _balances[msg.sender] >= value, true)
-    function burn(uint256 value) public {(bool __v1, bool __v2)=(msg.sender != address(0) && _totalSupply >= value && _balances[msg.sender] >= value, true);require(value >= 0);
+    function burn(uint256 value) public {(bool __v1, bool __v2)=(msg.sender != address(0) && _totalSupply >= value && _balances[msg.sender] >= value,  true);require(value >= 0);
       _burn(msg.sender, value);
     }
 
@@ -498,7 +498,7 @@ contract TokenMintERC20Token is ERC20 {string old__name;string old__symbol;uint8
      * @return the name of the token.
      */
     /// ensures(true, true)
-    function name() public view returns (string memory) {(bool __v1, bool __v2)=(true, true);
+    function name() public view returns (string memory) {(bool __v1, bool __v2)=(true,  true);
       return _name;
     }
 
@@ -506,7 +506,7 @@ contract TokenMintERC20Token is ERC20 {string old__name;string old__symbol;uint8
      * @return the symbol of the token.
      */
     /// ensures(true, true)
-    function symbol() public view returns (string memory r) {(bool __v1, bool __v2)=(true, true);
+    function symbol() public view returns (string memory r) {(bool __v1, bool __v2)=(true,  true);
       return _symbol;
     }
 
@@ -514,7 +514,7 @@ contract TokenMintERC20Token is ERC20 {string old__name;string old__symbol;uint8
      * @return the number of decimals of the token.
      */
     /// ensures(true, r == _decimals)
-    function decimals() public view returns (uint8 r) {(bool __v1, bool __v2)=(true, r == _decimals);require(_decimals >= 0);
+    function decimals() public view returns (uint8 r) {(bool __v1, bool __v2)=(true,  r == _decimals);require(_decimals >= 0);
       return _decimals;
     }
 }

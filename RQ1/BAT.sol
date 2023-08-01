@@ -47,7 +47,7 @@ contract Token {
 
 /*  ERC 20 token */
 contract StandardToken is Token {
-    /// ensures(balances[msg.sender] >= _value && msg.sender != _to, balances[msg.sender] == old(balances[msg.sender]) - _value && balances[_to] == old(balances[_to]) + _value)
+    /// ensures(balances[msg.sender] >= _value && msg.sender != _to && _value > 0, balances[msg.sender] == old(balances[msg.sender]) - _value && balances[_to] == old(balances[_to]) + _value)
     function transfer(address _to, uint256 _value) returns (bool success) {
       if (balances[msg.sender] >= _value && _value > 0) {
         balances[msg.sender] -= _value;
@@ -131,23 +131,23 @@ contract BAToken is StandardToken, SafeMath {
       balances[batFundDeposit] = batFund;    // Deposit Brave Intl share
       CreateBAT(batFundDeposit, batFund);  // logs Brave Intl fund
     }
-    // /// ensures(!isFinalized && block.number >= fundingStartBlock && block.number <= fundingEndBlock && msg.value > 0 && tokenExchangeRate >= 0 && totalSupply >= 0 && msg.value * tokenExchangeRate + totalSupply <= tokenCreationCap, totalSupply == old(totalSupply) + msg.value * tokenExchangeRate && balances[msg.sender] == old(balances[msg.sender]) + msg.value * tokenExchangeRate)
-    // function createTokens() payable external {
-    //   if (isFinalized) throw;
-    //   if (block.number < fundingStartBlock) throw;
-    //   if (block.number > fundingEndBlock) throw;
-    //   if (msg.value == 0) throw;
+    /// ensures(!isFinalized && block.number >= fundingStartBlock && block.number <= fundingEndBlock && msg.value > 0 && tokenExchangeRate >= 0 && totalSupply >= 0 && msg.value * tokenExchangeRate + totalSupply <= tokenCreationCap, totalSupply == old(totalSupply) + msg.value * tokenExchangeRate && balances[msg.sender] == old(balances[msg.sender]) + msg.value * tokenExchangeRate)
+    function createTokens() payable external {
+      if (isFinalized) throw;
+      if (block.number < fundingStartBlock) throw;
+      if (block.number > fundingEndBlock) throw;
+      if (msg.value == 0) throw;
 
-    //   uint256 tokens = safeMult(msg.value, tokenExchangeRate); // check that we're not over totals
-    //   uint256 checkedSupply = safeAdd(totalSupply, tokens);
+      uint256 tokens = safeMult(msg.value, tokenExchangeRate); // check that we're not over totals
+      uint256 checkedSupply = safeAdd(totalSupply, tokens);
 
-    //   // return money if something goes wrong
-    //   if (tokenCreationCap < checkedSupply) throw;  // odd fractions won't be found
+      // return money if something goes wrong
+      if (tokenCreationCap < checkedSupply) throw;  // odd fractions won't be found
 
-    //   totalSupply = checkedSupply;
-    //   balances[msg.sender] += tokens;  // safeAdd not needed; bad semantics to use here
-    //   CreateBAT(msg.sender, tokens);  // logs token creation
-    // }
+      totalSupply = checkedSupply;
+      balances[msg.sender] += tokens;  // safeAdd not needed; bad semantics to use here
+      CreateBAT(msg.sender, tokens);  // logs token creation
+    }
 
     /// ensures(!isFinalized && msg.sender == ethFundDeposit && totalSupply >= tokenCreationMin && (block.number > fundingEndBlock || totalSupply == tokenCreationCap), isFinalized)
     function finalize() external {

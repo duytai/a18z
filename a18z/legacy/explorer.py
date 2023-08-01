@@ -1,7 +1,8 @@
 
 import z3
-from slither.core.solidity_types.elementary_type import ElementaryType, Uint
+from slither.core.solidity_types.elementary_type import ElementaryType, Uint 
 from slither.core.solidity_types.mapping_type import MappingType
+from slither.core.solidity_types.user_defined_type import UserDefinedType
 
 class TypeState:
     def __init__(self) -> None:
@@ -42,4 +43,9 @@ class TypeExplorer:
         elif isinstance(type_, MappingType):
             self.explore_type(type_.type_from, state)
             self.explore_type(type_.type_to, state)
-        else: raise ValueError(type_)
+        elif isinstance(type_, UserDefinedType):
+            state.add_sort(z3.IntSort())
+        elif isinstance(type_, list):
+            t = z3.TupleSort()
+            raise ValueError(type_)
+        else: raise ValueError(type(type_))

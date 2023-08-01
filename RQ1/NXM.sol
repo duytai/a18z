@@ -56,7 +56,7 @@ library SafeMath {
         }
 
         uint256 c = a * b;
-        require(c / a == b);
+        // require(c / a == b);
 
         return c;
     }
@@ -64,7 +64,7 @@ library SafeMath {
     /**
     * @dev Integer division of two numbers truncating the quotient, reverts on division by zero.
     */
-    /// ensures(true, r == a / b)
+    /// ensures(b != 0, r == a / b)
     function div(uint256 a, uint256 b) internal pure returns (uint256 r) {
         require(b > 0); // Solidity only automatically asserts when dividing by 0
         uint256 c = a / b;

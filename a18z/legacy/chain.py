@@ -11,7 +11,9 @@ from slither.slithir.operations import (
     Transfer,
     TypeConversion,
     LibraryCall,
-    Send
+    Send,
+    NewContract,
+    Unpack
 )
 from slither.slithir.operations.high_level_call import HighLevelCall
 from .ir import (
@@ -27,6 +29,8 @@ from .ir import (
     LegacyTypeConversion,
     LegacyHighLevelCall,
     LegacySend,
+    LegacyNewContract,
+    LegacyUnpack
 )
 from .query import LegacyQuery
 
@@ -76,6 +80,12 @@ class LegacyChain:
     def add_send(self, ir: Send):
         self._irs.append(LegacySend(ir))
 
+    def add_new_contract(self, ir: NewContract):
+        self._irs.append(LegacyNewContract(ir))
+
+    def add_unpack(self, ir: Unpack):
+        self._irs.append(LegacyUnpack(ir))
+
     def add_ir(self, ir):
         if isinstance(ir, Binary):
             self.add_binary(ir)
@@ -105,6 +115,10 @@ class LegacyChain:
             self.add_high_level_call(ir)
         elif isinstance(ir, Send):
             self.add_send(ir)
+        elif isinstance(ir, NewContract):
+            self.add_new_contract(ir)
+        elif isinstance(ir, Unpack):
+            self.add_unpack(ir)
         else: raise ValueError(type(ir))
 
     def run_chain(self, vm, query: LegacyQuery): 

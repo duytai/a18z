@@ -13,19 +13,19 @@ contract SafeMath {
     /*   } */
     /* }      // assert no longer needed once solidity is on 0.4.10 */
     /// ensures(true, r == x + y)
-    function safeAdd(uint256 x, uint256 y) internal returns(uint256 r) {(bool __v1, bool __v2)=(true, r == x + y);require(x >= 0);require(y >= 0);
+    function safeAdd(uint256 x, uint256 y) internal returns(uint256 r) {(bool __v1, bool __v2)=(true,  r == x + y);require(x >= 0);require(y >= 0);
       uint256 z = x + y;
       assert((z >= x) && (z >= y));
       return z;
     }
     /// ensures(x >= y, r == x -y)
-    function safeSubtract(uint256 x, uint256 y) internal returns(uint256 r) {(bool __v1, bool __v2)=(x >= y, r == x -y);require(x >= 0);require(y >= 0);
+    function safeSubtract(uint256 x, uint256 y) internal returns(uint256 r) {(bool __v1, bool __v2)=(x >= y,  r == x -y);require(x >= 0);require(y >= 0);
       assert(x >= y);
       uint256 z = x - y;
       return z;
     }
     /// ensures(true, r == x * y)
-    function safeMult(uint256 x, uint256 y) internal returns(uint256 r) {(bool __v1, bool __v2)=(true, r == x * y);require(x >= 0);require(y >= 0);
+    function safeMult(uint256 x, uint256 y) internal returns(uint256 r) {(bool __v1, bool __v2)=(true,  r == x * y);require(x >= 0);require(y >= 0);
       uint256 z = x * y;
       // assert((x == 0)||(z/x == y));
       return z;
@@ -47,8 +47,8 @@ contract Token {uint256 old_totalSupply;
 
 /*  ERC 20 token */
 contract StandardToken is Token {mapping(address => uint256) old_balances;mapping(address => mapping(address => uint256)) old_allowed;
-    /// ensures(balances[msg.sender] >= _value && msg.sender != _to, balances[msg.sender] == old(balances[msg.sender]) - _value && balances[_to] == old(balances[_to]) + _value)
-    function transfer(address _to, uint256 _value) returns (bool success) {(bool __v1, bool __v2)=(balances[msg.sender] >= _value && msg.sender != _to, balances[msg.sender] == old_balances[msg.sender] - _value && balances[_to] == old_balances[_to] + _value);require(_value >= 0);
+    /// ensures(balances[msg.sender] >= _value && msg.sender != _to && _value > 0, balances[msg.sender] == old(balances[msg.sender]) - _value && balances[_to] == old(balances[_to]) + _value)
+    function transfer(address _to, uint256 _value) returns (bool success) {(bool __v1, bool __v2)=(balances[msg.sender] >= _value && msg.sender != _to && _value > 0,  balances[msg.sender] == old_balances[msg.sender] - _value && balances[_to] == old_balances[_to] + _value);require(_value >= 0);
       if (balances[msg.sender] >= _value && _value > 0) {
         balances[msg.sender] -= _value;
         balances[_to] += _value;
@@ -59,7 +59,7 @@ contract StandardToken is Token {mapping(address => uint256) old_balances;mappin
       }
     }
     /// ensures(balances[_from] >= _value && _to != _from && allowed[_from][msg.sender] >= _value && _value > 0, balances[_to] == old(balances[_to]) + _value && balances[_from] == old(balances[_from]) - _value && allowed[_from][msg.sender] == old(allowed[_from][msg.sender]) - _value)
-    function transferFrom(address _from, address _to, uint256 _value) returns (bool success) {(bool __v1, bool __v2)=(balances[_from] >= _value && _to != _from && allowed[_from][msg.sender] >= _value && _value > 0, balances[_to] == old_balances[_to] + _value && balances[_from] == old_balances[_from] - _value && allowed[_from][msg.sender] == old_allowed[_from][msg.sender] - _value);require(_value >= 0);
+    function transferFrom(address _from, address _to, uint256 _value) returns (bool success) {(bool __v1, bool __v2)=(balances[_from] >= _value && _to != _from && allowed[_from][msg.sender] >= _value && _value > 0,  balances[_to] == old_balances[_to] + _value && balances[_from] == old_balances[_from] - _value && allowed[_from][msg.sender] == old_allowed[_from][msg.sender] - _value);require(_value >= 0);
       if (balances[_from] >= _value && allowed[_from][msg.sender] >= _value && _value > 0) {
         balances[_to] += _value;
         balances[_from] -= _value;
@@ -71,17 +71,17 @@ contract StandardToken is Token {mapping(address => uint256) old_balances;mappin
       }
     }
     /// ensures(true, balance == balances[_owner])
-    function balanceOf(address _owner) constant returns (uint256 balance) {(bool __v1, bool __v2)=(true, balance == balances[_owner]);
+    function balanceOf(address _owner) constant returns (uint256 balance) {(bool __v1, bool __v2)=(true,  balance == balances[_owner]);
         return balances[_owner];
     }
     /// ensures(true, allowed[msg.sender][_spender] == _value)
-    function approve(address _spender, uint256 _value) returns (bool success) {(bool __v1, bool __v2)=(true, allowed[msg.sender][_spender] == _value);require(_value >= 0);
+    function approve(address _spender, uint256 _value) returns (bool success) {(bool __v1, bool __v2)=(true,  allowed[msg.sender][_spender] == _value);require(_value >= 0);
         allowed[msg.sender][_spender] = _value;
         Approval(msg.sender, _spender, _value);
         return true;
     }
     /// ensures(true, remaining == allowed[_owner][_spender])
-    function allowance(address _owner, address _spender) constant returns (uint256 remaining) {(bool __v1, bool __v2)=(true, remaining == allowed[_owner][_spender]);
+    function allowance(address _owner, address _spender) constant returns (uint256 remaining) {(bool __v1, bool __v2)=(true,  remaining == allowed[_owner][_spender]);
       return allowed[_owner][_spender];
     }
 
@@ -121,7 +121,7 @@ contract BAToken is StandardToken, SafeMath {string old_name;string old_symbol;u
         address _batFundDeposit,
         uint256 _fundingStartBlock,
         uint256 _fundingEndBlock)
-    {(bool __v1, bool __v2)=(true, !isFinalized && ethFundDeposit == _ethFundDeposit && batFundDeposit == _batFundDeposit && fundingStartBlock == _fundingStartBlock && fundingEndBlock == _fundingEndBlock && totalSupply == batFund && balances[batFundDeposit] == batFund);require(_fundingStartBlock >= 0);require(_fundingEndBlock >= 0);require(batFund >= 0);
+    {(bool __v1, bool __v2)=(true,  !isFinalized && ethFundDeposit == _ethFundDeposit && batFundDeposit == _batFundDeposit && fundingStartBlock == _fundingStartBlock && fundingEndBlock == _fundingEndBlock && totalSupply == batFund && balances[batFundDeposit] == batFund);require(_fundingStartBlock >= 0);require(_fundingEndBlock >= 0);require(batFund >= 0);
       isFinalized = false;                   //controls pre through crowdsale state
       ethFundDeposit = _ethFundDeposit;
       batFundDeposit = _batFundDeposit;
@@ -132,7 +132,7 @@ contract BAToken is StandardToken, SafeMath {string old_name;string old_symbol;u
       CreateBAT(batFundDeposit, batFund);  // logs Brave Intl fund
     }
     /// ensures(!isFinalized && block.number >= fundingStartBlock && block.number <= fundingEndBlock && msg.value > 0 && tokenExchangeRate >= 0 && totalSupply >= 0 && msg.value * tokenExchangeRate + totalSupply <= tokenCreationCap, totalSupply == old(totalSupply) + msg.value * tokenExchangeRate && balances[msg.sender] == old(balances[msg.sender]) + msg.value * tokenExchangeRate)
-    function createTokens() payable external {(bool __v1, bool __v2)=(!isFinalized && block.number >= fundingStartBlock && block.number <= fundingEndBlock && msg.value > 0 && tokenExchangeRate >= 0 && totalSupply >= 0 && msg.value * tokenExchangeRate + totalSupply <= tokenCreationCap, totalSupply == old_totalSupply + msg.value * tokenExchangeRate && balances[msg.sender] == old_balances[msg.sender] + msg.value * tokenExchangeRate);require(fundingEndBlock >= 0);require(fundingStartBlock >= 0);require(tokenCreationCap >= 0);require(tokenExchangeRate >= 0);require(totalSupply >= 0);
+    function createTokens() payable external {(bool __v1, bool __v2)=(!isFinalized && block.number >= fundingStartBlock && block.number <= fundingEndBlock && msg.value > 0 && tokenExchangeRate >= 0 && totalSupply >= 0 && msg.value * tokenExchangeRate + totalSupply <= tokenCreationCap,  totalSupply == old_totalSupply + msg.value * tokenExchangeRate && balances[msg.sender] == old_balances[msg.sender] + msg.value * tokenExchangeRate);require(fundingEndBlock >= 0);require(fundingStartBlock >= 0);require(tokenCreationCap >= 0);require(tokenExchangeRate >= 0);require(totalSupply >= 0);
       if (isFinalized) throw;
       if (block.number < fundingStartBlock) throw;
       if (block.number > fundingEndBlock) throw;
@@ -150,7 +150,7 @@ contract BAToken is StandardToken, SafeMath {string old_name;string old_symbol;u
     }
 
     /// ensures(!isFinalized && msg.sender == ethFundDeposit && totalSupply >= tokenCreationMin && (block.number > fundingEndBlock || totalSupply == tokenCreationCap), isFinalized)
-    function finalize() external {(bool __v1, bool __v2)=(!isFinalized && msg.sender == ethFundDeposit && totalSupply >= tokenCreationMin && (block.number > fundingEndBlock || totalSupply == tokenCreationCap), isFinalized);require(fundingEndBlock >= 0);require(tokenCreationCap >= 0);require(tokenCreationMin >= 0);require(totalSupply >= 0);
+    function finalize() external {(bool __v1, bool __v2)=(!isFinalized && msg.sender == ethFundDeposit && totalSupply >= tokenCreationMin && (block.number > fundingEndBlock || totalSupply == tokenCreationCap),  isFinalized);require(fundingEndBlock >= 0);require(tokenCreationCap >= 0);require(tokenCreationMin >= 0);require(totalSupply >= 0);
       if (isFinalized) throw;
       if (msg.sender != ethFundDeposit) throw; // locks finalize to the ultimate ETH owner
       if(totalSupply < tokenCreationMin) throw;      // have to sell minimum to move to operational
@@ -161,7 +161,7 @@ contract BAToken is StandardToken, SafeMath {string old_name;string old_symbol;u
     }
 
      /// ensures(!isFinalized && block.number > fundingEndBlock && totalSupply < tokenCreationMin && msg.sender != batFundDeposit && balances[msg.sender] > 0 && totalSupply > balances[msg.sender], totalSupply == old(totalSupply) - old(balances[msg.sender]) && balances[msg.sender] == 0)
-    function refund() external {(bool __v1, bool __v2)=(!isFinalized && block.number > fundingEndBlock && totalSupply < tokenCreationMin && msg.sender != batFundDeposit && balances[msg.sender] > 0 && totalSupply > balances[msg.sender], totalSupply == old_totalSupply - old_balances[msg.sender] && balances[msg.sender] == 0);require(fundingEndBlock >= 0);require(tokenCreationMin >= 0);require(tokenExchangeRate >= 0);require(totalSupply >= 0);
+    function refund() external {(bool __v1, bool __v2)=(!isFinalized && block.number > fundingEndBlock && totalSupply < tokenCreationMin && msg.sender != batFundDeposit && balances[msg.sender] > 0 && totalSupply > balances[msg.sender],  totalSupply == old_totalSupply - old_balances[msg.sender] && balances[msg.sender] == 0);require(fundingEndBlock >= 0);require(tokenCreationMin >= 0);require(tokenExchangeRate >= 0);require(totalSupply >= 0);
       if(isFinalized) throw;                       // prevents refund if operational
       if (block.number <= fundingEndBlock) throw; // prevents refund until sale period is over
       if(totalSupply >= tokenCreationMin) throw;  // no refunds if we sold enough

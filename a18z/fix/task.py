@@ -8,7 +8,7 @@ from timeit import default_timer as timer
 from slither.slithir.operations import InternalCall, LibraryCall
 from colorist import Color
 from typing import List
-
+from ..legacy.utils import check_unsat
 from a18z.fix.state import State
 from .state import State
 from a18z import (
@@ -200,31 +200,65 @@ class EvaluateInference(Task):
         print('::: Precondition :::')
         start = timer()
         p_value = 0
+        n_weaker = 0
+        n_stronger = 0
+        n_same = 0
         for function in state.functions:
             # if not verify(function):
             print(f'> Function {function.canonical_name}')
                 # print(f'> Verified: {verify(function)}')
-            pre_ = precondition(function)
-            print(f'{Color.YELLOW}{pre_}{Color.OFF}')
-            if str(pre_) != 'True':
+            pre_new = precondition(function)
+            print(f'{Color.YELLOW}{pre_new}{Color.OFF}')
+            pre_old = state.root_query.get_precondition(function)
+            weaker = check_unsat(z3.Not(z3.Implies(pre_old, pre_new)))
+            stronger = check_unsat(z3.Not(z3.Implies(pre_new, pre_old)))
+            print(f'{Color.YELLOW} weaker: {weaker}{Color.OFF}')
+            print(f'{Color.YELLOW} stronger: {stronger}{Color.OFF}')
+            if str(pre_new) != 'True':
                 p_value += 1
+            if weaker and stronger:
+                n_same += 1
+            elif weaker:
+                n_weaker +=1
+            elif stronger:
+                n_stronger +=1
         end = timer()
         print(f'#F: {len(state.functions)}')
         print(f'#D: {end - start}')
         print(f'#P: {p_value} ({round(p_value / len(state.functions) * 100)})')
+        print(f'{n_weaker}/{n_stronger}/{n_same}')
+
         print('::: Postcondition :::')
         start = timer()
         p_value = 0
+        n_weaker = 0
+        n_stronger = 0
+        n_same = 0
         for function in state.functions:
             print(f'> Function {function.canonical_name}')
-            post_ = postcondition(function)
-            print(f'{Color.YELLOW}{post_}{Color.OFF}')
-            if str(post_) != 'False':
+            post_new = postcondition(function)
+            print(f'{Color.YELLOW}{post_new}{Color.OFF}')
+            post_old = state.root_query.get_postcondition(function)
+            weaker = check_unsat(z3.Not(z3.Implies(post_old, post_new)))
+            stronger = check_unsat(z3.Not(z3.Implies(post_new, post_old)))
+            print(f'{Color.YELLOW} weaker: {weaker}{Color.OFF}')
+            print(f'{Color.YELLOW} stronger: {stronger}{Color.OFF}')
+            print(post_old)
+            if str(post_new) != 'False':
                 p_value += 1
+            if str(pre_new) != 'True':
+                p_value += 1
+            if weaker and stronger:
+                n_same += 1
+            elif weaker:
+                n_weaker +=1
+            elif stronger:
+                n_stronger +=1
         end = timer()
         print(f'#F: {len(state.functions)}')
         print(f'#d: {end - start}')
         print(f'#Q: {p_value} ({round(p_value / len(state.functions) * 100)})')
+        print(f'{n_weaker}/{n_stronger}/{n_same}')
 
 
 class EvaluateCallsite(Task):
@@ -255,9 +289,3 @@ class TestFunction(Task):
         for function in state.functions:
             print(f'> {Color.YELLOW}{function.canonical_name}{Color.OFF}')
             print(verify(function))
-            post_ = postcondition(function)
-            query = LegacyQuery()
-            query.add_postcondition(function, post_)
-            print(query)
-            if not verify(function, query):
-                raise ValueError('??')
